@@ -479,7 +479,7 @@ public class Options {
 		freshNetBtn.setBackground(optionButtonBackground);
 		freshNetBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				cs.setMenuOpen(false);
+				cs.setMenuOpen(true);
 				StartUp.optionPanel.setVisible(false);
 				StartUp.optionPanel.removeAll();
 				CreateTimer ct = new CreateTimer();

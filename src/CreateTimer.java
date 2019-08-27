@@ -593,6 +593,7 @@ public class CreateTimer {
 			addressPanel.setVisible(false);
 			keyPadPanel.setVisible(false);
 			cs.setCurrentPage(0);
+			cs.setMenuOpen(false);
 			cs.setTyping(false);
 			TaskBar tb = new TaskBar();
 			tb.updateTaskBar();
