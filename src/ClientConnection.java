@@ -1,10 +1,7 @@
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.UnknownHostException;
 
 /*
@@ -25,7 +22,7 @@ public class ClientConnection {
 
 	// Empty constructor
 	public ClientConnection() throws UnknownHostException, IOException {
-		
+
 	}
 
 	/*
@@ -41,15 +38,14 @@ public class ClientConnection {
 			try {
 
 				socket = new Socket(serverIP, portNum);
-				System.out.println(messageToServer);
+
 				out = new DataOutputStream(socket.getOutputStream());
 				out.writeUTF(messageToServer);
 				out.writeUTF("");
 				out.flush();
 
 			} catch (UnknownHostException u) {
-				System.out.println("failed");
-				System.out.println(messageToServer);
+
 			}
 
 		}
@@ -74,7 +70,7 @@ public class ClientConnection {
 				s.close();
 				return connected;
 			} catch (IOException ex) {
-				System.out.println("host is down ");
+
 				cs.setServerUp(false);
 				collectDowntimeMessages(messageToServer, false);
 

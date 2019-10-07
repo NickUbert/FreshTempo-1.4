@@ -34,8 +34,7 @@ public class Analytics {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yy HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 
-		String currentDateAndTime = dtf.format(now);
-		return currentDateAndTime;
+		return dtf.format(now);
 	}
 
 	/*
@@ -226,21 +225,10 @@ public class Analytics {
 	 * recordTimeData is used to write the timer's refresh info to the usageData
 	 * text file.
 	 */
-	@SuppressWarnings("resource")
+
 	public void recordTimeData(ItemTimer it) throws IOException {
 
-		FileReader fr = new FileReader("./usageData.txt");
-		BufferedReader br = new BufferedReader(fr);
-		ArrayList<String> priorData = new ArrayList<String>();
-
-		// Add text from existing usageData log to an arrayList
-		String curString = br.readLine();
-		while (curString != null) {
-			priorData.add(curString);
-			curString = br.readLine();
-		}
-
-		FileWriter fw = new FileWriter("./usageData.txt");
+		FileWriter fw = new FileWriter("./usageData.txt", true);
 		BufferedWriter bw = new BufferedWriter(fw);
 
 		// Collect data from the itemTimer used to call this method.
@@ -256,15 +244,9 @@ public class Analytics {
 			expired = 1;
 		}
 
-		// Rewrite the strings you have stored
-		for (int i = 0; i < priorData.size(); i++) {
-			bw.write(priorData.get(i));
-			bw.newLine();
-		}
-
 		// Write the new line.
 		String dataToWrite = date + "$" + expired + "$" + title + "$" + recordHour + "$" + recordMin + "$" + recordSec;
-		bw.write(dataToWrite);
+		bw.append(dataToWrite);
 		bw.newLine();
 
 		bw.flush();
