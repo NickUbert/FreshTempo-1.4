@@ -30,7 +30,7 @@ public class Analytics {
 	 * getDateAndTime is used to return the current date and time in a proper
 	 * format.
 	 */
-	private String getDateAndTime() {
+	public String getDateAndTime() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yy HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 
@@ -245,6 +245,7 @@ public class Analytics {
 		}
 
 		// Write the new line.
+		//TODO: CHANGE THE HARD CODED DATE BACK TO DATE VARIABLE "10/18/19 16:30:00"
 		String dataToWrite = date + "$" + expired + "$" + title + "$" + recordHour + "$" + recordMin + "$" + recordSec;
 		bw.append(dataToWrite);
 		bw.newLine();

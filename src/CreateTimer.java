@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -424,6 +427,19 @@ public class CreateTimer {
 					} else if (addyTf.getText().length() == 8) {
 						cs.setSessionAddress(Integer.parseInt(addyTf.getText()));
 						cs.setClientConnected(true);
+
+						try {
+							ClientConnection cc = new ClientConnection();
+							Analytics an = new Analytics();
+							
+							cc.sendMessage(cs.getSessionAddress() + "@" + an.getDateAndTime());
+				
+						} catch (UnknownHostException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
 						returnToMainScreen();
 					} else {
 						addyTf.setBorder(errorBorder);

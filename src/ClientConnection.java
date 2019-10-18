@@ -32,7 +32,11 @@ public class ClientConnection {
 	 */
 	public void sendMessage(String data) throws UnknownHostException, IOException {
 		CurrentSession cs = new CurrentSession();
-		messageToServer = cs.getSessionAddress() + "$" + data;
+		if (!(data.contains("" + cs.getSessionAddress()))) {
+			messageToServer = cs.getSessionAddress() + "$" + data;
+		} else {
+			messageToServer = data;
+		}
 
 		if (hostAvailabilityCheck()) {
 			try {
