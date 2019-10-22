@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 public class ClientConnection {
 
 	// Server IP should be static if it is hard coded here
-	String serverIP = "127.0.0.1";
+	String serverIP = "18.217.139.63";
 
 	// Port number should also be static if it is hard coded here
 	int portNum = 5000;
