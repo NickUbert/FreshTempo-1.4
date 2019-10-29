@@ -27,7 +27,8 @@ public class CurrentSession {
 	private static boolean typing = false;
 	private static boolean activeExpiration = false;
 	private static boolean serverUp = true;
-	private static int downtimeTries = 10;
+	private static boolean currentlyFlushing = false;
+
 	// If sessionAddress is set to the default 1111111 then the user does not want
 	// FreshNet support and data will not be collected.
 	private static int sessionAddress = 11111111;
@@ -35,7 +36,7 @@ public class CurrentSession {
 
 	// itHash is the collection of itemTimers. formerly prgHash
 	static HashMap<Integer, ItemTimer> itHash = new HashMap<Integer, ItemTimer>();
-	static ArrayList<String> downtimeMessages = new ArrayList<String>();
+	static ArrayList<String> downtimeQueue = new ArrayList<String>();
 
 	/*
 	 * nextPage is used for naviagtion and updating graphics
@@ -238,20 +239,16 @@ public class CurrentSession {
 		clientConnected = b;
 	}
 
-	public ArrayList<String> getDowntimeMessages() {
-		return downtimeMessages;
+	public ArrayList<String> getDowntimeQueue() {
+		return downtimeQueue;
 	}
 
-	public void addToDowntimeMessages(String s) {
-		downtimeMessages.add(s);
+	public void addToDowntimeQueue(String s) {
+		downtimeQueue.add(s);
 	}
 
-	public void clearDowntimeMessages() {
-		downtimeMessages.clear();
-	}
-
-	public int getDowntimeTries() {
-		return downtimeTries;
+	public void clearDowntimeQueue() {
+		downtimeQueue.clear();
 	}
 
 	public void setServerUp(boolean b) {
@@ -262,12 +259,12 @@ public class CurrentSession {
 		return serverUp;
 	}
 
-	public void decreaseDowntimeTries() {
-		downtimeTries--;
-
-		if (downtimeTries == 0) {
-			serverUp = true;
-			downtimeTries = 10;
-		}
+	public void setCurrentlyFlushing(boolean b) {
+		currentlyFlushing = b;
 	}
+
+	public boolean getCurrentlyFlushing() {
+		return currentlyFlushing;
+	}
+
 }

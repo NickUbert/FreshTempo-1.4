@@ -254,15 +254,24 @@ public class Analytics {
 
 		CurrentSession cs = new CurrentSession();
 		if (cs.getClientConnected()) {
+			ClientConnection cc = new ClientConnection();
 
-			if (cs.getServerUp()) {
-				ClientConnection cc = new ClientConnection();
-				cc.sendMessage(dataToWrite);
+			if (cc.hostAvailabilityCheck()) {
+				if (cs.getCurrentlyFlushing()) {
+					cc.addToDowntimeQueue(dataToWrite);
+				} else {
+					cc.sendMessage(dataToWrite);
+				}
 			} else {
-				cs.decreaseDowntimeTries();
-				ClientConnection cc = new ClientConnection();
-				cc.collectDowntimeMessages(dataToWrite, true);
+				if (cs.getDowntimeQueue().size() == 0) {
+					cs.setServerUp(false);
+					cc.addToDowntimeQueue(dataToWrite);
+					cc.downTimeTimer.start();
+				} else {
+					cc.addToDowntimeQueue(dataToWrite);
+				}
 			}
+
 		}
 
 	}
