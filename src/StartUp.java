@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -58,7 +59,6 @@ public class StartUp {
 	static private int taskGap = (int) (.1 * screenY);
 	static FlowLayout cardLayout = new FlowLayout(FlowLayout.CENTER, flowGapCardH, flowGapCardV);
 	static FlowLayout tabLayout = new FlowLayout(FlowLayout.CENTER, flowGapTabH, flowGapTabV);
-	
 
 	// Number of background panels available.
 	private static int windowCount = 50;
@@ -110,6 +110,7 @@ public class StartUp {
 		File crashData = new File("./CRASHLOG.txt");
 		File usageData = new File("./usageData.txt");
 		File timerData = new File("./savedTimerData.txt");
+		File flushData = new File("./flushFile.txt");
 
 		// Check if prior sessions have already created the files
 		if (!crashData.exists()) {
@@ -120,6 +121,9 @@ public class StartUp {
 		}
 		if (!timerData.exists()) {
 			timerData.createNewFile();
+		}
+		if (!flushData.exists()) {
+			flushData.createNewFile();
 		}
 
 		// Create the program's fullscren window but not opening it yet.
@@ -179,6 +183,10 @@ public class StartUp {
 				window.setVisible(true);
 				freshStart();
 
+			}
+
+			if (checkFlushFile()) {
+				loadFlushData();
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -246,6 +254,18 @@ public class StartUp {
 						Analytics an = new Analytics();
 						an.generateCrashLog();
 
+						// Writes flush file.
+						if (!(cs.getDowntimeQueue().size() == 0)) {
+							FileWriter ffw = new FileWriter("./flushFile.txt");
+							BufferedWriter fbw = new BufferedWriter(ffw);
+							ClientConnection cc = new ClientConnection();
+							for (int i = cc.getFlushIndex(); i < cs.getDowntimeQueue().size(); i++) {
+								fbw.write(cs.getDowntimeQueue().get(i));
+								fbw.newLine();
+							}
+							fbw.flush();
+							fbw.close();
+						}
 					}
 				} catch (IOException e) {
 
@@ -264,10 +284,8 @@ public class StartUp {
 	 * one timer exists.
 	 */
 	static boolean checkForPriors() throws IOException {
-		FileReader fr = new FileReader("./savedTimerData.txt");
-		@SuppressWarnings("resource")
-		BufferedReader br = new BufferedReader(fr);
-		return br.readLine() != null;
+		File priorFile = new File("./savedTimerData.txt");
+		return !(priorFile.length() == 0);
 	}
 
 	/*
@@ -377,7 +395,7 @@ public class StartUp {
 		cs.setCNOT(sessionDataInt[1]);
 		cs.setAutoSortEnabled(sessionDataInt[3] == 1);
 		cs.setSessionAddress(sessionDataInt[4]);
-		if(sessionDataInt[4]==11111111) {
+		if (sessionDataInt[4] == 11111111) {
 			cs.setClientConnected(false);
 		} else {
 			cs.setClientConnected(true);
@@ -390,6 +408,33 @@ public class StartUp {
 		pm.updatePage();
 
 		window.setVisible(true);
+
+	}
+
+	private static boolean checkFlushFile() {
+		File flushFile = new File("./flushFile.txt");
+		return !(flushFile.length() == 0);
+
+	}
+
+	private static void loadFlushData() throws IOException {
+		FileReader fr = new FileReader("./flushFile.txt");
+		BufferedReader br = new BufferedReader(fr);
+		String curLine = br.readLine();
+		CurrentSession cs = new CurrentSession();
+
+		while (curLine != null) {
+			cs.getDowntimeQueue().add(curLine);
+			curLine = br.readLine();
+		}
+		br.close();
+
+		// Empty the file after loading.
+		FileWriter fw = new FileWriter("./flushFile.txt");
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write("");
+		bw.flush();
+		bw.close();
 
 	}
 
@@ -428,6 +473,5 @@ public class StartUp {
 		CreateTimer ct = new CreateTimer();
 		ct.paintAddressPanel();
 	}
-
 
 }

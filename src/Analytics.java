@@ -257,11 +257,21 @@ public class Analytics {
 			ClientConnection cc = new ClientConnection();
 
 			if (cc.hostAvailabilityCheck()) {
+
 				if (cs.getCurrentlyFlushing()) {
 					cc.addToDowntimeQueue(dataToWrite);
 				} else {
-					cc.sendMessage(dataToWrite);
+					if (!(cs.getDowntimeQueue().size() == 0)) {
+						cc.addToDowntimeQueue(dataToWrite);
+						cs.setCurrentlyFlushing(true);
+						if (!(cc.flushTimer.isRunning())) {
+							cc.flushTimer.start();
+						}
+					} else {
+						cc.sendMessage(dataToWrite);
+					}
 				}
+
 			} else {
 				if (cs.getDowntimeQueue().size() == 0) {
 					cs.setServerUp(false);

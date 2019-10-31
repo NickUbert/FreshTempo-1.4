@@ -119,7 +119,7 @@ public class ClientConnection {
 				cs.getDowntimeQueue().clear();
 
 			} else {
-				int randInt = (int) (Math.random() * 10);
+				int randInt = (int) ((Math.random() * 5) + 1);
 				if (randInt == 5) {
 					try {
 						sendMessage(message);
@@ -154,4 +154,8 @@ public class ClientConnection {
 		}
 	});
 
+	public int getFlushIndex() {
+		return flushIndex;
+
+	}
 }
