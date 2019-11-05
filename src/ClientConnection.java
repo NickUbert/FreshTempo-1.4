@@ -1,11 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -44,6 +39,8 @@ public class ClientConnection {
 	 */
 	public void sendMessage(String data) throws UnknownHostException, IOException {
 		CurrentSession cs = new CurrentSession();
+
+		// This makes sure that the sessionAddress has been appended already.
 		if (!(data.contains("" + cs.getSessionAddress()))) {
 			messageToServer = cs.getSessionAddress() + "$" + data;
 		} else {
@@ -53,8 +50,8 @@ public class ClientConnection {
 		if (hostAvailabilityCheck()) {
 			try {
 
+				// Connect to socket and write out the message.
 				socket = new Socket(serverIP, portNum);
-
 				out = new DataOutputStream(socket.getOutputStream());
 				out.writeUTF(messageToServer);
 				out.writeUTF("");
@@ -65,6 +62,8 @@ public class ClientConnection {
 			}
 
 		} else {
+			// Send data to queue just in case when the message doesn't send to make sure
+			// nothing gets lost on the initial crash.
 			cs.setServerUp(false);
 			addToDowntimeQueue(messageToServer);
 		}
@@ -79,13 +78,14 @@ public class ClientConnection {
 	 * been flagged.
 	 */
 	public boolean hostAvailabilityCheck() {
-		CurrentSession cs = new CurrentSession();
 		try {
-			// This lil stunt causes EOF exception for server
+			
 			Socket s = new Socket();
-			s.connect(new InetSocketAddress(serverIP, portNum), 1000);
+			//Check if the server is up, wait 3/4 second. Might shorten this later. 
+			s.connect(new InetSocketAddress(serverIP, portNum), 750);
 			boolean connected = s.isConnected();
 			s.close();
+			
 			return connected;
 		} catch (IOException ex) {
 			return false;
@@ -93,17 +93,30 @@ public class ClientConnection {
 		}
 	}
 
+	/*
+	 * addToDownTimeQueue takes any string and adds it to the end of the
+	 * downtimeQueue.
+	 */
 	public void addToDowntimeQueue(String message) {
 		CurrentSession cs = new CurrentSession();
 		cs.addToDowntimeQueue(message);
 	}
 
+	/*
+	 * flushTimer is used to read through the current queue of pending messages. It
+	 * reads in the raw text of a message, and sends them in a buffered style. I'm
+	 * worried that if the server has extended downtime and all clients connect at
+	 * the same time, data will be lost. Instead it generates a random number
+	 * between 1-5 and and if it equals 5 it sends the message.
+	 */
 	Timer flushTimer = new Timer(1000, new ActionListener() {
 		public void actionPerformed(ActionEvent ae) {
 			CurrentSession cs = new CurrentSession();
 
+			//flushIndex is 0 indexed.
 			String message = cs.getDowntimeQueue().get(flushIndex);
 
+			//Check if the current message is the last one. 
 			if (flushIndex == cs.getDowntimeQueue().size() - 1) {
 				flushIndex = 0;
 				cs.setCurrentlyFlushing(false);
@@ -137,10 +150,15 @@ public class ClientConnection {
 
 	});
 
+	/*
+	 * downTimeTimer is used to check the clients connection to the sever every 5
+	 * min. If the connnection works, the timer is stopped and the flush timer
+	 * begins.
+	 */
 	Timer downTimeTimer = new Timer(1000, new ActionListener() {
 		public void actionPerformed(ActionEvent ae) {
 			downTimeSec++;
-			if (downTimeSec % 360 == 0) {
+			if (downTimeSec % 300 == 0) {
 				if (hostAvailabilityCheck()) {
 					CurrentSession cs = new CurrentSession();
 					cs.setCurrentlyFlushing(true);

@@ -9,7 +9,6 @@ import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,8 +47,7 @@ public class StartUp {
 	private static int keyboardYGap = (int) (.0074 * screenY);
 	static private int keyboardPanelXL = (int) (.00625 * screenX);
 	static private int keyboardPanelYL = (int) (.29167 * screenY);
-	static private int panelCurve = (int) (.03125 * screenX);
-	static private int keyboardCurve = (int) (.015 * screenX);
+	static private int keyboardCurve = (int) (.00005 * screenX);
 	static private int keyboardX = (int) (.9855 * screenX);
 	static private int keyboardY = (int) (.585 * screenY);
 	static private int optionXL = (int) (.2575 * screenX);
@@ -67,42 +65,11 @@ public class StartUp {
 	static Color backgroundColor = Color.decode("#223843");
 
 	// Main Keyboard with rounded corners element
-	static JPanel mainKeyboard = new JPanel() {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			Dimension arcs = new Dimension(keyboardCurve, keyboardCurve);
-			int width = getWidth();
-			int height = getHeight();
-			Graphics2D graphics = (Graphics2D) g;
-			graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			graphics.setColor(getBackground());
-			graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-			graphics.setColor(getForeground());
-			graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-		}
-	};
+	static RoundedPanel mainKeyboard = new RoundedPanel();
+	
 
 	// Option Panel with rounded corners element
-	static JPanel optionPanel = new JPanel() {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			Dimension arcs = new Dimension(panelCurve, panelCurve);
-			int width = getWidth();
-			int height = getHeight();
-			Graphics2D graphics = (Graphics2D) g;
-			graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			graphics.setColor(getBackground());
-			graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-			graphics.setColor(getForeground());
-			graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-		}
-	};
+	static JPanel optionPanel = new RoundedPanel();
 
 	public static void main(String[] args) throws IOException {
 
@@ -140,6 +107,7 @@ public class StartUp {
 		window.add(optionPanel);
 
 		// Adding the keyboard panel so that it appears on "top" of other components.
+		mainKeyboard.setCurve(keyboardCurve);
 		mainKeyboard.setBounds(keyboardPanelXL, keyboardPanelYL, keyboardX, keyboardY);
 		mainKeyboard.setLayout(new FlowLayout(FlowLayout.CENTER, keyboardXGap, keyboardYGap));
 		mainKeyboard.setOpaque(false);
@@ -374,10 +342,16 @@ public class StartUp {
 			if (toggled) {
 				cs.increaseANOT();
 			}
+
 			ItemTimer it = new ItemTimer(startMin, startHour, title, id, true, toggled);
+
+			// Set the timers progress so that timers can save where they were.
 			it.setCurSec(curSec);
 			it.setCurMin(curMin);
 			it.setCurHour(curHour);
+
+			// Prg is the progress value of the bar, basically converting everything to
+			// seconds and subtracting total by current seconds.
 			int prgValue = (startMin * 60) + (startHour * 3600) - (curSec + (curMin * 60) + (curHour * 3600));
 			it.setPrgValue(prgValue);
 		}
@@ -395,6 +369,8 @@ public class StartUp {
 		cs.setCNOT(sessionDataInt[1]);
 		cs.setAutoSortEnabled(sessionDataInt[3] == 1);
 		cs.setSessionAddress(sessionDataInt[4]);
+
+		// 11111111 is used as a holder address.
 		if (sessionDataInt[4] == 11111111) {
 			cs.setClientConnected(false);
 		} else {
@@ -411,18 +387,29 @@ public class StartUp {
 
 	}
 
+	/*
+	 * checkFlushFile is used to see whether or not the flushFile is empty or not.
+	 */
 	private static boolean checkFlushFile() {
 		File flushFile = new File("./flushFile.txt");
 		return !(flushFile.length() == 0);
 
 	}
 
+	/*
+	 * loadFlushData is used to pull all data from the flushFile and add it to the
+	 * downtimeQueue. This one is pretty easy since the data is read and written in
+	 * order and no info needs to be parsed, and no header is needed.
+	 */
 	private static void loadFlushData() throws IOException {
 		FileReader fr = new FileReader("./flushFile.txt");
 		BufferedReader br = new BufferedReader(fr);
+
+		// Read the first line before entering loop.
 		String curLine = br.readLine();
 		CurrentSession cs = new CurrentSession();
 
+		// Loop until all data is added to queue.
 		while (curLine != null) {
 			cs.getDowntimeQueue().add(curLine);
 			curLine = br.readLine();
@@ -447,11 +434,14 @@ public class StartUp {
 	 */
 	public static void switchLayoutGaps() {
 		CurrentSession cs = new CurrentSession();
+
 		if (cs.getCardLayout()) {
+			// Loop through and change gap size for cardLayout
 			for (int i = 0; i < cs.getCAP(); i++) {
 				backgroundHash.get(i).setLayout(cardLayout);
 			}
 		} else {
+			// Loop though and change gap size for tabLayout
 			for (int i = 0; i <= cs.getCAP(); i++) {
 				backgroundHash.get(i).setLayout(tabLayout);
 			}

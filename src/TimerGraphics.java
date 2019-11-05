@@ -44,11 +44,13 @@ public class TimerGraphics {
 	private int timeDisplayY = (int) (.86076 * cardY);
 	private int timeDisplayWidth = (int) (.96 * cardX);
 	private int timeDisplayHeight = (int) (.1519 * cardY);
+	
+	private int shadowGap = (int) (.005 * screenX);
 
-	private int prgwidth = cardX;
+	private int prgwidth = cardX-shadowGap;
 	private int prgy = (int) (.29114 * cardY);
 	private int prgheight = (int) (.56962 * cardY);
-	private int curveD = (int) (screenX * .03125);
+
 
 	private int titleLabely = 0;
 	private int titleLabelwidth = (int) (.96 * cardX);
@@ -88,22 +90,7 @@ public class TimerGraphics {
 	private JButton refreshBtn = new JButton();
 
 	// Timer Panel
-	private JPanel timerPanel = new JPanel() {
-		private static final long serialVersionUID = 1L;
-
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			Dimension arcs = new Dimension(curveD, curveD);
-			int width = getWidth();
-			int height = getHeight();
-			Graphics2D graphics = (Graphics2D) g;
-			graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			graphics.setColor(getBackground());
-			graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-			graphics.setColor(getForeground());
-			graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-		}
-	};
+	private RoundedPanel timerPanel = new RoundedPanel();
 
 	// Text Fonts
 	private Font cardTitleFont = new Font("Tamoha", Font.BOLD, (int) (.0725 * screenX));
@@ -327,7 +314,7 @@ public class TimerGraphics {
 
 		// Update tab specific progress bar properties.
 		prg.setOrientation(SwingConstants.HORIZONTAL);
-		prg.setBounds(prgTXL, 1, prgTX, tabY - 2);
+		prg.setBounds(prgTXL, 1, prgTX, tabY - shadowGap-1);
 		prg.setString(timer.getTitle());
 		prg.setStringPainted(true);
 		prg.setFont(tabTitleFont);

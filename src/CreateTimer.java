@@ -38,31 +38,47 @@ public class CreateTimer {
 	private final int screenY = ((int) mtk.getHeight());
 	private int cardX = (int) (.3125 * screenX);
 	private int cardY = (int) (.875 * screenY);
+
+	private int connectionPanelX = (int) (.4 * screenX);
+	private int connectionPanelY = (int) (.275 * screenY);
+
 	private int titleTextFieldXL = (int) (.44 * cardX);
 	private int titleTextFieldYL = (int) (.16456 * cardY);
-	private int titleNewLabelYL = (int) (.17722 * cardY);
-	private int titleNewLabelXL = (int) (.022 * cardX);
 	private int titleTextFieldX = (int) (.48 * cardX);
 	private int titleTextFieldY = (int) (.07595 * cardY);
+
 	private int minTextFieldYL = (int) (.08861 * cardY);
-	private int titleNewLabelY = (int) (.03544 * cardY);
-	private int titleNewLabelX = (int) (.4 * cardX);
+
 	private int keyPadButtonX = (int) (.3 * cardX);
 	private int keyPadButtonY = (int) (.17722 * cardY);
+
 	private int hTextFieldYL = (int) (.01266 * cardY);
+
+	private int minNewLabelYL = (int) (.10127 * cardY);
+
+	private int titleNewLabelYL = (int) (.17722 * cardY);
+	private int titleNewLabelXL = (int) (.022 * cardX);
+	private int titleNewLabelY = (int) (.03544 * cardY);
+	private int titleNewLabelX = (int) (.4 * cardX);
+
 	private int textFieldX = (int) (.24 * cardX);
 	private int textFieldXL = (int) (.5 * cardX - (textFieldX / 2));
-	private int minNewLabelYL = (int) (.10127 * cardY);
-	private int hNewLabelYL = (int) (.02532 * cardY);
 	private int textFieldY = (int) (.06329 * cardY);
-	private int newLabelY = (int) (.02532 * cardY);
-	private int backspaceX = (int) (.125 * screenX);
+
+	private int backspaceX = (int) (.13 * screenX);
+
 	private int newLabelX = (int) (.32 * cardX);
+	private int newLabelY = (int) (.02532 * cardY);
+
 	private int hNewLabelX = (int) (newLabelX - (cardX * .0425));
-	private int keyboardX = (int) (.09625 * screenX);
+	private int hNewLabelYL = (int) (.02532 * cardY);
+
+	private int keyboardX = (int) (.0935 * screenX);
 	private int keyboardY = (int) (.1855 * screenY);
+
 	private int keyPadYL = (int) (.25316 * cardY);
 	private int keyPadY = (int) (.75949 * cardY);
+
 	private int curveD = (int) (.03125 * screenX);
 
 	private int addyTextFieldX = (int) (.7 * cardX);
@@ -70,12 +86,22 @@ public class CreateTimer {
 	private int addyTextFieldXL = (int) (.5 * cardX - (addyTextFieldX / 2));
 	private int addyTextFieldYL = (int) (.15 * cardY);
 
-	private int storeIDLabelYL = (int) (.02 * cardY);
 	private int otherwiseLabelYL = (int) (.08 * cardY);
 	private int otherwiseLabelY = (int) (.03532 * cardY);
-	private int storeIDLabelY = (int) (.03532 * cardY);
 	private int otherwiseLabelX = cardX;
+
+	private int storeIDLabelYL = (int) (.02 * cardY);
 	private int storeIDLabelX = cardX;
+	private int storeIDLabelY = (int) (.03532 * cardY);
+
+	private int troubleLabelAYL = ((int) (.45 * connectionPanelY));
+	private int troubleLabelBYL = ((int) (.6 * connectionPanelY));
+	private int troubleLabelY = (int) (.03532 * cardY);
+
+	// exitXYL, exitXYL, exitXY, exitXY
+	private int exitXY = (int) (.12 * connectionPanelX);
+	private int exitXL = ((int) (.85 * connectionPanelX));
+	private int exitYL = (int)(.04*connectionPanelY);
 
 	// Textfields
 	private JTextField titleTf = new JTextField();
@@ -84,14 +110,15 @@ public class CreateTimer {
 	private JTextField addyTf = new JTextField();
 
 	// Colors
-	private Color backspaceColor = Color.decode("#ED217C");
+	private Color backColor = Color.decode("#ED217C");
 	private Color confirmColor = Color.decode("#09BC8A");
 	// private Color backgroundColor = Color.decode("#223843");
 	private Color keyboardBackgroundColor = Color.decode("#C2C1C2");
 
 	// Panels
-	private JPanel createPanel;
+	private RoundedPanel createPanel;
 	private JPanel addressPanel;
+	private JPanel connectedPanel;
 	private JPanel keyPadPanel = new JPanel();
 	private JPanel keyboardPanel = StartUp.mainKeyboard;
 
@@ -104,6 +131,7 @@ public class CreateTimer {
 	// Fonts
 	Font createPanelFont = new Font("Tamoha", Font.BOLD, (int) (cardX * .048));
 	Font addyPanelFont = new Font("Tamoha", Font.BOLD, (int) (cardX * .068));
+	Font connectionPanelFont = new Font("Tamoha", Font.BOLD, (int) (cardX * .058));
 	Font keyboardFont = new Font("Tamoha", Font.TRUETYPE_FONT, (int) (.0625 * screenY));
 
 	// Default user entered values
@@ -117,22 +145,8 @@ public class CreateTimer {
 	public void paintCreatePanel() {
 
 		// Create the create panel.
-		createPanel = new JPanel() {
-			private static final long serialVersionUID = 1L;
 
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Dimension arcs = new Dimension(curveD, curveD);
-				int width = getWidth();
-				int height = getHeight();
-				Graphics2D graphics = (Graphics2D) g;
-				graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				graphics.setColor(getBackground());
-				graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-				graphics.setColor(getForeground());
-				graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-			}
-		};
+		createPanel = new RoundedPanel();
 
 		// Hour input textfield.
 		hourTf.setFont(createPanelFont);
@@ -257,7 +271,7 @@ public class CreateTimer {
 		bspBtn.setFont(keyboardFont);
 		bspBtn.setForeground(Color.WHITE);
 		bspBtn.setFocusable(false);
-		bspBtn.setBackground(backspaceColor);
+		bspBtn.setBackground(backColor);
 		bspBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				if (tf.getText().length() > 0) {
@@ -365,7 +379,7 @@ public class CreateTimer {
 		bspBtn.setForeground(Color.WHITE);
 		bspBtn.setFocusable(false);
 		bspBtn.setBorder(keyBorder);
-		bspBtn.setBackground(backspaceColor);
+		bspBtn.setBackground(backColor);
 		bspBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				if (tf.getText().length() > 0) {
@@ -431,16 +445,16 @@ public class CreateTimer {
 						try {
 							ClientConnection cc = new ClientConnection();
 							Analytics an = new Analytics();
-							
+
 							cc.sendMessage(cs.getSessionAddress() + "@" + an.getDateAndTime());
-				
+
+							paintConnectionMessage(cc.hostAvailabilityCheck());
 						} catch (UnknownHostException e) {
 							e.printStackTrace();
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 
-						returnToMainScreen();
 					} else {
 						addyTf.setBorder(errorBorder);
 						addyTf.setText("");
@@ -543,25 +557,15 @@ public class CreateTimer {
 
 	}
 
+	/*
+	 * paintAddressPanel is used to create and fill the graphic components of the
+	 * address panel which is used to assign the store's address, an 8 digit code
+	 * unique to each client.
+	 */
 	public void paintAddressPanel() {
 		CurrentSession cs = new CurrentSession();
 		cs.setTyping(true);
-		addressPanel = new JPanel() {
-			private static final long serialVersionUID = 1L;
-
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Dimension arcs = new Dimension(curveD, curveD);
-				int width = getWidth();
-				int height = getHeight();
-				Graphics2D graphics = (Graphics2D) g;
-				graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				graphics.setColor(getBackground());
-				graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-				graphics.setColor(getForeground());
-				graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);
-			}
-		};
+		addressPanel = new RoundedPanel();
 
 		addressPanel.setPreferredSize(new Dimension(cardX, cardY));
 		addressPanel.setOpaque(false);
@@ -603,9 +607,14 @@ public class CreateTimer {
 		cs.addToCAP(addressPanel);
 	}
 
+	/*
+	 * returnToMainScreen is used to eliminate all elements that aren't needed
+	 * anymore and return to the home screen.
+	 */
 	public void returnToMainScreen() {
 		CurrentSession cs = new CurrentSession();
 		if (cs.getTNOT() >= 2) {
+			connectedPanel.setVisible(false);
 			addressPanel.setVisible(false);
 			keyPadPanel.setVisible(false);
 			cs.setCurrentPage(0);
@@ -614,10 +623,78 @@ public class CreateTimer {
 			TaskBar tb = new TaskBar();
 			tb.updateTaskBar();
 		} else {
+			connectedPanel.setVisible(false);
 			addressPanel.setVisible(false);
 			keyPadPanel.setVisible(false);
 			paintCreatePanel();
 		}
 
+	}
+
+	/*
+	 * paintConnectionMessage is used to tell the user whether or not they connected
+	 * to the internet. It opens a small box with a message in it that will depend
+	 * on the state of their connection. The parameter should only even be used with
+	 * a hostAvailabilityCheck.
+	 */
+	private void paintConnectionMessage(boolean connected) {
+		addressPanel.setVisible(false);
+		keyPadPanel.setVisible(false);
+
+		connectedPanel = new RoundedPanel();
+
+		connectedPanel.setPreferredSize(new Dimension(connectionPanelX, connectionPanelY));
+		connectedPanel.setOpaque(false);
+		connectedPanel.setLayout(null);
+		connectedPanel.setBackground(Color.white);
+
+		JButton exitBtn = new JButton("X");
+		exitBtn.setBounds(exitXL, exitYL, exitXY, exitXY);
+		exitBtn.setFont(connectionPanelFont);
+		exitBtn.setForeground(Color.WHITE);
+		exitBtn.setBackground(backColor);
+		exitBtn.setFocusable(false);
+		exitBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				connectedPanel.removeAll();
+				returnToMainScreen();
+			}
+		});
+		connectedPanel.add(exitBtn);
+
+		String message = "Connection successful!";
+		String troubleMessageA = "Close this message to get started.";
+		if (!connected) {
+			message = "Connection Unsuccessful.";
+			troubleMessageA = "Make sure you are connected to Wifi.";
+		}
+
+		JLabel connectionLabel = new JLabel(message);
+		connectionLabel.setFont(connectionPanelFont);
+		connectionLabel.setBounds(0, storeIDLabelYL, connectionPanelX, storeIDLabelY);
+		connectionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		connectionLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
+
+		connectedPanel.add(connectionLabel);
+
+		JLabel troubleLabelLineA = new JLabel(troubleMessageA);
+		troubleLabelLineA.setFont(connectionPanelFont);
+		troubleLabelLineA.setBounds(0, troubleLabelAYL, connectionPanelX, troubleLabelY);
+		troubleLabelLineA.setHorizontalAlignment(SwingConstants.CENTER);
+		troubleLabelLineA.setPreferredSize(new Dimension(newLabelX, newLabelY));
+		connectedPanel.add(troubleLabelLineA);
+
+		if (!connected) {
+
+			String troubleMessageB = "Data will still be collected, try again later.";
+			JLabel troubleLabelLineB = new JLabel(troubleMessageB);
+			troubleLabelLineB.setFont(connectionPanelFont);
+			troubleLabelLineB.setBounds(0, troubleLabelBYL, connectionPanelX, troubleLabelY);
+			troubleLabelLineB.setHorizontalAlignment(SwingConstants.CENTER);
+			troubleLabelLineB.setPreferredSize(new Dimension(newLabelX, newLabelY));
+			connectedPanel.add(troubleLabelLineB);
+		}
+		CurrentSession cs = new CurrentSession();
+		cs.addToCAP(connectedPanel);
 	}
 }

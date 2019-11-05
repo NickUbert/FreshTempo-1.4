@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 10/31/19 16:04:40
+The day and time of the software exiting was: 11/04/19 18:27:18
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,19 +11,12 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (10/31/19 16:04:40):
+Timers recorded at system exit (11/04/19 18:27:18):
 
- Y: 5:21
- S: 0:47
- T: 43:57
- PORK: 12:38
- SANITIZER: 7:57:20
- R: 7:51
- RR: 0:37
- TEST: 1:19
- A: 3:03
- B: 5:05
- C: 7:58:07
- D: 6:59:02
- E: 44:05
- F: 0:36
+ T: 5:58
+ R: 1:33
+ Y: 3:01
+ S: 7:18
+ H: 7:24
+ UU: 5:30
+ EE: 44:46
