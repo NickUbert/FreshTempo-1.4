@@ -74,7 +74,7 @@ public class CreateTimer {
 	private int hNewLabelYL = (int) (.02532 * cardY);
 
 	private int keyboardX = (int) (.0935 * screenX);
-	private int keyboardY = (int) (.1855 * screenY);
+	private int keyboardY = (int) (.183 * screenY);
 
 	private int keyPadYL = (int) (.25316 * cardY);
 	private int keyPadY = (int) (.75949 * cardY);
@@ -101,7 +101,7 @@ public class CreateTimer {
 	// exitXYL, exitXYL, exitXY, exitXY
 	private int exitXY = (int) (.12 * connectionPanelX);
 	private int exitXL = ((int) (.85 * connectionPanelX));
-	private int exitYL = (int)(.04*connectionPanelY);
+	private int exitYL = (int) (.04 * connectionPanelY);
 
 	// Textfields
 	private JTextField titleTf = new JTextField();
@@ -129,10 +129,10 @@ public class CreateTimer {
 	Border errorBorder = BorderFactory.createLineBorder(Color.RED, 2);
 
 	// Fonts
-	Font createPanelFont = new Font("Tamoha", Font.BOLD, (int) (cardX * .048));
-	Font addyPanelFont = new Font("Tamoha", Font.BOLD, (int) (cardX * .068));
-	Font connectionPanelFont = new Font("Tamoha", Font.BOLD, (int) (cardX * .058));
-	Font keyboardFont = new Font("Tamoha", Font.TRUETYPE_FONT, (int) (.0625 * screenY));
+	Font createPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .048));
+	Font addyPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .068));
+	Font connectionPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .058));
+	Font keyboardFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.0625 * screenY));
 
 	// Default user entered values
 	private int userMin = 0;
@@ -437,7 +437,7 @@ public class CreateTimer {
 					if (addyTf.getText().length() == 0) {
 						cs.setSessionAddress(11111111);
 						cs.setClientConnected(false);
-						returnToMainScreen();
+						returnToToggleScreen();
 					} else if (addyTf.getText().length() == 8) {
 						cs.setSessionAddress(Integer.parseInt(addyTf.getText()));
 						cs.setClientConnected(true);
@@ -449,6 +449,8 @@ public class CreateTimer {
 							cc.sendMessage(cs.getSessionAddress() + "@" + an.getDateAndTime());
 
 							paintConnectionMessage(cc.hostAvailabilityCheck());
+							TaskBar tb = new TaskBar();
+							tb.updateBar("UNDO");
 						} catch (UnknownHostException e) {
 							e.printStackTrace();
 						} catch (IOException e) {
@@ -537,13 +539,17 @@ public class CreateTimer {
 		// will be created.Graphics are updated and a timer creation is called using the
 		// user inputs as constructor values.
 		if (validTitle && validMin && validHour) {
+			CurrentSession cs = new CurrentSession();
+			cs.increaseCNOT();
+			cs.increaseTNOT();
+			cs.updateCAP();
+
 			createPanel.setVisible(false);
 			keyboardPanel.setVisible(false);
 			keyPadPanel.setVisible(false);
 
 			TaskBar tb = new TaskBar();
 			tb.updateBar("MENU");
-			CurrentSession cs = new CurrentSession();
 			cs.setTyping(false);
 			cs.increaseANOT();
 
@@ -604,25 +610,27 @@ public class CreateTimer {
 		addressPanel.add(addyTf);
 		displayKeypad(addyTf, false);
 
-		cs.addToCAP(addressPanel);
+		cs.addToCurrentPage(addressPanel);
 	}
 
 	/*
 	 * returnToMainScreen is used to eliminate all elements that aren't needed
 	 * anymore and return to the home screen.
 	 */
-	public void returnToMainScreen() {
+	public void returnToToggleScreen() {
 		CurrentSession cs = new CurrentSession();
 		if (cs.getTNOT() >= 2) {
 			connectedPanel.setVisible(false);
 			addressPanel.setVisible(false);
 			keyPadPanel.setVisible(false);
+			cs.setMenuOpen(true);
 			cs.setCurrentPage(0);
-			cs.setMenuOpen(false);
-			cs.setTyping(false);
+			@SuppressWarnings("unused")
+			TimerToggles tt = new TimerToggles();
 			TaskBar tb = new TaskBar();
 			tb.updateTaskBar();
 		} else {
+			cs.setTyping(false);
 			connectedPanel.setVisible(false);
 			addressPanel.setVisible(false);
 			keyPadPanel.setVisible(false);
@@ -657,7 +665,9 @@ public class CreateTimer {
 		exitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				connectedPanel.removeAll();
-				returnToMainScreen();
+				returnToToggleScreen();
+				TaskBar tb = new TaskBar();
+				tb.updateBar("MENU");
 			}
 		});
 		connectedPanel.add(exitBtn);
@@ -695,6 +705,13 @@ public class CreateTimer {
 			connectedPanel.add(troubleLabelLineB);
 		}
 		CurrentSession cs = new CurrentSession();
-		cs.addToCAP(connectedPanel);
+		cs.addToCurrentPage(connectedPanel);
+	}
+
+	public void hideKeyPanels() {
+		keyboardPanel.setVisible(false);
+		keyPadPanel.setVisible(false);
+		CurrentSession cs = new CurrentSession();
+		cs.setTyping(false);
 	}
 }

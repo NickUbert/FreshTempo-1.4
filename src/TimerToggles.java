@@ -6,9 +6,11 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class TimerToggles {
 	CurrentSession cs = new CurrentSession();
@@ -28,12 +30,14 @@ public class TimerToggles {
 	private int toggleScrollValue = ((scrollRowsNum) * (toggleY));
 
 	// Fonts
-	private Font toggleFont = new Font("Tahoma", Font.BOLD, ((int) (.02 * screenX)));
-
+	private Font toggleFont = new Font("Helvetica", Font.BOLD, ((int) (.02 * screenX)));
+	private Font bannerFont = new Font("Helvetica", Font.BOLD, ((int) (.03 * screenX)));
 	// Colors
 	private Color backgroundColor = Color.decode("#223843");
 	private Color exitColor = Color.decode("#ED217C");
 	private Color toggledColor = Color.decode("#09BC8A");
+
+	private JLabel toggleBanner = new JLabel("Choose Active Timers");
 
 	// Create togglePanel and scrollPanel
 	JPanel togglePanel = new JPanel();
@@ -45,6 +49,7 @@ public class TimerToggles {
 	 * setting the dimensions/graphics up before calling addToggles.
 	 */
 	public TimerToggles() {
+
 		// Clear the page and values before doing a value update of ANOT.
 		pm.clearPage();
 		cs.setANOT(0);
@@ -53,7 +58,7 @@ public class TimerToggles {
 
 		// Prevents overflow for the scroll page.
 		if (((cs.getCNOT() + 1) % 5) > 0) {
-			toggleScrollValue = ((scrollRowsNum + 1) * toggleY);
+			toggleScrollValue = ((scrollRowsNum + 1) * toggleY) + (int) (toggleY * 1.05);
 		}
 
 		// Set up layout and dims for togglePanel
@@ -64,6 +69,16 @@ public class TimerToggles {
 		toggleScrollPanel.setPreferredSize(new Dimension(toggleScrollX, screenY - (int) (screenY * .12)));
 		togglePanel.setBackground(backgroundColor);
 		togglePanel.setPreferredSize(new Dimension(timerTogglePanelX, toggleScrollValue));
+
+		toggleScrollPanel.getVerticalScrollBar().setBackground(backgroundColor);
+	
+
+		toggleBanner.setPreferredSize(new Dimension(screenX, (int) (toggleY / 2)));
+		toggleBanner.setFont(bannerFont);
+		toggleBanner.setHorizontalAlignment(JLabel.CENTER);
+		;
+		toggleBanner.setForeground(Color.WHITE);
+		togglePanel.add(toggleBanner);
 
 		// Exit button labeled "Save/Close"
 		JButton exitButton = new JButton("SAVE/CLOSE");
@@ -86,14 +101,15 @@ public class TimerToggles {
 					Sorter so = new Sorter();
 					so.sort(CurrentSession.itHash);
 				}
-			}
 
+			}
 		});
 
 		// Add the panel to the page and call addToggles.
 		togglePanel.add(exitButton);
 		cs.addToCurrentPage(toggleScrollPanel);
 		addToggles();
+
 	}
 
 	/*

@@ -22,40 +22,45 @@ public class TaskBar {
 	private CurrentSession cs = new CurrentSession();
 	private int taskBarWidth = ((int) mTk.getWidth());
 	private int screenHeight = ((int) mTk.getHeight());
-	private int addBtnXY = (int) (taskBarWidth * .0475);
+	private int btnIconXY = (int) (taskBarWidth * .0475);
 	private int taskBarY = (int) (.1 * screenHeight);
 	private int taskBarYL = (int) (screenHeight - taskBarY);
 	private int taskBarX = (int) (taskBarWidth);
-	private int npageXL = (int) (.75 * taskBarWidth - (addBtnXY / 2));
+	private int npageXL = (int) (.75 * taskBarWidth - (btnIconXY / 2));
 	private int optionsXYL = (int) (.00625 * taskBarX);
-	private int backBtnXL = (int) (.25 * taskBarWidth - (addBtnXY / 2));
-	private int addMenuBtnXL = (int) ((.5 * taskBarX) - (int) (addBtnXY / 2));
+	private int backBtnXL = (int) (.25 * taskBarWidth - (btnIconXY / 2));
+	private int addMenuBtnXL = (int) ((.5 * taskBarX) - (int) (btnIconXY / 2));
 
 	// imageIcons
 	ImageIcon optionIcon = new ImageIcon(getClass().getClassLoader().getResource("FT-icon-settings.png"));
 	Image optionImg = optionIcon.getImage();
-	Image biOption = optionImg.getScaledInstance(addBtnXY, addBtnXY, Image.SCALE_DEFAULT);
+	Image biOption = optionImg.getScaledInstance(btnIconXY, btnIconXY, Image.SCALE_DEFAULT);
 	Icon resizedOptionIcon = (Icon) new ImageIcon(biOption);
 
 	ImageIcon menuIcon = new ImageIcon(getClass().getClassLoader().getResource("FT-icon-menu.png"));
 	Image menuImg = menuIcon.getImage();
-	Image biMenu = menuImg.getScaledInstance(addBtnXY, addBtnXY, Image.SCALE_DEFAULT);
+	Image biMenu = menuImg.getScaledInstance(btnIconXY, btnIconXY, Image.SCALE_DEFAULT);
 	Icon resizedMenuIcon = (Icon) new ImageIcon(biMenu);
 
 	ImageIcon nextIcon = new ImageIcon(getClass().getClassLoader().getResource("FT-icon-next.png"));
 	Image nextImg = nextIcon.getImage();
-	Image biNext = nextImg.getScaledInstance(addBtnXY, addBtnXY, Image.SCALE_DEFAULT);
+	Image biNext = nextImg.getScaledInstance(btnIconXY, btnIconXY, Image.SCALE_DEFAULT);
 	Icon resizedNextIcon = (Icon) new ImageIcon(biNext);
 
 	ImageIcon backIcon = new ImageIcon(getClass().getClassLoader().getResource("FT-icon-back.png"));
 	Image backImg = backIcon.getImage();
-	Image biBack = backImg.getScaledInstance(addBtnXY, addBtnXY, Image.SCALE_DEFAULT);
+	Image biBack = backImg.getScaledInstance(btnIconXY, btnIconXY, Image.SCALE_DEFAULT);
 	Icon resizedBackIcon = (Icon) new ImageIcon(biBack);
 
 	ImageIcon addIcon = new ImageIcon(getClass().getClassLoader().getResource("FT-icon-add.png"));
 	Image addImg = addIcon.getImage();
-	Image biAdd = addImg.getScaledInstance(addBtnXY, addBtnXY, Image.SCALE_DEFAULT);
+	Image biAdd = addImg.getScaledInstance(btnIconXY, btnIconXY, Image.SCALE_DEFAULT);
 	Icon resizedAddIcon = (Icon) new ImageIcon(biAdd);
+
+	ImageIcon undoIcon = new ImageIcon(getClass().getClassLoader().getResource("FT-icon-undo.png"));
+	Image undoImg = undoIcon.getImage();
+	Image biUndo = undoImg.getScaledInstance(btnIconXY, btnIconXY, Image.SCALE_SMOOTH);
+	Icon resizedUndoIcon = (Icon) new ImageIcon(biUndo);
 
 	// different taskBars
 	JPanel taskBarNext = new JPanel();
@@ -63,6 +68,7 @@ public class TaskBar {
 	JPanel taskBarBoth = new JPanel();
 	JPanel taskBarNeither = new JPanel();
 	JPanel taskBarMenu = new JPanel();
+	JPanel taskBarUndo = new JPanel();
 	static JPanel taskBar = new JPanel();
 
 	// Navitgation buttons
@@ -71,6 +77,7 @@ public class TaskBar {
 	JButton nextPage = new JButton("", resizedNextIcon);
 	JButton backBtn = new JButton("", resizedBackIcon);
 	JButton addBtn = new JButton("", resizedAddIcon);
+	JButton undoBtn = new JButton("", resizedUndoIcon);
 
 	private Color backgroundColor = Color.decode("#223843");
 	CardLayout cl = new CardLayout();
@@ -96,10 +103,11 @@ public class TaskBar {
 		taskBarNeither.setLayout(null);
 		taskBarBoth.setLayout(null);
 		taskBarMenu.setLayout(null);
+		taskBarUndo.setLayout(null);
 
 		// Options Button
-		optionsBtn.setPreferredSize(new Dimension(addBtnXY, addBtnXY));
-		optionsBtn.setBounds(optionsXYL, 0, addBtnXY, addBtnXY);
+		optionsBtn.setPreferredSize(new Dimension(btnIconXY, btnIconXY));
+		optionsBtn.setBounds(optionsXYL, 0, btnIconXY, btnIconXY);
 		optionsBtn.setVisible(true);
 		optionsBtn.setBackground(null);
 		optionsBtn.setContentAreaFilled(false);
@@ -109,13 +117,14 @@ public class TaskBar {
 		optionsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Options op = new Options();
+				updateBar("UNDO");
 				op.openMenu();
 			}
 		});
 
 		// Back button
-		backBtn.setPreferredSize(new Dimension(addBtnXY, addBtnXY));
-		backBtn.setBounds(backBtnXL, 0, addBtnXY, addBtnXY);
+		backBtn.setPreferredSize(new Dimension(btnIconXY, btnIconXY));
+		backBtn.setBounds(backBtnXL, 0, btnIconXY, btnIconXY);
 		backBtn.setFocusable(false);
 		backBtn.setBackground(null);
 		backBtn.setContentAreaFilled(false);
@@ -130,8 +139,8 @@ public class TaskBar {
 		});
 
 		// Next Page Button
-		nextPage.setPreferredSize(new Dimension(addBtnXY, addBtnXY));
-		nextPage.setBounds(npageXL, 0, addBtnXY, addBtnXY);
+		nextPage.setPreferredSize(new Dimension(btnIconXY, btnIconXY));
+		nextPage.setBounds(npageXL, 0, btnIconXY, btnIconXY);
 		nextPage.setContentAreaFilled(false);
 		nextPage.setFocusPainted(false);
 		nextPage.setFocusable(false);
@@ -144,9 +153,29 @@ public class TaskBar {
 			}
 		});
 
+		undoBtn.setPreferredSize(new Dimension(btnIconXY, btnIconXY));
+		undoBtn.setBounds(addMenuBtnXL, 0, btnIconXY, btnIconXY);
+		undoBtn.setContentAreaFilled(false);
+		undoBtn.setFocusPainted(false);
+		undoBtn.setFocusable(false);
+		undoBtn.setBorder(null);
+		undoBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				CreateTimer ct = new CreateTimer();
+				ct.hideKeyPanels();
+				
+				StartUp.optionPanel.setVisible(false);
+
+				@SuppressWarnings("unused")
+				TimerToggles tt = new TimerToggles();
+				updateBar("MENU");
+			}
+		});
+
 		// Menu Button
-		menuBtn.setPreferredSize(new Dimension(addBtnXY, addBtnXY));
-		menuBtn.setBounds(addMenuBtnXL, 0, addBtnXY, addBtnXY);
+		menuBtn.setPreferredSize(new Dimension(btnIconXY, btnIconXY));
+		menuBtn.setBounds(addMenuBtnXL, 0, btnIconXY, btnIconXY);
 		menuBtn.setContentAreaFilled(false);
 		menuBtn.setFocusPainted(false);
 		menuBtn.setFocusable(false);
@@ -167,8 +196,8 @@ public class TaskBar {
 		});
 
 		// Add Button
-		addBtn.setPreferredSize(new Dimension(addBtnXY, addBtnXY));
-		addBtn.setBounds(addMenuBtnXL, 0, addBtnXY, addBtnXY);
+		addBtn.setPreferredSize(new Dimension(btnIconXY, btnIconXY));
+		addBtn.setBounds(addMenuBtnXL, 0, btnIconXY, btnIconXY);
 		addBtn.setContentAreaFilled(false);
 		addBtn.setFocusPainted(false);
 		addBtn.setFocusable(false);
@@ -176,6 +205,7 @@ public class TaskBar {
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				// TODO: find out why there is any toggle shit here
 				// Update session values and open new toggle page
 				cs.setMenuOpen(true);
 				TimerToggles tt = new TimerToggles();
@@ -183,19 +213,17 @@ public class TaskBar {
 				tt.togglePanel.setVisible(false);
 				tt.toggleScrollPanel.setVisible(false);
 
-				cs.increaseCNOT();
-				cs.increaseTNOT();
-				cs.updateCAP();
+				
 
 				// Updates layout type and proper gap spacing
 				StartUp su = new StartUp();
 				su.switchToAddingGraphics();
+				updateBar("UNDO");
 
 				// This loop may not be needed since the addition of the menu used for adding
 				while (cs.getCurrentPage() < cs.getCAP()) {
 					cs.nextPage();
 					Sorter so = new Sorter();
-					so.displayTimers();
 				}
 
 				PageManager pm = new PageManager();
@@ -216,6 +244,8 @@ public class TaskBar {
 		taskBar.add(taskBarBoth, "BOTH");
 		taskBarNeither.setBounds(0, 0, taskBarX, taskBarY);
 		taskBar.add(taskBarNeither, "NEITHER");
+		taskBarUndo.setBounds(0, 0, taskBarX, taskBarY);
+		taskBar.add(taskBarUndo, "UNDO");
 		taskBarMenu.setBounds(0, 0, taskBarX, taskBarY);
 		taskBar.add(taskBarMenu, "MENU");
 
@@ -238,25 +268,22 @@ public class TaskBar {
 			taskBarBoth.add(menuBtn);
 			taskBarBoth.add(nextPage);
 			taskBarBoth.add(backBtn);
-			taskBarBoth.add(optionsBtn);
 		} else if (name.equals("NEXT")) {
 			taskBarNext.add(menuBtn);
 			taskBarNext.add(nextPage);
-			taskBarNext.add(optionsBtn);
-
 		} else if (name.equals("BACK")) {
 			taskBarBack.add(menuBtn);
 			taskBarBack.add(backBtn);
-			taskBarBack.add(optionsBtn);
 		} else if (name.equals("NEITHER")) {
 			taskBarNeither.add(menuBtn);
 		} else if (name.equals("MENU")) {
 			taskBarMenu.add(optionsBtn);
 			taskBarMenu.add(addBtn);
+		} else if (name.equals("UNDO")) {
+			taskBarUndo.add(undoBtn);
 		}
-
 		cl.show(taskBar, taskBarName);
-
+		System.out.println(cs.getSessionAddress());
 		StartUp su = new StartUp();
 		su.window.add(taskBar);
 		su.window.repaint();
@@ -274,22 +301,25 @@ public class TaskBar {
 		cs.updateCAP();
 		int cAP = cs.getCAP();
 
-		if (currentPage == 0) {
-			if (currentPage != cAP) {
-				updateBar("NEXT");
-			} else {
-				updateBar("NEITHER");
-			}
-		} else {
-			if (currentPage != cAP) {
-				if (!autoNext) {
-					updateBar("BOTH");
+	
+			if (currentPage == 0) {
+				if (currentPage != cAP) {
+					updateBar("NEXT");
+				} else {
+					updateBar("NEITHER");
 				}
 			} else {
-
-				updateBar("BACK");
+				if (currentPage != cAP) {
+					if (!autoNext) {
+						updateBar("BOTH");
+					}
+				} else {
+					if (!cs.getMenuOpen()) {
+						updateBar("BACK");
+					}
+				}
 			}
-		}
+		
 
 	}
 

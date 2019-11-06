@@ -40,9 +40,10 @@ public class PageManager {
 		if (!cs.getMenuOpen()) {
 			Sorter so = new Sorter();
 			so.sort(CurrentSession.itHash);
+			TaskBar tb = new TaskBar();
+			tb.updateTaskBar();
 		}
-		TaskBar tb = new TaskBar();
-		tb.updateTaskBar();
+	
 	}
 
 	/*

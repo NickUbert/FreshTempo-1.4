@@ -45,7 +45,7 @@ public class TimerGraphics {
 	private int timeDisplayWidth = (int) (.96 * cardX);
 	private int timeDisplayHeight = (int) (.1519 * cardY);
 	
-	private int shadowGap = (int) (.005 * screenX);
+	private int shadowGap = (int) (.007 * screenX);
 
 	private int prgwidth = cardX-shadowGap;
 	private int prgy = (int) (.29114 * cardY);
@@ -93,10 +93,10 @@ public class TimerGraphics {
 	private RoundedPanel timerPanel = new RoundedPanel();
 
 	// Text Fonts
-	private Font cardTitleFont = new Font("Tamoha", Font.BOLD, (int) (.0725 * screenX));
-	private Font tabTitleFont = new Font("Tamoha", Font.BOLD, (int) (.095 * tabX));
-	private Font cardTimeFont = new Font("Tamoha", Font.TRUETYPE_FONT, (int) (.0475 * screenX));
-	private Font tabTimeFont = new Font("Tamoha", Font.ITALIC, (int) (.07319 * tabX));
+	private Font cardTitleFont = new Font("Helvetica", Font.BOLD, (int) (.0725 * screenX));
+	private Font tabTitleFont = new Font("Helvetica", Font.BOLD, (int) (.095 * tabX));
+	private Font cardTimeFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.0475 * screenX));
+	private Font tabTimeFont = new Font("Helvetica", Font.ITALIC, (int) (.07319 * tabX));
 
 	public TimerGraphics(ItemTimer it) {
 		timer = it;

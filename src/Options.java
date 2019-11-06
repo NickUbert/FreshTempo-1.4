@@ -60,12 +60,12 @@ public class Options {
 	private int sessionFontX = (int) (.025 * screenY);
 
 	// Fonts
-	private Font optionFont = new Font("Circular", Font.PLAIN, (int) (.03125 * screenX));
-	private Font settingsFont = new Font("Tahoma", Font.BOLD, (int) (.05 * screenX));
-	private Font removeFont = new Font("Tahoma", Font.BOLD, (int) (.045 * screenX));
-	private Font exitFont = new Font("Tamoha", Font.TRUETYPE_FONT, textFontX);
-	private Font analyticsFont = new Font("Tamoha", Font.TRUETYPE_FONT, analyticsFontX);
-	private Font sessionFont = new Font("Tamoha", Font.BOLD, sessionFontX);
+	private Font optionFont = new Font("Helvetica", Font.PLAIN, (int) (.03125 * screenX));
+	private Font settingsFont = new Font("Helvetica", Font.BOLD, (int) (.05 * screenX));
+	private Font removeFont = new Font("Helvetica", Font.BOLD, (int) (.045 * screenX));
+	private Font exitFont = new Font("Helvetica", Font.TRUETYPE_FONT, textFontX);
+	private Font analyticsFont = new Font("Helvetica", Font.TRUETYPE_FONT, analyticsFontX);
+	private Font sessionFont = new Font("Helvetica", Font.BOLD, sessionFontX);
 
 	// Color
 	private Color optionButtonBackground = Color.decode("#C2C1C2");
@@ -482,6 +482,8 @@ public class Options {
 				cs.setMenuOpen(true);
 				StartUp.optionPanel.setVisible(false);
 				StartUp.optionPanel.removeAll();
+				TaskBar tb = new TaskBar();
+				tb.updateBar("UNDO");
 				CreateTimer ct = new CreateTimer();
 				ct.paintAddressPanel();
 			}

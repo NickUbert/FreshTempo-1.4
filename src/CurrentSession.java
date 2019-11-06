@@ -159,6 +159,10 @@ public class CurrentSession {
 		tNOT++;
 	}
 
+	public void decreaseTNOT() {
+		tNOT--;
+	}
+
 	public int getCNOT() {
 		return cNOT;
 	}
