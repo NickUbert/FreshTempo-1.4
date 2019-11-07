@@ -195,6 +195,7 @@ public class TimerGraphics {
 						prg.revalidate();
 						String resetTime = timer.timeValueToString(0, timer.getStartMin(), timer.getStartHour());
 						timeLabel.setText(resetTime);
+						timeLabel.setForeground(prgRemainder);
 						timeLabel.repaint();
 						timeLabel.revalidate();
 
@@ -215,6 +216,7 @@ public class TimerGraphics {
 
 	public void refreshTimer() {
 		// Record the timer refresh data no matter what
+		
 		Analytics an = new Analytics();
 		try {
 			an.recordTimeData(timer);

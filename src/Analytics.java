@@ -257,25 +257,30 @@ public class Analytics {
 		if (cs.getClientConnected()) {
 			ClientConnection cc = new ClientConnection();
 			// Check if server is up
-			if (cc.hostAvailabilityCheck()) {
-				// If a flush is taking place, this entry gets added to the end of the queue.
-				if (cs.getCurrentlyFlushing()) {
-					cc.addToDowntimeQueue(dataToWrite);
-				} else {
-					// If a flush isn't happening but the queue has data, this starts it.
-					if (!(cs.getDowntimeQueue().size() == 0)) {
+			if (cs.getServerUp()) {
+				if (cc.hostAvailabilityCheck()) {
+					cs.setServerUp(true);
+					// If a flush is taking place, this entry gets added to the end of the queue.
+					if (cs.getCurrentlyFlushing()) {
 						cc.addToDowntimeQueue(dataToWrite);
-						cs.setCurrentlyFlushing(true);
-						if (!(cc.flushTimer.isRunning())) {
-							cc.flushTimer.start();
-						}
-						// Otherwise the message is simply sent to the server.
 					} else {
-						cc.sendMessage(dataToWrite);
+						// If a flush isn't happening but the queue has data, this starts it.
+						if (!(cs.getDowntimeQueue().size() == 0)) {
+							cc.addToDowntimeQueue(dataToWrite);
+							cs.setCurrentlyFlushing(true);
+							if (!(cc.flushTimer.isRunning())) {
+								cc.flushTimer.start();
+							}
+							// Otherwise the message is simply sent to the server.
+						} else {
+							cc.sendMessage(dataToWrite);
+						}
 					}
+				} else {
+					cs.setServerUp(false);
 				}
-
 			} else {
+				cs.setServerUp(false);
 				// If the queue is empty while the server is down, this must be the first entry
 				// during downtime so the timer is started.
 				if (cs.getDowntimeQueue().size() == 0) {

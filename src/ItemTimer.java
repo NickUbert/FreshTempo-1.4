@@ -135,7 +135,9 @@ public class ItemTimer {
 		public void actionPerformed(ActionEvent ae) {
 			if (justRefreshed) {
 				justRefreshed = false;
+				timerGraphics.getTimeDisplay().setForeground(Color.BLACK);
 				timerGraphics.refreshTimer();
+
 			}
 			decrementSec();
 			CurrentSession cs = new CurrentSession();

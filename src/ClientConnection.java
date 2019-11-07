@@ -65,6 +65,7 @@ public class ClientConnection {
 			// Send data to queue just in case when the message doesn't send to make sure
 			// nothing gets lost on the initial crash.
 			cs.setServerUp(false);
+			
 			addToDowntimeQueue(messageToServer);
 		}
 
@@ -79,7 +80,7 @@ public class ClientConnection {
 	 */
 	public boolean hostAvailabilityCheck() {
 		try {
-			
+			System.out.println("host checked");
 			Socket s = new Socket();
 			//Check if the server is up, wait 3/4 second. Might shorten this later. 
 			s.connect(new InetSocketAddress(serverIP, portNum), 750);
