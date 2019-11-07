@@ -133,6 +133,7 @@ public class CreateTimer {
 	Font addyPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .068));
 	Font connectionPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .058));
 	Font keyboardFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.0625 * screenY));
+	Font backspaceFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.035 * screenY));
 
 	// Default user entered values
 	private int userMin = 0;
@@ -266,9 +267,9 @@ public class CreateTimer {
 		}
 
 		// Backspace button for keyboard
-		JButton bspBtn = new JButton("X");
+		JButton bspBtn = new JButton("Backspace");
 		bspBtn.setPreferredSize(new Dimension(backspaceX, keyboardY));
-		bspBtn.setFont(keyboardFont);
+		bspBtn.setFont(backspaceFont);
 		bspBtn.setForeground(Color.WHITE);
 		bspBtn.setFocusable(false);
 		bspBtn.setBackground(backColor);
@@ -302,9 +303,9 @@ public class CreateTimer {
 		}
 
 		// Add the start button to the keyboard.
-		JButton startBtn = new JButton("O");
+		JButton startBtn = new JButton("Start");
 		startBtn.setBackground(confirmColor);
-		startBtn.setFont(keyboardFont);
+		startBtn.setFont(backspaceFont);
 		startBtn.setForeground(Color.WHITE);
 		startBtn.setPreferredSize(new Dimension(backspaceX, keyboardY));
 		startBtn.setVisible(true);

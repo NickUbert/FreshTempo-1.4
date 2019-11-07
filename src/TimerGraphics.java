@@ -44,13 +44,12 @@ public class TimerGraphics {
 	private int timeDisplayY = (int) (.86076 * cardY);
 	private int timeDisplayWidth = (int) (.96 * cardX);
 	private int timeDisplayHeight = (int) (.1519 * cardY);
-	
+
 	private int shadowGap = (int) (.007 * screenX);
 
-	private int prgwidth = cardX-shadowGap;
+	private int prgwidth = cardX - shadowGap;
 	private int prgy = (int) (.29114 * cardY);
 	private int prgheight = (int) (.56962 * cardY);
-
 
 	private int titleLabely = 0;
 	private int titleLabelwidth = (int) (.96 * cardX);
@@ -190,26 +189,17 @@ public class TimerGraphics {
 			public void actionPerformed(ActionEvent e) {
 				// Timers should only be refreshed while running.
 				if (!timer.getPause()) {
-					// Record the timer refresh data no matter what
-					Analytics an = new Analytics();
-					try {
-						an.recordTimeData(timer);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					if (!timer.getDoubleTap()) {
+						prg.setValue(0);
+						prg.repaint();
+						prg.revalidate();
+						String resetTime = timer.timeValueToString(0, timer.getStartMin(), timer.getStartHour());
+						timeLabel.setText(resetTime);
+						timeLabel.repaint();
+						timeLabel.revalidate();
 
-					// Update the timer and session values for expirations.
-					if (timer.getCurrentlyExpired()) {
-						timer.setCurrentlyExpired(false);
-						cs.decreaseNOAE();
-						if (cs.getNOAE() == 0) {
-							cs.setActiveExpiratons(false);
-							for (int i = 0; i <= cs.getCAP(); i++) {
-								StartUp.backgroundHash.get(i).setBackground(backgroundColor);
-							}
-						}
+						timer.setJustRefreshed(true);
 					}
-					timer.startCountDown(true);
 				}
 			}
 		});
@@ -221,6 +211,30 @@ public class TimerGraphics {
 			createTabUI();
 		}
 
+	}
+
+	public void refreshTimer() {
+		// Record the timer refresh data no matter what
+		Analytics an = new Analytics();
+		try {
+			an.recordTimeData(timer);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		// Update the timer and session values for expirations.
+		if (timer.getCurrentlyExpired()) {
+			timer.setCurrentlyExpired(false);
+			cs.decreaseNOAE();
+			if (cs.getNOAE() == 0) {
+				cs.setActiveExpiratons(false);
+				for (int i = 0; i <= cs.getCAP(); i++) {
+					StartUp.backgroundHash.get(i).setBackground(backgroundColor);
+				}
+			}
+		}
+
+		timer.startCountDown(true);
 	}
 
 	/*
@@ -314,7 +328,7 @@ public class TimerGraphics {
 
 		// Update tab specific progress bar properties.
 		prg.setOrientation(SwingConstants.HORIZONTAL);
-		prg.setBounds(prgTXL, 1, prgTX, tabY - shadowGap-1);
+		prg.setBounds(prgTXL, 1, prgTX, tabY - shadowGap - 1);
 		prg.setString(timer.getTitle());
 		prg.setStringPainted(true);
 		prg.setFont(tabTitleFont);

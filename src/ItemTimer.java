@@ -31,6 +31,7 @@ public class ItemTimer {
 	private boolean prior;
 	private boolean toggled;
 	private boolean currentlyExpired;
+	private boolean justRefreshed;
 	private Color backgroundColor = Color.decode("#223843");
 	private Color flashColor = Color.decode("#CC2936");
 	CurrentSession cs = new CurrentSession();
@@ -132,6 +133,10 @@ public class ItemTimer {
 
 	Timer countDown = new Timer(1000, new ActionListener() {
 		public void actionPerformed(ActionEvent ae) {
+			if (justRefreshed) {
+				justRefreshed = false;
+				timerGraphics.refreshTimer();
+			}
 			decrementSec();
 			CurrentSession cs = new CurrentSession();
 
@@ -199,7 +204,7 @@ public class ItemTimer {
 	 * method uses a formatting function and ultimately returns a string.
 	 */
 	@SuppressWarnings("static-access")
-	String timeValueToString(int sec, int min, int hour) {
+	public String timeValueToString(int sec, int min, int hour) {
 
 		// converts all time values used for painting to absloute values so that its
 		// easier proccessing the final string needed.
@@ -441,6 +446,14 @@ public class ItemTimer {
 	 */
 	public void setCurrentlyExpired(boolean b) {
 		currentlyExpired = b;
+	}
+
+	public void setJustRefreshed(boolean b) {
+		justRefreshed = b;
+	}
+
+	public boolean getDoubleTap() {
+		return prgValue < 5;
 	}
 
 	/*

@@ -117,7 +117,7 @@ public class TaskBar {
 		optionsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Options op = new Options();
-				updateBar("UNDO");
+				taskBar.removeAll();
 				op.openMenu();
 			}
 		});
@@ -283,7 +283,6 @@ public class TaskBar {
 			taskBarUndo.add(undoBtn);
 		}
 		cl.show(taskBar, taskBarName);
-		System.out.println(cs.getSessionAddress());
 		StartUp su = new StartUp();
 		su.window.add(taskBar);
 		su.window.repaint();
