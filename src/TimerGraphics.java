@@ -76,8 +76,8 @@ public class TimerGraphics {
 	private Color backgroundColor = Color.decode("#223843");
 
 	private Color colorCodeA = Color.decode("#FFFFFF");
-	private Color colorCodeB = Color.decode("#FFFD82");
-	private Color colorCodeC = Color.decode("#9BA2FF");
+	private Color colorCodeB = Color.decode("#EEE82C");
+	private Color colorCodeC = Color.decode("#0AD3FF");
 
 	// Progress Bar
 	private JProgressBar prg = new JProgressBar();

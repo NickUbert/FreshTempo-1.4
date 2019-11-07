@@ -283,12 +283,10 @@ public class Analytics {
 				cs.setServerUp(false);
 				// If the queue is empty while the server is down, this must be the first entry
 				// during downtime so the timer is started.
+
+				cc.addToDowntimeQueue(dataToWrite);
 				if (cs.getDowntimeQueue().size() == 0) {
-					cs.setServerUp(false);
-					cc.addToDowntimeQueue(dataToWrite);
 					cc.downTimeTimer.start();
-				} else {
-					cc.addToDowntimeQueue(dataToWrite);
 				}
 			}
 

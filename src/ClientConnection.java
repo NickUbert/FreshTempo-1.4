@@ -65,7 +65,7 @@ public class ClientConnection {
 			// Send data to queue just in case when the message doesn't send to make sure
 			// nothing gets lost on the initial crash.
 			cs.setServerUp(false);
-			
+
 			addToDowntimeQueue(messageToServer);
 		}
 
@@ -80,13 +80,13 @@ public class ClientConnection {
 	 */
 	public boolean hostAvailabilityCheck() {
 		try {
-			System.out.println("host checked");
+
 			Socket s = new Socket();
-			//Check if the server is up, wait 3/4 second. Might shorten this later. 
+			// Check if the server is up, wait 3/4 second. Might shorten this later.
 			s.connect(new InetSocketAddress(serverIP, portNum), 750);
 			boolean connected = s.isConnected();
 			s.close();
-			
+
 			return connected;
 		} catch (IOException ex) {
 			return false;
@@ -114,10 +114,10 @@ public class ClientConnection {
 		public void actionPerformed(ActionEvent ae) {
 			CurrentSession cs = new CurrentSession();
 
-			//flushIndex is 0 indexed.
+			// flushIndex is 0 indexed.
 			String message = cs.getDowntimeQueue().get(flushIndex);
 
-			//Check if the current message is the last one. 
+			// Check if the current message is the last one.
 			if (flushIndex == cs.getDowntimeQueue().size() - 1) {
 				flushIndex = 0;
 				cs.setCurrentlyFlushing(false);
