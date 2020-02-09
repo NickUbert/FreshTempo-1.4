@@ -164,7 +164,7 @@ public class TaskBar {
 
 				CreateTimer ct = new CreateTimer();
 				ct.hideKeyPanels();
-				
+
 				StartUp.optionPanel.setVisible(false);
 
 				@SuppressWarnings("unused")
@@ -205,15 +205,13 @@ public class TaskBar {
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// TODO: find out why there is any toggle shit here
 				// Update session values and open new toggle page
 				cs.setMenuOpen(true);
+				cs.setTyping(false);
 				TimerToggles tt = new TimerToggles();
 				tt.togglePanel.removeAll();
 				tt.togglePanel.setVisible(false);
 				tt.toggleScrollPanel.setVisible(false);
-
-				
 
 				// Updates layout type and proper gap spacing
 				StartUp su = new StartUp();
@@ -231,6 +229,8 @@ public class TaskBar {
 
 				CreateTimer ct = new CreateTimer();
 				ct.paintCreatePanel();
+				
+				
 
 			}
 		});
@@ -300,25 +300,23 @@ public class TaskBar {
 		cs.updateCAP();
 		int cAP = cs.getCAP();
 
-	
-			if (currentPage == 0) {
-				if (currentPage != cAP) {
-					updateBar("NEXT");
-				} else {
-					updateBar("NEITHER");
+		if (currentPage == 0) {
+			if (currentPage != cAP) {
+				updateBar("NEXT");
+			} else {
+				updateBar("NEITHER");
+			}
+		} else {
+			if (currentPage != cAP) {
+				if (!autoNext) {
+					updateBar("BOTH");
 				}
 			} else {
-				if (currentPage != cAP) {
-					if (!autoNext) {
-						updateBar("BOTH");
-					}
-				} else {
-					if (!cs.getMenuOpen()) {
-						updateBar("BACK");
-					}
+				if (!cs.getMenuOpen()) {
+					updateBar("BACK");
 				}
 			}
-		
+		}
 
 	}
 

@@ -123,6 +123,7 @@ public class ClientConnection {
 				cs.setCurrentlyFlushing(false);
 				flushTimer.stop();
 
+				// Send the last message to the server.
 				try {
 					sendMessage(message);
 				} catch (UnknownHostException e) {
@@ -130,11 +131,17 @@ public class ClientConnection {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				// Empty the arrayList because the loops rely on the arraylist's size and not
+				// total index.
 				cs.getDowntimeQueue().clear();
 
 			} else {
+				// If the entry is not the last one in the queue, generate a random number for
+				// the buffer.
 				int randInt = (int) ((Math.random() * 5) + 1);
+
 				if (randInt == 5) {
+					// If it passes the buffer check, send the message to the server.
 					try {
 						sendMessage(message);
 					} catch (UnknownHostException e) {
@@ -142,6 +149,7 @@ public class ClientConnection {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					// Increment the current index of the flush.
 					flushIndex++;
 				}
 
@@ -157,14 +165,23 @@ public class ClientConnection {
 	 * begins.
 	 */
 	Timer downTimeTimer = new Timer(1000, new ActionListener() {
+
 		public void actionPerformed(ActionEvent ae) {
+			// increment the seconds being used for the downtimeTimer
 			downTimeSec++;
+
+			// If 300 seconds have passed since the last check, test the host connection.
 			if (downTimeSec % 300 == 0) {
+				
+				//If the host is connected.
 				if (hostAvailabilityCheck()) {
 					CurrentSession cs = new CurrentSession();
+					//Update the session variables
 					cs.setCurrentlyFlushing(true);
 					cs.setServerUp(true);
+					//reset the downtime seconds for next downtime.
 					downTimeSec = 0;
+					//Stop the checking process and start the flushing process.
 					downTimeTimer.stop();
 					flushTimer.start();
 				}
@@ -173,6 +190,10 @@ public class ClientConnection {
 		}
 	});
 
+	/*
+	 * getFlushIndex is simply used to get the current index of the data entry being
+	 * flushed to the server.
+	 */
 	public int getFlushIndex() {
 		return flushIndex;
 

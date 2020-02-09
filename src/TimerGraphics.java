@@ -40,7 +40,7 @@ public class TimerGraphics {
 	private final int tabX = (int) (.3 * screenX);
 	private final int tabY = (int) (.1575 * screenY);
 
-	private int timeDisplayX = (int) (.02 * cardX);
+	private int timeDisplayXL = (int) (.02 * cardX);
 	private int timeDisplayY = (int) (.86076 * cardY);
 	private int timeDisplayWidth = (int) (.96 * cardX);
 	private int timeDisplayHeight = (int) (.1519 * cardY);
@@ -53,7 +53,7 @@ public class TimerGraphics {
 
 	private int titleLabely = 0;
 	private int titleLabelwidth = (int) (.96 * cardX);
-	private int titleLabelx = (int) ((.5 * cardX) - (titleLabelwidth / 2));
+	private int titleLabelXL = (int) ((.5 * cardX) - (titleLabelwidth / 2));
 	private int titleLabelheight = (int) (.17722 * cardY);
 
 	private int refreshY = (int) (.16456 * cardY);
@@ -64,7 +64,7 @@ public class TimerGraphics {
 	private int tabTimerLabelX = (int) (.26316 * tabX);
 
 	private int prgTXL = (int) (.17105 * tabX);
-	private int prgTX = (int) (.5 * tabX);
+	private int prgTX = (int) (.525 * tabX);
 
 	private int tabRefreshXL = (int) (.0125 * tabX);
 	private int tabRefreshXY = (int) (.15158 * tabX);
@@ -76,7 +76,7 @@ public class TimerGraphics {
 	private Color backgroundColor = Color.decode("#223843");
 
 	private Color colorCodeA = Color.decode("#FFFFFF");
-	private Color colorCodeB = Color.decode("#EEE82C");
+	private Color colorCodeB = Color.decode("#E0CA3C");
 	private Color colorCodeC = Color.decode("#0AD3FF");
 
 	// Progress Bar
@@ -93,7 +93,7 @@ public class TimerGraphics {
 
 	// Text Fonts
 	private Font cardTitleFont = new Font("Helvetica", Font.BOLD, (int) (.0725 * screenX));
-	private Font tabTitleFont = new Font("Helvetica", Font.BOLD, (int) (.095 * tabX));
+	private Font tabTitleFont = new Font("Helvetica", Font.BOLD, (int) (.08 * tabX));
 	private Font cardTimeFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.0475 * screenX));
 	private Font tabTimeFont = new Font("Helvetica", Font.ITALIC, (int) (.07319 * tabX));
 
@@ -152,12 +152,13 @@ public class TimerGraphics {
 					// Pausing the timer
 					prg.setBackground(Color.GRAY);
 					prg.setForeground(Color.darkGray);
+					
 					timer.setPause(true);
-
 					// Update the NOAE value for the session.
 					if (timer.getCurrentlyExpired()) {
 						cs.decreaseNOAE();
 						if (cs.getNOAE() == 0) {
+						
 							cs.setActiveExpiratons(false);
 							for (int i = 0; i <= cs.getCAP(); i++) {
 								StartUp.backgroundHash.get(i).setBackground(backgroundColor);
@@ -165,6 +166,7 @@ public class TimerGraphics {
 						}
 
 					}
+				
 					timer.countDown.stop();
 				}
 
@@ -188,7 +190,12 @@ public class TimerGraphics {
 		refreshBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Timers should only be refreshed while running.
-				if (!timer.getPause()) {
+				if (timer.getPause()) {
+					timer.setPause(false);
+					switchToResumedGraphics();
+					timer.countDown.start();
+				}
+			
 					if (!timer.getDoubleTap()) {
 						prg.setValue(0);
 						prg.repaint();
@@ -202,7 +209,7 @@ public class TimerGraphics {
 						timer.setJustRefreshed(true);
 					}
 				}
-			}
+			
 		});
 
 		// Check which format to use.
@@ -275,9 +282,9 @@ public class TimerGraphics {
 
 		// Update fonts and bounds
 		titleLabel.setFont(cardTitleFont);
-		timeLabel.setBounds(timeDisplayX, timeDisplayY, timeDisplayWidth, timeDisplayHeight);
+		timeLabel.setBounds(timeDisplayXL, timeDisplayY, timeDisplayWidth, timeDisplayHeight);
 		timeLabel.setFont(cardTimeFont);
-		titleLabel.setBounds(titleLabelx, titleLabely, titleLabelwidth, titleLabelheight);
+		titleLabel.setBounds(titleLabelXL, titleLabely, titleLabelwidth, titleLabelheight);
 		refreshBtn.setBounds(refreshXL, refreshY, refreshXY, refreshXY);
 
 		// Add components

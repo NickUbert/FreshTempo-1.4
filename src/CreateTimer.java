@@ -66,6 +66,7 @@ public class CreateTimer {
 	private int textFieldY = (int) (.06329 * cardY);
 
 	private int backspaceX = (int) (.13 * screenX);
+	private int switchToNumBtnX = (int) (.075 * screenX);
 
 	private int newLabelX = (int) (.32 * cardX);
 	private int newLabelY = (int) (.02532 * cardY);
@@ -74,6 +75,7 @@ public class CreateTimer {
 	private int hNewLabelYL = (int) (.02532 * cardY);
 
 	private int keyboardX = (int) (.0935 * screenX);
+	private int keyboardBottomRowX = (int) (.091 * screenX);
 	private int keyboardY = (int) (.183 * screenY);
 
 	private int keyPadYL = (int) (.25316 * cardY);
@@ -110,10 +112,10 @@ public class CreateTimer {
 	private JTextField addyTf = new JTextField();
 
 	// Colors
-	private Color backColor = Color.decode("#ED217C");
-	private Color confirmColor = Color.decode("#09BC8A");
-	// private Color backgroundColor = Color.decode("#223843");
+	private Color backColor = Color.decode("#CC2936");
+	private Color confirmColor = Color.decode("#4DA167");
 	private Color keyboardBackgroundColor = Color.decode("#C2C1C2");
+	private Color switchToNumColor = Color.decode("#6B818C");
 
 	// Panels
 	private RoundedPanel createPanel;
@@ -134,6 +136,7 @@ public class CreateTimer {
 	Font connectionPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .058));
 	Font keyboardFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.0625 * screenY));
 	Font backspaceFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.035 * screenY));
+	Font numSwitchFont = new Font("Helvetica", Font.ITALIC, (int) (.05 * screenY));
 
 	// Default user entered values
 	private int userMin = 0;
@@ -230,7 +233,7 @@ public class CreateTimer {
 		createPanel.setBackground(Color.white);
 
 		CurrentSession cs = new CurrentSession();
-		cs.addToCAP(createPanel);
+		cs.addToCurrentPage(createPanel);
 	}
 
 	/*
@@ -247,6 +250,7 @@ public class CreateTimer {
 		keyboardPanel.removeAll();
 		// Remove keyPadPanel in case it was visable before.
 		createPanel.remove(keyPadPanel);
+		keyPadPanel.setVisible(false);
 
 		// Fill in keys for the rows before the backspace button.
 		for (int curKeyNum = 0; curKeyNum < 19; curKeyNum++) {
@@ -288,7 +292,7 @@ public class CreateTimer {
 		for (int curKeyNum = 19; curKeyNum < 26; curKeyNum++) {
 			String thisButtonsValue = (qwerty[curKeyNum]);
 			KBArray[curKeyNum] = new JButton((qwerty[curKeyNum]));
-			KBArray[curKeyNum].setPreferredSize(new Dimension(keyboardX, keyboardY));
+			KBArray[curKeyNum].setPreferredSize(new Dimension(keyboardBottomRowX, keyboardY));
 			KBArray[curKeyNum].setFont(keyboardFont);
 			KBArray[curKeyNum].setBackground(keyboardBackgroundColor);
 			KBArray[curKeyNum].setFocusable(false);
@@ -302,12 +306,25 @@ public class CreateTimer {
 			keyboardPanel.add(KBArray[curKeyNum]);
 		}
 
+		JButton switchToNumBtn = new JButton("123");
+		switchToNumBtn.setPreferredSize(new Dimension(switchToNumBtnX, keyboardY));
+		switchToNumBtn.setFont(numSwitchFont);
+		switchToNumBtn.setFocusable(false);
+		switchToNumBtn.setBackground(switchToNumColor);
+		switchToNumBtn.setForeground(Color.WHITE);
+		switchToNumBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				displayKeypad(titleTf, true);
+
+			}
+		});
+		keyboardPanel.add(switchToNumBtn);
 		// Add the start button to the keyboard.
 		JButton startBtn = new JButton("Start");
 		startBtn.setBackground(confirmColor);
 		startBtn.setFont(backspaceFont);
 		startBtn.setForeground(Color.WHITE);
-		startBtn.setPreferredSize(new Dimension(backspaceX, keyboardY));
+		startBtn.setPreferredSize(new Dimension(keyboardX, keyboardY));
 		startBtn.setVisible(true);
 		startBtn.setFocusable(true);
 
@@ -318,11 +335,11 @@ public class CreateTimer {
 					userTitle = titleTf.getText();
 				}
 
-				if (minTf.getText().length() != 0) {
+				if (minTf.getText().length() != 0 && hourTf.getText().length() < 4) {
 					userMin = Integer.parseInt(minTf.getText());
 				}
 
-				if (hourTf.getText().length() != 0) {
+				if (hourTf.getText().length() != 0 && hourTf.getText().length() < 4) {
 					userHour = Integer.parseInt(hourTf.getText());
 				}
 
@@ -353,24 +370,24 @@ public class CreateTimer {
 		// Numbers for keypad in the order they appear.
 		String[] kpdigits = new String[] { "7", "8", "9", "4", "5", "6", "1", "2", "3", "0" };
 
-		JButton[] ButtonArray = new JButton[10];
+		JButton[] buttonArray = new JButton[10];
 
 		// Add buttons to keypad before backspace button.
 		for (int curButtonNum = 0; curButtonNum < 9; curButtonNum++) {
 			int thisButtonsValue = Integer.parseInt(kpdigits[curButtonNum]);
 
-			ButtonArray[curButtonNum] = new JButton((kpdigits[curButtonNum]));
-			ButtonArray[curButtonNum].setPreferredSize(new Dimension(keyPadButtonX, keyPadButtonY));
-			ButtonArray[curButtonNum].setFont(keyboardFont);
-			ButtonArray[curButtonNum].setBorder(keyBorder);
-			ButtonArray[curButtonNum].setFocusable(false);
-			ButtonArray[curButtonNum].setBackground(keyboardBackgroundColor);
-			ButtonArray[curButtonNum].addActionListener(new ActionListener() {
+			buttonArray[curButtonNum] = new JButton((kpdigits[curButtonNum]));
+			buttonArray[curButtonNum].setPreferredSize(new Dimension(keyPadButtonX, keyPadButtonY));
+			buttonArray[curButtonNum].setFont(keyboardFont);
+			buttonArray[curButtonNum].setBorder(keyBorder);
+			buttonArray[curButtonNum].setFocusable(false);
+			buttonArray[curButtonNum].setBackground(keyboardBackgroundColor);
+			buttonArray[curButtonNum].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
 					tf.setText(tf.getText() + thisButtonsValue);
 				}
 			});
-			keyPadPanel.add(ButtonArray[curButtonNum]);
+			keyPadPanel.add(buttonArray[curButtonNum]);
 		}
 
 		// Add the backspace button to the keypad.
@@ -393,18 +410,39 @@ public class CreateTimer {
 		keyPadPanel.add(bspBtn);
 
 		// Add the zero button between the backspace and start button.
-		ButtonArray[9] = new JButton((kpdigits[9]));
-		ButtonArray[9].setPreferredSize(new Dimension(keyPadButtonX, keyPadButtonY));
-		ButtonArray[9].setFont(keyboardFont);
-		ButtonArray[9].setBorder(keyBorder);
-		ButtonArray[9].setFocusable(false);
-		ButtonArray[9].setBackground(keyboardBackgroundColor);
-		ButtonArray[9].addActionListener(new ActionListener() {
+		String lastBtnText = "0";
+		Font lastBtnFont = keyboardFont;
+		Color lastBtnColor = keyboardBackgroundColor;
+		
+		
+		if(tf==titleTf) {
+			lastBtnText="ABC";
+			lastBtnFont = numSwitchFont;
+			lastBtnColor = switchToNumColor;
+		}
+		buttonArray[9] = new JButton((lastBtnText));
+		buttonArray[9].setPreferredSize(new Dimension(keyPadButtonX, keyPadButtonY));
+		buttonArray[9].setFont(lastBtnFont);
+		buttonArray[9].setBorder(keyBorder);		
+		buttonArray[9].setFocusable(false);
+		buttonArray[9].setBackground(lastBtnColor);
+		if(tf==titleTf) {
+			buttonArray[9].setForeground(Color.WHITE);
+		}
+		buttonArray[9].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				tf.setText(tf.getText() + 0);
+				if (tf == titleTf) {
+					displayKeyboard(titleTf);
+					keyPadPanel.setVisible(false);
+					createPanel.repaint();
+					createPanel.revalidate();
+
+				} else {
+					tf.setText(tf.getText() + 0);
+				}
 			}
 		});
-		keyPadPanel.add(ButtonArray[9]);
+		keyPadPanel.add(buttonArray[9]);
 
 		// Add the start button to the keypad.
 		JButton startBtn = new JButton("O");
@@ -419,6 +457,8 @@ public class CreateTimer {
 		keyPadPanel.add(startBtn);
 		startBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+
+				// Execute if the start btn was on the create timer panel.
 				if (isCreatePanel) {
 					// First check for inputs.
 					if (titleTf.getText().length() != 0) {
@@ -434,21 +474,33 @@ public class CreateTimer {
 					}
 
 					startButtonPressed();
+					// If it came from the address panel else executes.
 				} else {
+					// If the user didn't enter anything and clicked start.
 					if (addyTf.getText().length() == 0) {
+						// Filler address that will never be assigned to a store.
 						cs.setSessionAddress(11111111);
 						cs.setClientConnected(false);
 						returnToToggleScreen();
+						// If the user enetered a valid length of a store address execute this.
 					} else if (addyTf.getText().length() == 8) {
+						// Set the address equal to whatever integers were entered.
 						cs.setSessionAddress(Integer.parseInt(addyTf.getText()));
+
+						// Update the session settings so that the system knows to try to send data to
+						// the server.
 						cs.setClientConnected(true);
 
+						// Send initial connection message to server that will establish its data
+						// folders and the time conversion needed for the server.
 						try {
 							ClientConnection cc = new ClientConnection();
 							Analytics an = new Analytics();
 
+							// The @ symbol indicates that there is a connection message.
 							cc.sendMessage(cs.getSessionAddress() + "@" + an.getDateAndTime());
 
+							// Display the status of the connection after a host check is done.
 							paintConnectionMessage(cc.hostAvailabilityCheck());
 							TaskBar tb = new TaskBar();
 							tb.updateBar("UNDO");
@@ -459,6 +511,7 @@ public class CreateTimer {
 						}
 
 					} else {
+						// If the user entered something >0 and <8
 						addyTf.setBorder(errorBorder);
 						addyTf.setText("");
 					}
@@ -466,6 +519,8 @@ public class CreateTimer {
 			}
 		});
 		if (isCreatePanel) {
+			// This handles update the graphics revalidation I guess but I don't remember
+			// adding this.
 			createPanel.add(keyPadPanel);
 			createPanel.revalidate();
 		} else {
@@ -505,7 +560,7 @@ public class CreateTimer {
 		titleTf.setBorder(fieldBorder);
 
 		// Check to see if a title length is too long.
-		if (userTitle.length() == 0 || userTitle.length() > 13 || existingTitle(userTitle)) {
+		if (userTitle.length() == 0 || userTitle.length() > 11 || existingTitle(userTitle)) {
 			validTitle = false;
 			titleTf.setText("");
 			titleTf.setBorder(errorBorder);

@@ -66,7 +66,6 @@ public class StartUp {
 
 	// Main Keyboard with rounded corners element
 	static RoundedPanel mainKeyboard = new RoundedPanel();
-	
 
 	// Option Panel with rounded corners element
 	static JPanel optionPanel = new RoundedPanel();
@@ -153,6 +152,7 @@ public class StartUp {
 
 			}
 
+			// If data exists in the flush file you should load it.
 			if (checkFlushFile()) {
 				loadFlushData();
 			}
@@ -227,6 +227,7 @@ public class StartUp {
 							FileWriter ffw = new FileWriter("./flushFile.txt");
 							BufferedWriter fbw = new BufferedWriter(ffw);
 							ClientConnection cc = new ClientConnection();
+							// Writes the data in the flush queue starting at the current flush index.
 							for (int i = cc.getFlushIndex(); i < cs.getDowntimeQueue().size(); i++) {
 								fbw.write(cs.getDowntimeQueue().get(i));
 								fbw.newLine();

@@ -220,7 +220,10 @@ public class ItemTimer {
 		if (sec <= -1 || min < 0 || hour < 0) {
 			n = "-";
 			currentlyExpired = true;
-			updateBackgroundFlash();
+			// TODO: update flash is on time out because I dont know whether to remove the
+			// feature or let it stutter flash.
+			// updateBackgroundFlash();
+			tg.getTimeDisplay().setForeground(flashColor);
 		}
 
 		// handles all values when hour is not displayed.
@@ -324,6 +327,9 @@ public class ItemTimer {
 	 * velocity is a shitty term but it's accurate so don't @ me, progress velocity
 	 * describes the timers current progress divided it's max time.
 	 * 
+	 * This used to use the unique name identifier, it was refactored to use a time
+	 * ID instead.
+	 * 
 	 */
 	public double getPrgVelocity() {
 		int currentSec = sec;
@@ -335,12 +341,7 @@ public class ItemTimer {
 
 		timerVelocity = (double) (currentSec) / (double) (initialSec);
 
-		int uniqueID = 0;
-		for (int curCharIndx = 0; curCharIndx < timerTitle.length(); curCharIndx++) {
-			uniqueID += (int) timerTitle.charAt(curCharIndx);
-		}
-
-		timerVelocity += ((double) uniqueID / (double) 10000000);
+		timerVelocity += ((double) timerID / (double) 10000000);
 		return timerVelocity;
 
 	}
@@ -489,23 +490,8 @@ public class ItemTimer {
 		if (!cs.getActiveExpirations() && cs.getNOAE() >= 1) {
 			cs.setActiveExpiratons(true);
 		}
-
-		for (int currentID = 0; currentID <= CurrentSession.itHash.size(); currentID++) {
-			if (CurrentSession.itHash.get(currentID) != null) {
-				if (CurrentSession.itHash.get(currentID).getCurrentlyExpired()) {
-					if (!CurrentSession.itHash.get(currentID).getPause()) {
-						if (!cs.getMenuOpen()) {
-							if (currentID == timerID) {
-								flashBackground(sec);
-								currentID = CurrentSession.itHash.size();
-							} else {
-								currentID = CurrentSession.itHash.size();
-							}
-						}
-					}
-				}
-			}
-		}
+		// TODO cant get this to stutter flash anymore but I'm sure it will happen again
+		flashBackground(sec);
 
 	}
 
@@ -515,7 +501,7 @@ public class ItemTimer {
 	 */
 	private void flashBackground(int i) {
 
-		if (i % 2 == 0) {
+		if (i % 2 != 0) {
 			StartUp.backgroundHash.get(cs.getCurrentPage()).setBackground(flashColor);
 		} else {
 			StartUp.backgroundHash.get(cs.getCurrentPage()).setBackground(backgroundColor);

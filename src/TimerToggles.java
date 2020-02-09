@@ -26,7 +26,7 @@ public class TimerToggles {
 	private int toggleScrollDimX = (int) (.06128 * screenX);
 	private int toggleX = (int) (toggleScrollX * .18);
 	private int toggleY = (int) (screenY * .15);
-	private int scrollRowsNum = (cs.getCNOT() + 1) / 5;
+	private int scrollRowsNum = 1+ ((cs.getCNOT() + 1) / 5);
 	private int toggleScrollValue = ((scrollRowsNum) * (toggleY));
 
 	// Fonts
@@ -34,8 +34,8 @@ public class TimerToggles {
 	private Font bannerFont = new Font("Helvetica", Font.BOLD, ((int) (.03 * screenX)));
 	// Colors
 	private Color backgroundColor = Color.decode("#223843");
-	private Color exitColor = Color.decode("#ED217C");
-	private Color toggledColor = Color.decode("#09BC8A");
+	private Color exitColor = Color.decode("#CC2936");
+	private Color toggledColor = Color.decode("#4DA167");
 
 	private JLabel toggleBanner = new JLabel("Choose Active Timers");
 
@@ -58,7 +58,7 @@ public class TimerToggles {
 
 		// Prevents overflow for the scroll page.
 		if (((cs.getCNOT() + 1) % 5) > 0) {
-			toggleScrollValue = ((scrollRowsNum + 1) * toggleY) + (int) (toggleY * 1.05);
+			toggleScrollValue = ((scrollRowsNum) * toggleY) + (int) (toggleY * 1.05);
 		}
 
 		// Set up layout and dims for togglePanel
@@ -150,7 +150,7 @@ public class TimerToggles {
 
 		// Toggle graphics updated depending on whether it is toggled or not.
 		if (it.getToggled()) {
-			toggleButton.setBackground(Color.decode("#09BC8A"));
+			toggleButton.setBackground(Color.decode("#4DA167"));
 			toggleButton.setForeground(Color.WHITE);
 		} else {
 			toggleButton.setBackground(Color.LIGHT_GRAY);
