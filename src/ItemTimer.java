@@ -34,6 +34,8 @@ public class ItemTimer {
 	private boolean justRefreshed;
 	private Color backgroundColor = Color.decode("#223843");
 	private Color flashColor = Color.decode("#CC2936");
+	private Color yieldColor = Color.decode("#E0CA3C");
+	private Color prgRemainder = Color.decode("#4DA167");
 	CurrentSession cs = new CurrentSession();
 
 	/*
@@ -49,7 +51,7 @@ public class ItemTimer {
 		paused = loaded;
 		startCountDown(false);
 		timerID = id;
-		colorCodeInt = 1;
+		colorCodeInt = 0;
 		CurrentSession.itHash.put(id, this);
 		cs.updateCAP();
 		tg = new TimerGraphics(this);
@@ -131,12 +133,18 @@ public class ItemTimer {
 
 	}
 
+	
+
 	Timer countDown = new Timer(1000, new ActionListener() {
 		public void actionPerformed(ActionEvent ae) {
 			if (justRefreshed) {
 				justRefreshed = false;
 				timerGraphics.getTimeDisplay().setForeground(Color.BLACK);
 				timerGraphics.refreshTimer();
+
+				// TODO: break this
+				Sorter so = new Sorter();
+				so.sort(CurrentSession.itHash);
 
 			}
 			decrementSec();
@@ -161,6 +169,14 @@ public class ItemTimer {
 					hour--;
 				}
 			}
+			if (!getPause()) {
+				if (getPrgPercentage() <= .2 && getPrgPercentage() > 0) {
+					timerGraphics.getPrg().setBackground(yieldColor);
+				} else {
+
+					timerGraphics.getPrg().setBackground(prgRemainder);
+				}
+			}
 
 			// Handles the moment of expiration, currently just adjusts timer and session
 			// values.
@@ -182,14 +198,6 @@ public class ItemTimer {
 				timerGraphics.getPrg().repaint();
 				timerGraphics.getPrg().revalidate();
 				timerGraphics.getTimeDisplay().setText(timeDisplayString);
-			}
-
-			// Calls the sort method for the session, might be able to cut down on latency
-			// if theres a first timer in use check like the one used for background
-			// flashes.
-			if (!cs.getMenuOpen()) {
-				Sorter so = new Sorter();
-				so.sort(CurrentSession.itHash);
 			}
 
 			// Simply updating the prior value, not sure if it needs to be here though
@@ -223,7 +231,8 @@ public class ItemTimer {
 			// TODO: update flash is on time out because I dont know whether to remove the
 			// feature or let it stutter flash.
 			// updateBackgroundFlash();
-			tg.getTimeDisplay().setForeground(flashColor);
+			//tg.getTimeDisplay().setForeground(flashColor);
+
 		}
 
 		// handles all values when hour is not displayed.
@@ -331,7 +340,7 @@ public class ItemTimer {
 	 * ID instead.
 	 * 
 	 */
-	public double getPrgVelocity() {
+	public double getPrgPercentage() {
 		int currentSec = sec;
 		currentSec += (min * 60);
 		currentSec += (hour * 3600);
@@ -432,8 +441,8 @@ public class ItemTimer {
 	 */
 	public void increaseColorCode() {
 		colorCodeInt++;
-		if (colorCodeInt == 4) {
-			colorCodeInt = 1;
+		if (colorCodeInt == 3) {
+			colorCodeInt = 0;
 		}
 	}
 

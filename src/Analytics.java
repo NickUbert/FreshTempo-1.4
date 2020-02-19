@@ -252,45 +252,27 @@ public class Analytics {
 		bw.flush();
 		bw.close();
 
-		// After recording data, send to server if the client is connected.
-		CurrentSession cs = new CurrentSession();
-		if (cs.getClientConnected()) {
-			ClientConnection cc = new ClientConnection();
-			// Check if server is up
-			if (cs.getServerUp()) {
-				if (cc.hostAvailabilityCheck()) {
-					cs.setServerUp(true);
-					// If a flush is taking place, this entry gets added to the end of the queue.
-					if (cs.getCurrentlyFlushing()) {
-						cc.addToDowntimeQueue(dataToWrite);
-					} else {
-						// If a flush isn't happening but the queue has data, this starts it.
-						if (!(cs.getDowntimeQueue().size() == 0)) {
-							cc.addToDowntimeQueue(dataToWrite);
-							cs.setCurrentlyFlushing(true);
-							if (!(cc.flushTimer.isRunning())) {
-								cc.flushTimer.start();
-							}
-							// Otherwise the message is simply sent to the server.
-						} else {
-							cc.sendMessage(dataToWrite);
-						}
-					}
-				} else {
-					cs.setServerUp(false);
-				}
-			} else {
-				cs.setServerUp(false);
-				// If the queue is empty while the server is down, this must be the first entry
-				// during downtime so the timer is started.
-
-				cc.addToDowntimeQueue(dataToWrite);
-				if (cs.getDowntimeQueue().size() == 0) {
-					cc.downTimeTimer.start();
-				}
-			}
-
-		}
+		/*
+		 * // After recording data, send to server if the client is connected.
+		 * CurrentSession cs = new CurrentSession(); if (cs.getClientConnected()) {
+		 * ClientConnection cc = new ClientConnection(); // Check if server is up if
+		 * (cs.getServerUp()) { if (cc.hostAvailabilityCheck()) { cs.setServerUp(true);
+		 * // If a flush is taking place, this entry gets added to the end of the queue.
+		 * if (cs.getCurrentlyFlushing()) { cc.addToDowntimeQueue(dataToWrite); } else {
+		 * // If a flush isn't happening but the queue has data, this starts it. if
+		 * (!(cs.getDowntimeQueue().size() == 0)) { cc.addToDowntimeQueue(dataToWrite);
+		 * cs.setCurrentlyFlushing(true); if (!(cc.flushTimer.isRunning())) {
+		 * cc.flushTimer.start(); } // Otherwise the message is simply sent to the
+		 * server. } else { cc.sendMessage(dataToWrite); } } } else {
+		 * cs.setServerUp(false); } } else { cs.setServerUp(false); // If the queue is
+		 * empty while the server is down, this must be the first entry // during
+		 * downtime so the timer is started.
+		 * 
+		 * cc.addToDowntimeQueue(dataToWrite); if (cs.getDowntimeQueue().size() == 0) {
+		 * cc.downTimeTimer.start(); } }
+		 * 
+		 * }
+		 */
 
 	}
 

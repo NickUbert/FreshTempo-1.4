@@ -1,7 +1,10 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * Sorter class is responsible for the sorting by urgency feature for the
@@ -16,6 +19,8 @@ public class Sorter {
 	static int cNOT;
 	static int tNOT;
 	static int aNOT;
+	static int bufferIndex = 0;
+	static boolean running = false;
 	static JPanel[] pageArray = new JPanel[cAP];
 	static CurrentSession cs = new CurrentSession();
 	static HashMap<Integer, ItemTimer> prgHash = cs.getItemTimerHash();
@@ -36,6 +41,23 @@ public class Sorter {
 			}
 		}
 	}
+
+	public void startBufferSort() {
+		if (!bufferTimer.isRunning()) {
+			bufferTimer.start();
+		}
+	}
+
+	Timer bufferTimer = new Timer(1000, new ActionListener() {
+		public void actionPerformed(ActionEvent ae) {
+			bufferIndex++;
+			if (!cs.getMenuOpen() && !cs.getTyping()) {
+				if (bufferIndex % 6 == 0) {
+					sort(CurrentSession.itHash);
+				}
+			}
+		}
+	});
 
 	/*
 	 * valueSort takes a hashmap as a parameter and collects the values by putting
@@ -65,7 +87,7 @@ public class Sorter {
 		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
 			if (hm.get(curTimerID) != null) {
 				if (hm.get(curTimerID).getToggled()) {
-					timerValues.add((Double) (hm.get(curTimerID)).getPrgVelocity());
+					timerValues.add((Double) (hm.get(curTimerID)).getPrgPercentage());
 					unsortedKeys[curTimerID] = curTimerID;
 				}
 			}
@@ -205,7 +227,7 @@ public class Sorter {
 
 	public static Object getDoubleKey(HashMap<Integer, ItemTimer> hm, Double v) {
 		for (Object o : hm.keySet()) {
-			if ((hm.get(o).getPrgVelocity()) == v) {
+			if ((hm.get(o).getPrgPercentage()) == v) {
 				return o;
 			}
 		}

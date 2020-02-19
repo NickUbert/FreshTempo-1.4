@@ -144,6 +144,8 @@ public class StartUp {
 				// use.
 				Sorter so = new Sorter();
 				so.sort(CurrentSession.itHash);
+				so.startBufferSort();
+				
 
 			} else {
 				// If no priors exist the system just opens a timer creation menu.
@@ -462,7 +464,7 @@ public class StartUp {
 	 */
 	static void freshStart() {
 		CreateTimer ct = new CreateTimer();
-		ct.paintAddressPanel();
+		ct.paintCreatePanel();
 	}
 
 }
