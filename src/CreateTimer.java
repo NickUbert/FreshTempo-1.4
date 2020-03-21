@@ -50,7 +50,7 @@ public class CreateTimer {
 	private int minTextFieldYL = (int) (.08861 * cardY);
 
 	private int keyPadButtonX = (int) (.3 * cardX);
-	private int keyPadButtonY = (int) (.17722 * cardY);
+	private int keyPadButtonY = (int) (.1745 * cardY);
 
 	private int hTextFieldYL = (int) (.01266 * cardY);
 
@@ -135,8 +135,8 @@ public class CreateTimer {
 	Font addyPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .068));
 	Font connectionPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .058));
 	Font keyboardFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.0625 * screenY));
-	Font backspaceFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.035 * screenY));
-	Font numSwitchFont = new Font("Helvetica", Font.ITALIC, (int) (.05 * screenY));
+	Font backspaceFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.03 * screenY));
+	Font numSwitchFont = new Font("Helvetica", Font.ITALIC, (int) (.035 * screenY));
 
 	// Default user entered values
 	private int userMin = 0;

@@ -215,16 +215,21 @@ public class Options {
 		autoSortBtn.setBounds(optionsBtnXL, autoSortYL, optionsBtnX, optionsBtnY);
 		autoSortBtn.setFocusable(false);
 		autoSortBtn.setFont(optionFont);
-		autoSortBtn.setBackground(optionButtonBackground);
+		autoSortBtn.setBackground(Color.DARK_GRAY);
 		autoSortBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				
+				//TODO : DEMO
+				/*
 				cs.setAutoSortEnabled(!cs.getAutoSortEnabled());
 				if (cs.getAutoSortEnabled()) {
 					autoSortBtn.setText("Urgency Sort-ON");
 				} else {
 					autoSortBtn.setText("Urgency Sort-OFF");
 				}
+				*/
 			}
+			
 		});
 
 		// Initial value check for autosorting.
@@ -476,9 +481,11 @@ public class Options {
 		freshNetBtn.setBounds(optionsBtnXL, freshNetYL, optionsBtnX, optionsBtnY);
 		freshNetBtn.setFocusable(false);
 		freshNetBtn.setFont(optionFont);
-		freshNetBtn.setBackground(optionButtonBackground);
+		freshNetBtn.setBackground(Color.DARK_GRAY);
 		freshNetBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				//TODO: DEMO
+				/*
 				cs.setMenuOpen(true);
 				StartUp.optionPanel.setVisible(false);
 				StartUp.optionPanel.removeAll();
@@ -486,6 +493,7 @@ public class Options {
 				tb.updateBar("UNDO");
 				CreateTimer ct = new CreateTimer();
 				ct.paintAddressPanel();
+				*/
 			}
 		});
 
