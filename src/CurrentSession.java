@@ -11,7 +11,6 @@ import java.util.HashMap;
  * number of timers used in session aNOT = active number of timers (toggled)
  * nOAE = number of active expirations
  * 
- * Author: @nu Date Modified: 6/17/19
  */
 public class CurrentSession {
 	private static boolean cardLayout = true;

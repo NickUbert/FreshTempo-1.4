@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
  * MM/DD/YY[space]hh:mm:ss$expiredBooleanInteger$title$hour$min$sec
  * [space]represents an actual space, see recordTimeData for reference
  * 
- * Author: @nu Date Modified: 6/17/19
  */
 public class Analytics {
 	private static int numOfExpirations = 0;

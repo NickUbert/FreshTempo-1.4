@@ -18,7 +18,6 @@ import javax.swing.border.EmptyBorder;
  * is not too much work done through the functions here since they usually call
  * something in the CurrentSession class.
  * 
- * Author: @nu Last Modified: 6/16/19
  */
 public class Options {
 

@@ -22,7 +22,6 @@ import javax.swing.JPanel;
  * a lot of initial setup for the software. It also handles the loading and
  * saving of timers to allow continious use.
  * 
- * Author: @nu Last Modified: 8/9/19
  * 
  */
 public class StartUp {

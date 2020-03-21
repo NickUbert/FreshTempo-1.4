@@ -27,7 +27,6 @@ import javax.swing.border.Border;
  * customized timer. It allows for only three inputs which are title, hours, and
  * min. In the future this will maybe include a fourth option for days.
  * 
- * Author: @nu Last Modified: 6/16/19
  */
 public class CreateTimer {
 

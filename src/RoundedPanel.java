@@ -9,7 +9,7 @@ import java.awt.Toolkit;
 import javax.swing.JPanel;
 
 /*
- * Goddamn right I found this class online. Before this I used the paintComponent
+ * I found this class online. Before this I used the paintComponent
  * block while declaring the JPanels I was creating. but this helps keep the code 
  * clean and add shadows to the panels.
  */

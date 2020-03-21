@@ -14,7 +14,6 @@ import javax.swing.JPanel;
  * Taskbar class is responsible for the naviagtion for users. Its main use is
  * choosing which buttons to display depending on the page.
  * 
- * Author: @nu Date Modified: 6/17/19
  */
 public class TaskBar {
 	// Bounds for graphics

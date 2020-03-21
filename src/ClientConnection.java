@@ -13,6 +13,7 @@ import javax.swing.Timer;
  * 
  */
 public class ClientConnection {
+	//Fucking RIP
 
 	// Server IP should be static if it is hard coded here
 	String serverIP = "18.217.139.63";

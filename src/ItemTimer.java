@@ -9,7 +9,6 @@ import javax.swing.Timer;
  * unique values that can be referenced in the future The class contains the
  * attributes held by each timer along with key functions.
  * 
- * Author: @nu Last Modified: 6/16/19
  */
 
 public class ItemTimer {

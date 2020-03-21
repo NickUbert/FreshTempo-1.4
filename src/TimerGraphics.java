@@ -25,8 +25,6 @@ import javax.swing.Timer;
  * These components are changed depending on what layout is in use. Each timer
  * has an individual TimerGraphics object created which is why the methods for
  * updating components are found in this class and not in its own class.
- * 
- * Author: @nu Date Modified: 6/17/19
  */
 public class TimerGraphics {
 	CurrentSession cs = new CurrentSession();

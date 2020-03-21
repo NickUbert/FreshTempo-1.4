@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+//TODO
 public class TimerToggles {
 	CurrentSession cs = new CurrentSession();
 	StartUp su = new StartUp();

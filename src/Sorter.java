@@ -11,7 +11,6 @@ import javax.swing.Timer;
  * program. It also ensures that each timer is sorted and displayed in the
  * proper spot and page.
  * 
- * Author: @nu Date Modified: 8/10/2019
  */
 
 public class Sorter {

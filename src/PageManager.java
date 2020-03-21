@@ -2,7 +2,6 @@
  * PageManager class is the backbone of all naviagtion in the program, any
  * movement in the program eventually ends up using one of these functions.
  * 
- * Author: @nu Date Modified: 6/16/2019
  */
 public class PageManager {
 	StartUp su = new StartUp();
