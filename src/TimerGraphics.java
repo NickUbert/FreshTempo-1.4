@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,6 +32,7 @@ public class TimerGraphics {
 	CurrentSession cs = new CurrentSession();
 	private Dimension mtk = Toolkit.getDefaultToolkit().getScreenSize();
 	private ItemTimer timer;
+	int timerShelfSec;
 
 	// Timer Bounds
 	private final int screenX = ((int) mtk.getWidth());
@@ -181,7 +184,7 @@ public class TimerGraphics {
 		refreshBtn.setBorder(null);
 		refreshBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				timerShelfSec = timer.getShelfSec();
 				if (timer.getPause()) {
 					timer.setPause(false);
 					switchToResumedGraphics();
@@ -215,15 +218,24 @@ public class TimerGraphics {
 
 	public void refreshTimer() {
 		// Record the timer refresh data no matter what
+		/*
+		 * Analytics an = new Analytics(); try { an.recordTimeData(timer); } catch
+		 * (IOException e1) { e1.printStackTrace(); }
+		 */
 
-		
-		Analytics an = new Analytics();
+		Database db = new Database();
 		try {
-			an.recordTimeData(timer);
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			db.connect();
+		} catch (SQLException e) {
+			System.out.println("Database connection failed...");
+			e.printStackTrace();
 		}
-		
+		try {
+			db.recordItem(timer.getTitle(), timerShelfSec);
+		} catch (SQLException e) {
+			System.out.println("Unable to record item...");
+			e.printStackTrace();
+		}
 
 		// Update the timer and session values for expirations.
 		if (timer.getCurrentlyExpired()) {

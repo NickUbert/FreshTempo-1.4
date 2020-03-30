@@ -480,11 +480,11 @@ public class Options {
 		freshNetBtn.setBounds(optionsBtnXL, freshNetYL, optionsBtnX, optionsBtnY);
 		freshNetBtn.setFocusable(false);
 		freshNetBtn.setFont(optionFont);
-		freshNetBtn.setBackground(Color.DARK_GRAY);
+		freshNetBtn.setBackground(Color.LIGHT_GRAY);
 		freshNetBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				//TODO: DEMO
-				/*
+				
 				cs.setMenuOpen(true);
 				StartUp.optionPanel.setVisible(false);
 				StartUp.optionPanel.removeAll();
@@ -492,7 +492,7 @@ public class Options {
 				tb.updateBar("UNDO");
 				CreateTimer ct = new CreateTimer();
 				ct.paintAddressPanel();
-				*/
+				
 			}
 		});
 

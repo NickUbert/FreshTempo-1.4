@@ -22,7 +22,7 @@ public class ItemTimer {
 	private int prgValue;
 	private int timerID;
 	private int colorCodeInt;
-	private double timerVelocity;
+	private double timerPercent;
 	private boolean paused;
 	private TimerGraphics timerGraphics;
 	public JPanel timerPanel;
@@ -45,6 +45,7 @@ public class ItemTimer {
 		// are refrenced later in the session when timers are used.
 		startMin = min;
 		startHour = hour;
+		
 		timerTitle = title;
 		prior = loaded;
 		paused = loaded;
@@ -59,6 +60,7 @@ public class ItemTimer {
 		tg.createTimerUI();
 		toggled = isToggled;
 		currentlyExpired = false;
+
 		// All pre loaded timers are set to paused onced loaded to avoid overwhelming
 		// startups for the user.
 		if (loaded) {
@@ -67,10 +69,6 @@ public class ItemTimer {
 
 	}
 
-	/*
-	 * Empty constructor call is used when the itemTimer is just being referenced
-	 * and not creating a new timer.
-	 */
 	public ItemTimer() {
 
 	}
@@ -132,8 +130,6 @@ public class ItemTimer {
 
 	}
 
-	
-
 	Timer countDown = new Timer(1000, new ActionListener() {
 		public void actionPerformed(ActionEvent ae) {
 			if (justRefreshed) {
@@ -141,7 +137,6 @@ public class ItemTimer {
 				timerGraphics.getTimeDisplay().setForeground(Color.BLACK);
 				timerGraphics.refreshTimer();
 
-				// TODO: break this
 				Sorter so = new Sorter();
 				so.sort(CurrentSession.itHash);
 
@@ -227,10 +222,6 @@ public class ItemTimer {
 		if (sec <= -1 || min < 0 || hour < 0) {
 			n = "-";
 			currentlyExpired = true;
-			// TODO: update flash is on time out because I dont know whether to remove the
-			// feature or let it stutter flash.
-			// updateBackgroundFlash();
-			//tg.getTimeDisplay().setForeground(flashColor);
 
 		}
 
@@ -347,10 +338,10 @@ public class ItemTimer {
 		int initialSec = (startMin * 60);
 		initialSec += (startHour * 3600);
 
-		timerVelocity = (double) (currentSec) / (double) (initialSec);
+		timerPercent = (double) (currentSec) / (double) (initialSec);
 
-		timerVelocity += ((double) timerID / (double) 10000000);
-		return timerVelocity;
+		timerPercent += ((double) timerID / (double) 10000000);
+		return timerPercent;
 
 	}
 
@@ -515,6 +506,11 @@ public class ItemTimer {
 			StartUp.backgroundHash.get(cs.getCurrentPage()).setBackground(backgroundColor);
 		}
 
+	}
+
+
+	public int getShelfSec() {
+		return ((min * 60) + (hour * 3600)+sec);
 	}
 
 	/*
