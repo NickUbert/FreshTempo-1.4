@@ -34,6 +34,8 @@ public class Database {
 
 	@SuppressWarnings("deprecation")
 	public void recordItem(String itemName, int shelfSec) throws SQLException {
+		//TODO update using the unique local item ID
+		//TODO send item data to the server when a timer is created or deleted
 		String sql = "INSERT INTO Item (Store_ID, Item_Name, Mod_Time, Mod_Hour, Shelf_Time, Expired) VALUES (?, ?, ?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);
 
