@@ -231,7 +231,7 @@ public class TimerGraphics {
 			e.printStackTrace();
 		}
 		try {
-			db.recordItem(timer.getTitle(), timerShelfSec);
+			db.recordItem(timer.getTimerID(), timerShelfSec);
 		} catch (SQLException e) {
 			System.out.println("Unable to record item...");
 			e.printStackTrace();

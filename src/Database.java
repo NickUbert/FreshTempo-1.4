@@ -33,10 +33,10 @@ public class Database {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void recordItem(String itemName, int shelfSec) throws SQLException {
+	public void recordItem(int itemID, int shelfSec) throws SQLException {
 		//TODO update using the unique local item ID
 		//TODO send item data to the server when a timer is created or deleted
-		String sql = "INSERT INTO Item (Store_ID, Item_Name, Mod_Time, Mod_Hour, Shelf_Time, Expired) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO RotationData (Store_ID, Item_ID, Mod_Time, Shelf_Time) VALUES (?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);
 
 		CurrentSession cs = new CurrentSession();
@@ -44,15 +44,13 @@ public class Database {
 		Date date = new Date();
 		Timestamp sysTime = new Timestamp(date.getTime());
 		int storeID = cs.getSessionAddress();
-		int sysHour = sysTime.getHours();
-		boolean expired = shelfSec < 0;
+	
 
 		message.setInt(1, storeID);
-		message.setString(2, itemName);
+		message.setInt(2, itemID);
 		message.setString(3, sysTime.toString());
-		message.setInt(4, sysHour);
-		message.setInt(5, shelfSec);
-		message.setBoolean(6, expired);
+		message.setInt(4, shelfSec);
+		
 		
 		message.executeUpdate();
 
