@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 04/27/20 19:31:43
+The day and time of the software exiting was: 04/27/20 23:40:07
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,44 +11,44 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (04/27/20 19:31:43):
+Timers recorded at system exit (04/27/20 23:40:07):
 
- SANITIZER: 1:41
- SALAD1: 13:06
- SALAD2: 57:08
- CORN: 27:06
- PORKRIB: 5:55:48
- MUFFIN: 41:12
- COFFEE1: 7:41:34
- COFFEE2: 36:18
- COFFEE3: 7:34:29
- DECAF: -0:24
- CHICKEN: -6:07
- PIZZA1: 6:44:07
- PIZZA2: -2:32
- DOUGHNUT: 8:25
- WATER: 3:58:03
- SMOOTHIE1: 2:01
- SMOOTHIE2: 3:05
- HAM: 40:50
- STEAK: -0:44
- BACON: -14:23
- MILK: 7:54
- PARMBREAD: 6:07
- EGGS: 3:04
- HUMMUS: 47:11
- BEANS: -10:15
- CHOWDER: -10:14
- SOUP1: 68:40:43
- SOUP2: -4:11
- TOMATO: -0:37
- SANITIZER2: -0:40
- BROCCOLI: -10:16
- LETTUCE: 41:58
- ONIONS: 7:30
- RELISH: 3:57
- PICKLES: 3:07
- CHEESE: -16:43
- SWISS: 3:22
- WHITECHED: 3:25
- HHH: 7:36
+ SANITIZER: 1:40
+ SALAD1: 13:05
+ SALAD2: 57:07
+ CORN: 27:05
+ PORKRIB: 5:55:47
+ MUFFIN: 41:11
+ COFFEE1: 7:41:33
+ COFFEE2: 36:17
+ COFFEE3: 7:34:28
+ DECAF: -0:25
+ CHICKEN: -18:23
+ PIZZA1: 6:44:06
+ PIZZA2: -2:33
+ DOUGHNUT: 8:24
+ WATER: 3:58:02
+ SMOOTHIE1: 2:00
+ SMOOTHIE2: 3:04
+ HAM: 40:49
+ STEAK: -0:45
+ BACON: -14:24
+ MILK: 7:53
+ PARMBREAD: 6:06
+ EGGS: 3:03
+ HUMMUS: 47:10
+ BEANS: -10:16
+ CHOWDER: -10:15
+ SOUP1: 68:40:42
+ SOUP2: -4:12
+ TOMATO: -0:38
+ SANITIZER2: -0:41
+ BROCCOLI: -10:17
+ LETTUCE: 41:57
+ ONIONS: 7:29
+ RELISH: 3:56
+ PICKLES: 3:06
+ CHEESE: -16:44
+ SWISS: 3:21
+ WHITECHED: 3:24
+ HHH: 7:35
