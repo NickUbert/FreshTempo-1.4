@@ -529,22 +529,6 @@ public class CreateTimer {
 	}
 
 	/*
-	 * existingTitle is used to return a boolean indicating whether or not the
-	 * string passes as a parameter exists as an itemtimer's title.
-	 */
-	private boolean existingTitle(String s) {
-		CurrentSession cs = new CurrentSession();
-		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
-			if (CurrentSession.itHash.get(curTimerID) != null) {
-				if (CurrentSession.itHash.get(curTimerID).getTitle().equals(s)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	/*
 	 * startButtonPressed is called by all keypads and keyboards. It makes sure all
 	 * inputs are valids before updating the graphics and creating a new itemtimer
 	 * using the user inputs.
@@ -559,7 +543,7 @@ public class CreateTimer {
 		titleTf.setBorder(fieldBorder);
 
 		// Check to see if a title length is too long.
-		if (userTitle.length() == 0 || userTitle.length() > 11 || existingTitle(userTitle)) {
+		if (userTitle.length() == 0 || userTitle.length() > 11) {
 			validTitle = false;
 			titleTf.setText("");
 			titleTf.setBorder(errorBorder);

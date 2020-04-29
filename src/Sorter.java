@@ -3,6 +3,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -127,18 +131,19 @@ public class Sorter {
 		aNOT = cs.getANOT();
 
 		int key;
-		// create the two arrays responsible for holding timerIDs
-		int[] unsortedKeys = new int[tNOT];
+		// create the array responsible for holding timerIDs
 		int[] sortedKeys = new int[tNOT];
 
 		ArrayList<String> timerTitles = new ArrayList<String>();
+		ItemTimer[] activeList = new ItemTimer[tNOT];
 
+		// TODO get rid of the need for titles in sorting to allow duplicate names
 		// This loop adds the enabled timer's names to the timerValues Arraylist
 		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
 			if (hm.get(curTimerID) != null) {
 				if (hm.get(curTimerID).getToggled()) {
 					timerTitles.add(hm.get(curTimerID).getTitle());
-					unsortedKeys[curTimerID] = curTimerID;
+					activeList[curTimerID] = hm.get(curTimerID);
 				}
 			}
 		}
@@ -147,16 +152,15 @@ public class Sorter {
 
 		// This loop fills the sorted array with the ID's of the timers by looking up
 		// the keys associated with the sorted timer names.
-		for (int sortKey = 0; sortKey < aNOT; sortKey++) {
-			key = (int) getStringKey(hm, timerTitles.get(sortKey));
+		for (int sortKey = 0; sortKey < timerTitles.size(); sortKey++) {
+			key = getStringKey(activeList, timerTitles.get(sortKey));
 			sortedKeys[sortKey] = key;
 		}
 
 		// This checks to see whether or not timers need to be painted to the screen,
-		// should be adjusted for performance some day
+		// TODO should be adjusted for performance some day
 		if (!cs.getMenuOpen()) {
 			pageSort(sortedKeys);
-			unsortedKeys = sortedKeys;
 			displayTimers();
 		}
 	}
@@ -237,10 +241,16 @@ public class Sorter {
 	 * getStringKey allows for the sort method to retrieve the key associated with
 	 * the timer's name.
 	 */
-	public static Object getStringKey(HashMap<Integer, ItemTimer> hm, String v) {
-		for (Object o : hm.keySet()) {
-			if ((hm.get(o).getTitle()).equals(v)) {
-				return o;
+	public static Integer getStringKey(ItemTimer[] list, String v) {
+		ItemTimer temp = list[0];
+
+		for (int i = 0; i < list.length; i++) {
+			temp = list[i];
+			if (temp != null) {
+				if (temp.getTitle().equals(v)) {
+					list[i] = null;
+					return temp.getTimerID();
+				}
 			}
 		}
 		return null;

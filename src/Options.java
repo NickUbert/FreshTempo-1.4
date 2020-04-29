@@ -219,14 +219,14 @@ public class Options {
 			public void actionPerformed(ActionEvent ae) {
 				
 				//TODO : DEMO
-				/*
+				
 				cs.setAutoSortEnabled(!cs.getAutoSortEnabled());
 				if (cs.getAutoSortEnabled()) {
 					autoSortBtn.setText("Urgency Sort-ON");
 				} else {
 					autoSortBtn.setText("Urgency Sort-OFF");
 				}
-				*/
+				
 			}
 			
 		});

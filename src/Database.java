@@ -54,4 +54,21 @@ public class Database {
 
 	}
 
+	private void recordNewItem(int itemID, String itemName, int shelfSec) throws SQLException {
+
+		String sql = "INSERT INTO ItemData (Store_ID, Item_ID, Item_Name, Shelf_Life) VALUES (?, ?, ?, ?)";
+		PreparedStatement message = connection.prepareStatement(sql);
+
+		CurrentSession cs = new CurrentSession();
+		int storeID = cs.getSessionAddress();
+
+		message.setInt(1, storeID);
+		message.setInt(2, itemID);
+		message.setString(3, itemName);
+		message.setInt(4, shelfSec);
+
+		message.executeUpdate();
+	}
+	
+
 }
