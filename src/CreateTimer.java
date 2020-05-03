@@ -118,8 +118,8 @@ public class CreateTimer {
 
 	// Panels
 	private RoundedPanel createPanel;
-	private JPanel addressPanel;
-	private JPanel connectedPanel;
+	private RoundedPanel addressPanel;
+	private RoundedPanel connectedPanel;
 	private JPanel keyPadPanel = new JPanel();
 	private JPanel keyboardPanel = StartUp.mainKeyboard;
 

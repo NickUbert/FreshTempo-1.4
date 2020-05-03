@@ -1,6 +1,13 @@
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.Timer;
 
 /**
  * CurrentSession class is used mainly for the getting and setting of session
@@ -86,24 +93,51 @@ public class CurrentSession {
 	/*
 	 * addToCAP is used to add new timers to the Current Adding Panel
 	 */
-	public void addToCAP(Component c) {
+	public void addToCAP(RoundedPanel c) {
 		if (getCNOT() != 0) {
 			updateCAP();
 		}
 
 		int currentAddingPanel = getCAP();
 
-		StartUp.backgroundHash.get(currentAddingPanel).add(c);
-		StartUp.backgroundHash.get(currentAddingPanel).revalidate();
+		addToCurrentPage(c);
+		// StartUp.backgroundHash.get(currentAddingPanel).add(c);
+		// StartUp.backgroundHash.get(currentAddingPanel).revalidate();
 	}
+
+	JPanel temp;
+	int opacity = 0;
+	Timer animationTimer = new Timer(60, new ActionListener() {
+		public void actionPerformed(ActionEvent ae) {
+			if (opacity >= 255) {
+
+				temp.setBackground(new Color(255, 255, 255, 255));
+				StartUp.backgroundHash.get(currentPage).add(temp);
+				StartUp.backgroundHash.get(currentPage).revalidate();
+				animationTimer.stop();
+			} else {
+				temp.setBackground(new Color(255, 255, 255, opacity));
+				opacity += 40;
+			}
+			StartUp.backgroundHash.get(currentPage).add(temp);
+			StartUp.backgroundHash.get(currentPage).revalidate();
+		}
+	});
 
 	/*
 	 * addToCurrentPage adds a component to the current page
 	 */
-	public void addToCurrentPage(Component c) {
+	public void addToCurrentPage(RoundedPanel c) {
+		System.out.println(opacity);
+		temp = c;
+		animationTimer.start();
+	}
+
+	public void addToCurrentPage(JScrollPane c) {
 
 		StartUp.backgroundHash.get(currentPage).add(c);
 		StartUp.backgroundHash.get(currentPage).revalidate();
+
 	}
 
 	public boolean getCardLayout() {

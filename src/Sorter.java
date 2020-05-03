@@ -137,7 +137,7 @@ public class Sorter {
 		ArrayList<String> timerTitles = new ArrayList<String>();
 		ItemTimer[] activeList = new ItemTimer[tNOT];
 
-		// TODO get rid of the need for titles in sorting to allow duplicate names
+		
 		// This loop adds the enabled timer's names to the timerValues Arraylist
 		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
 			if (hm.get(curTimerID) != null) {

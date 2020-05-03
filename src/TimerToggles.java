@@ -5,10 +5,16 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
@@ -22,13 +28,15 @@ public class TimerToggles {
 	private static Dimension mtk = Toolkit.getDefaultToolkit().getScreenSize();
 	private static final int screenY = ((int) mtk.getHeight());
 	private static final int screenX = ((int) mtk.getWidth());
-	private int timerTogglePanelX = (int) (.76923 * screenX);
+	private int timerTogglePanelX = (int) (.86923 * screenX);
 	private int toggleScrollX = (int) (screenX);
 	private int toggleScrollDimX = (int) (.06128 * screenX);
 	private int toggleX = (int) (toggleScrollX * .18);
-	private int toggleY = (int) (screenY * .15);
-	private int scrollRowsNum = 1+ ((cs.getCNOT() + 1) / 5);
-	private int toggleScrollValue = ((scrollRowsNum) * (toggleY));
+	private int toggleY = (int) (screenY * .1);
+	private int flowGap = (int) (screenY* .004);
+	
+	private int scrollRowsNum = 1 + ((cs.getCNOT() + 1) / 5);
+	private int toggleScrollValue = (((scrollRowsNum) * (toggleY+flowGap)));
 
 	// Fonts
 	private Font toggleFont = new Font("Helvetica", Font.BOLD, ((int) (.02 * screenX)));
@@ -38,7 +46,10 @@ public class TimerToggles {
 	private Color exitColor = Color.decode("#CC2936");
 	private Color toggledColor = Color.decode("#4DA167");
 
-	private JLabel toggleBanner = new JLabel("Choose Active Timers");
+	private JLabel toggleBanner = new JLabel("Select the timers you would like to use");
+	Border toggleBorder = BorderFactory.createLineBorder(Color.GREEN, 3);
+	Border exitBorder = BorderFactory.createLineBorder(Color.RED, 8);
+	Border unToggledBorder = BorderFactory.createLineBorder(Color.WHITE, 3);
 
 	// Create togglePanel and scrollPanel
 	JPanel togglePanel = new JPanel();
@@ -59,11 +70,11 @@ public class TimerToggles {
 
 		// Prevents overflow for the scroll page.
 		if (((cs.getCNOT() + 1) % 5) > 0) {
-			toggleScrollValue = ((scrollRowsNum) * toggleY) + (int) (toggleY * 1.05);
+			toggleScrollValue = ((scrollRowsNum) * toggleY) + (int) (toggleY * 1.3);
 		}
 
 		// Set up layout and dims for togglePanel
-		togglePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		togglePanel.setLayout(new FlowLayout(FlowLayout.CENTER, flowGap, flowGap));
 		toggleScrollPanel.getVerticalScrollBar().setPreferredSize(new Dimension(toggleScrollDimX, 0));
 		togglePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		toggleScrollPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -72,9 +83,8 @@ public class TimerToggles {
 		togglePanel.setPreferredSize(new Dimension(timerTogglePanelX, toggleScrollValue));
 
 		toggleScrollPanel.getVerticalScrollBar().setBackground(backgroundColor);
-	
 
-		toggleBanner.setPreferredSize(new Dimension(screenX, (int) (toggleY / 2)));
+		toggleBanner.setPreferredSize(new Dimension(screenX, (int) (toggleY / 1.2)));
 		toggleBanner.setFont(bannerFont);
 		toggleBanner.setHorizontalAlignment(JLabel.CENTER);
 		;
@@ -86,6 +96,7 @@ public class TimerToggles {
 		exitButton.setPreferredSize(new Dimension(toggleX, toggleY));
 		exitButton.setForeground(Color.WHITE);
 		exitButton.setBackground(exitColor);
+		exitButton.setBorder(exitBorder);
 		exitButton.setFont(toggleFont);
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -119,20 +130,64 @@ public class TimerToggles {
 	 * createToggle and increases the ANOT if needed.
 	 */
 	private void addToggles() {
+		int key;
+		ArrayList<String> timerTitles = new ArrayList<String>();
+		ItemTimer[] activeList = new ItemTimer[cs.getTNOT()];
+		int[] sortedKeys = new int[cs.getTNOT()];
+		HashMap<Integer, ItemTimer> hm = CurrentSession.itHash;
+
+		// This loop adds the enabled timer's names to the timerValues Arraylist
+		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
+			if (hm.get(curTimerID) != null) {
+				timerTitles.add(hm.get(curTimerID).getTitle());
+				activeList[curTimerID] = hm.get(curTimerID);
+
+			}
+		}
+		// Actual sorting for timer names
+		Collections.sort(timerTitles);
+
+		// This loop fills the sorted array with the ID's of the timers by looking up
+		// the keys associated with the sorted timer names.
+		for (int sortKey = 0; sortKey < timerTitles.size(); sortKey++) {
+			key = getStringKey(activeList, timerTitles.get(sortKey));
+			sortedKeys[sortKey] = key;
+		}
 
 		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
-			if (CurrentSession.itHash.get(curTimerID) != null) {
+			if (CurrentSession.itHash.get(sortedKeys[curTimerID]) != null) {
 
-				togglePanel.add(createToggle(CurrentSession.itHash.get(curTimerID).getTitle(), curTimerID));
+				togglePanel.add(createToggle(CurrentSession.itHash.get(sortedKeys[curTimerID]).getTitle(),
+						sortedKeys[curTimerID]));
 
-				if (CurrentSession.itHash.get(curTimerID).getToggled()) {
+				if (CurrentSession.itHash.get(sortedKeys[curTimerID]).getToggled()) {
 					cs.increaseANOT();
 				}
 			}
 
 		}
+
 		togglePanel.repaint();
 		togglePanel.revalidate();
+	}
+
+	/*
+	 * getStringKey allows for the sort method to retrieve the key associated with
+	 * the timer's name.
+	 */
+	public static Integer getStringKey(ItemTimer[] list, String v) {
+		ItemTimer temp = list[0];
+
+		for (int i = 0; i < list.length; i++) {
+			temp = list[i];
+			if (temp != null) {
+				if (temp.getTitle().equals(v)) {
+					list[i] = null;
+					return temp.getTimerID();
+				}
+			}
+		}
+		return null;
 	}
 
 	/*
@@ -151,11 +206,13 @@ public class TimerToggles {
 
 		// Toggle graphics updated depending on whether it is toggled or not.
 		if (it.getToggled()) {
+			toggleButton.setBorder(toggleBorder);
 			toggleButton.setBackground(Color.decode("#4DA167"));
 			toggleButton.setForeground(Color.WHITE);
 		} else {
-			toggleButton.setBackground(Color.LIGHT_GRAY);
-			toggleButton.setForeground(Color.DARK_GRAY);
+			toggleButton.setBorder(unToggledBorder);
+			toggleButton.setBackground(Color.WHITE);
+			toggleButton.setForeground(backgroundColor);
 		}
 		toggleButton.setFocusable(false);
 		toggleButton.setFont(toggleFont);
@@ -166,13 +223,15 @@ public class TimerToggles {
 				// updates graphics and session/itemtimer values.
 				if (it.getToggled()) {
 					cs.decreaseANOT();
-					toggleButton.setBackground(Color.LIGHT_GRAY);
-					toggleButton.setForeground(Color.DARK_GRAY);
+					toggleButton.setBorder(unToggledBorder);
+					toggleButton.setBackground(Color.WHITE);
+					toggleButton.setForeground(backgroundColor);
 					CurrentSession.itHash.get(id).getTimer().stop();
 
 					// update graphics and session/itemtimer values.
 				} else {
 					cs.increaseANOT();
+					toggleButton.setBorder(toggleBorder);
 					toggleButton.setBackground(toggledColor);
 					toggleButton.setForeground(Color.WHITE);
 					CurrentSession.itHash.get(id).startCountDown(false);

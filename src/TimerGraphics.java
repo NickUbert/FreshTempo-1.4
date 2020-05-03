@@ -93,10 +93,11 @@ public class TimerGraphics {
 	private RoundedPanel timerPanel = new RoundedPanel();
 
 	// Text Fonts
-	private Font cardTitleFont = new Font("Helvetica", Font.BOLD, (int) (.0725 * screenX));
-	private Font tabTitleFont = new Font("Helvetica", Font.BOLD, (int) (.08 * tabX));
-	private Font cardTimeFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.0475 * screenX));
-	private Font tabTimeFont = new Font("Helvetica", Font.ITALIC, (int) (.07319 * tabX));
+	String fontName = "Helvetica";
+	private Font cardTitleFont = new Font(fontName, Font.BOLD, (int) (.0725 * screenX));
+	private Font tabTitleFont = new Font(fontName, Font.BOLD, (int) (.08 * tabX));
+	private Font cardTimeFont = new Font(fontName, Font.TRUETYPE_FONT, (int) (.0475 * screenX));
+	private Font tabTimeFont = new Font(fontName, Font.ITALIC, (int) (.07319 * tabX));
 
 	public TimerGraphics(ItemTimer it) {
 		timer = it;
