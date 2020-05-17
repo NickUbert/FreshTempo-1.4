@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -277,6 +278,7 @@ public class CreateTimer {
 		bspBtn.setFocusable(false);
 		bspBtn.setBackground(backColor);
 		bspBtn.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent ae) {
 				if (tf.getText().length() > 0) {
 					StringBuffer sb = new StringBuffer(tf.getText());
@@ -398,6 +400,7 @@ public class CreateTimer {
 		bspBtn.setBorder(keyBorder);
 		bspBtn.setBackground(backColor);
 		bspBtn.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent ae) {
 				if (tf.getText().length() > 0) {
 					StringBuffer sb = new StringBuffer(tf.getText());
@@ -412,20 +415,19 @@ public class CreateTimer {
 		String lastBtnText = "0";
 		Font lastBtnFont = keyboardFont;
 		Color lastBtnColor = keyboardBackgroundColor;
-		
-		
-		if(tf==titleTf) {
-			lastBtnText="ABC";
+
+		if (tf == titleTf) {
+			lastBtnText = "ABC";
 			lastBtnFont = numSwitchFont;
 			lastBtnColor = switchToNumColor;
 		}
 		buttonArray[9] = new JButton((lastBtnText));
 		buttonArray[9].setPreferredSize(new Dimension(keyPadButtonX, keyPadButtonY));
 		buttonArray[9].setFont(lastBtnFont);
-		buttonArray[9].setBorder(keyBorder);		
+		buttonArray[9].setBorder(keyBorder);
 		buttonArray[9].setFocusable(false);
 		buttonArray[9].setBackground(lastBtnColor);
-		if(tf==titleTf) {
+		if (tf == titleTf) {
 			buttonArray[9].setForeground(Color.WHITE);
 		}
 		buttonArray[9].addActionListener(new ActionListener() {
@@ -578,7 +580,17 @@ public class CreateTimer {
 		// will be created.Graphics are updated and a timer creation is called using the
 		// user inputs as constructor values.
 		if (validTitle && validMin && validHour) {
+			Database db = new Database();
 			CurrentSession cs = new CurrentSession();
+			int shelfSec = (userHour * 36060) + (userMin * 60);
+
+			try {
+				db.recordNewItem(cs.getTNOT(), userTitle, shelfSec);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			cs.increaseCNOT();
 			cs.increaseTNOT();
 			cs.updateCAP();
@@ -600,6 +612,19 @@ public class CreateTimer {
 
 		}
 
+	}
+
+	//TODO this isn't used currently
+	private boolean existingTitle(String s) {
+		CurrentSession cs = new CurrentSession();
+		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
+			if (CurrentSession.itHash.get(curTimerID) != null) {
+				if (CurrentSession.itHash.get(curTimerID).getTitle().equals(s)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/*

@@ -139,7 +139,7 @@ public class Sorter {
 
 		
 		// This loop adds the enabled timer's names to the timerValues Arraylist
-		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
+		for (int curTimerID = 0; curTimerID < tNOT; curTimerID++) {
 			if (hm.get(curTimerID) != null) {
 				if (hm.get(curTimerID).getToggled()) {
 					timerTitles.add(hm.get(curTimerID).getTitle());

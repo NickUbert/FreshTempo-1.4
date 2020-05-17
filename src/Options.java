@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -59,7 +61,7 @@ public class Options {
 	private int sessionFontX = (int) (.025 * screenY);
 
 	// Fonts
-	private Font optionFont = new Font("Helvetica", Font.PLAIN, (int) (.03125 * screenX));
+	private Font optionFont = new Font("Helvetica", Font.PLAIN, (int) (.03 * screenX));
 	private Font settingsFont = new Font("Helvetica", Font.BOLD, (int) (.05 * screenX));
 	private Font removeFont = new Font("Helvetica", Font.BOLD, (int) (.045 * screenX));
 	private Font exitFont = new Font("Helvetica", Font.TRUETYPE_FONT, textFontX);
@@ -214,21 +216,19 @@ public class Options {
 		autoSortBtn.setBounds(optionsBtnXL, autoSortYL, optionsBtnX, optionsBtnY);
 		autoSortBtn.setFocusable(false);
 		autoSortBtn.setFont(optionFont);
-		autoSortBtn.setBackground(Color.DARK_GRAY);
+		autoSortBtn.setBackground(Color.LIGHT_GRAY);
 		autoSortBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				
-				//TODO : DEMO
-				
+
 				cs.setAutoSortEnabled(!cs.getAutoSortEnabled());
 				if (cs.getAutoSortEnabled()) {
 					autoSortBtn.setText("Urgency Sort-ON");
 				} else {
 					autoSortBtn.setText("Urgency Sort-OFF");
 				}
-				
+
 			}
-			
+
 		});
 
 		// Initial value check for autosorting.
@@ -451,6 +451,7 @@ public class Options {
 
 									}
 								}
+
 								// the actual removing of the timer from the itHash.
 								cs.itHash.get(removeTimerID).countDown.stop();
 								cs.itHash.remove(removeTimerID);
@@ -483,8 +484,6 @@ public class Options {
 		freshNetBtn.setBackground(Color.LIGHT_GRAY);
 		freshNetBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				//TODO: DEMO
-				
 				cs.setMenuOpen(true);
 				StartUp.optionPanel.setVisible(false);
 				StartUp.optionPanel.removeAll();
@@ -492,7 +491,7 @@ public class Options {
 				tb.updateBar("UNDO");
 				CreateTimer ct = new CreateTimer();
 				ct.paintAddressPanel();
-				
+
 			}
 		});
 

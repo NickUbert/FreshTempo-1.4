@@ -54,7 +54,10 @@ public class Database {
 
 	}
 
-	private void recordNewItem(int itemID, String itemName, int shelfSec) throws SQLException {
+	// Record new item is used when a store adds a timer themselves, the item is
+	// recorded and sent to the database.
+	public void recordNewItem(int itemID, String itemName, int shelfSec) throws SQLException {
+		connect();
 
 		String sql = "INSERT INTO ItemData (Store_ID, Item_ID, Item_Name, Shelf_Life) VALUES (?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);
@@ -68,7 +71,7 @@ public class Database {
 		message.setInt(4, shelfSec);
 
 		message.executeUpdate();
+		// TODO disconnect
 	}
-	
 
 }

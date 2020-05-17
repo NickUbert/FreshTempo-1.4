@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -12,10 +13,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 /**
  * StartUp Class contains the main method of the program and is responsible for
@@ -126,6 +133,7 @@ public class StartUp {
 			display.setBounds(0, 0, screenX, screenY - taskGap);
 			display.setLayout(cardLayout);
 			display.setBackground(backgroundColor);
+
 			// display.setBackground(Color.RED);
 			backgroundHash.put(curWindowNum, display);
 			window.add(backgroundHash.get(curWindowNum));
@@ -144,7 +152,6 @@ public class StartUp {
 				Sorter so = new Sorter();
 				so.sort(CurrentSession.itHash);
 				so.startBufferSort();
-				
 
 			} else {
 				// If no priors exist the system just opens a timer creation menu.

@@ -105,32 +105,12 @@ public class CurrentSession {
 		// StartUp.backgroundHash.get(currentAddingPanel).revalidate();
 	}
 
-	JPanel temp;
-	int opacity = 0;
-	Timer animationTimer = new Timer(60, new ActionListener() {
-		public void actionPerformed(ActionEvent ae) {
-			if (opacity >= 255) {
-
-				temp.setBackground(new Color(255, 255, 255, 255));
-				StartUp.backgroundHash.get(currentPage).add(temp);
-				StartUp.backgroundHash.get(currentPage).revalidate();
-				animationTimer.stop();
-			} else {
-				temp.setBackground(new Color(255, 255, 255, opacity));
-				opacity += 40;
-			}
-			StartUp.backgroundHash.get(currentPage).add(temp);
-			StartUp.backgroundHash.get(currentPage).revalidate();
-		}
-	});
-
 	/*
 	 * addToCurrentPage adds a component to the current page
 	 */
 	public void addToCurrentPage(RoundedPanel c) {
-		System.out.println(opacity);
-		temp = c;
-		animationTimer.start();
+		StartUp.backgroundHash.get(currentPage).add(c);
+		StartUp.backgroundHash.get(currentPage).revalidate();
 	}
 
 	public void addToCurrentPage(JScrollPane c) {

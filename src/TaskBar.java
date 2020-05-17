@@ -61,6 +61,9 @@ public class TaskBar {
 	Image biUndo = undoImg.getScaledInstance(btnIconXY, btnIconXY, Image.SCALE_SMOOTH);
 	Icon resizedUndoIcon = (Icon) new ImageIcon(biUndo);
 
+	ImageIcon logoIcon = new ImageIcon(getClass().getClassLoader().getResource("FT-icon-logo.png"));
+	Image logo = logoIcon.getImage();
+
 	// different taskBars
 	JPanel taskBarNext = new JPanel();
 	JPanel taskBarBack = new JPanel();
@@ -90,12 +93,14 @@ public class TaskBar {
 	 */
 	@SuppressWarnings("static-access")
 	public TaskBar() {
+
 		// set dims for taskbars and clear any previous components
 		taskBar.setLayout(cl);
 		taskBar.setBounds(0, taskBarYL, taskBarX, taskBarY);
 		taskBar.setVisible(true);
 		taskBar.removeAll();
 
+		StartUp.window.setIconImage(logo);
 		// setting layouts for taskbars
 		taskBarBack.setLayout(null);
 		taskBarNext.setLayout(null);
@@ -228,8 +233,6 @@ public class TaskBar {
 
 				CreateTimer ct = new CreateTimer();
 				ct.paintCreatePanel();
-				
-				
 
 			}
 		});
