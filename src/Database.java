@@ -10,7 +10,8 @@ import java.util.Date;
 
 public class Database {
 
-	private String url = "jdbc:sqlite:C:/Users/NickU/Documents/FreshNetServer/FreshNet.db";
+	//TODO make connection dynamic so that everyone isnt connecting as admin
+	private String url = "jdbc:mysql://freshnet.cjcf0bgozlin.us-east-2.rds.amazonaws.com:3306/freshnet?user=admin&password=Tempo2019";
 
 	private Connection connection;
 

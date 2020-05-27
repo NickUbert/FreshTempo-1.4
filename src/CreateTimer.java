@@ -584,13 +584,16 @@ public class CreateTimer {
 			CurrentSession cs = new CurrentSession();
 			int shelfSec = (userHour * 36060) + (userMin * 60);
 
+			
+		
+		
 			try {
 				db.recordNewItem(cs.getTNOT(), userTitle, shelfSec);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			 
 			cs.increaseCNOT();
 			cs.increaseTNOT();
 			cs.updateCAP();

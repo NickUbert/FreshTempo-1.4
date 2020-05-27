@@ -77,7 +77,7 @@ public class StartUp {
 	static JPanel optionPanel = new RoundedPanel();
 
 	public static void main(String[] args) throws IOException {
-
+		
 		// Create file paths
 		File crashData = new File("./CRASHLOG.txt");
 		File usageData = new File("./usageData.txt");

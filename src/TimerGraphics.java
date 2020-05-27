@@ -225,6 +225,8 @@ public class TimerGraphics {
 		 */
 
 		Database db = new Database();
+		
+	
 		try {
 			db.connect();
 		} catch (SQLException e) {
@@ -237,6 +239,7 @@ public class TimerGraphics {
 			System.out.println("Unable to record item...");
 			e.printStackTrace();
 		}
+		
 
 		// Update the timer and session values for expirations.
 		if (timer.getCurrentlyExpired()) {
