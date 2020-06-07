@@ -201,6 +201,7 @@ public class TimerGraphics {
 					timeLabel.revalidate();
 
 					timer.setJustRefreshed(true);
+					
 
 				}
 
@@ -226,7 +227,7 @@ public class TimerGraphics {
 
 		Database db = new Database();
 
-		
+		// TODO
 
 		
 
@@ -381,7 +382,7 @@ public class TimerGraphics {
 				prg.repaint();
 				prg.revalidate();
 				animationTimer.stop();
-				timer.setJustRefreshed(true);
+				
 
 			} else {
 				prg.setValue(spaceToFill);
