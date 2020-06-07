@@ -13,7 +13,7 @@ public class Database {
 	//TODO make connection dynamic so that everyone isnt connecting as admin
 	private String url = "jdbc:mysql://freshnet.cjcf0bgozlin.us-east-2.rds.amazonaws.com:3306/freshnet?user=admin&password=Tempo2019";
 
-	private Connection connection;
+	private static Connection connection;
 
 	public Database() {
 
@@ -58,7 +58,7 @@ public class Database {
 	// Record new item is used when a store adds a timer themselves, the item is
 	// recorded and sent to the database.
 	public void recordNewItem(int itemID, String itemName, int shelfSec) throws SQLException {
-		connect();
+		
 
 		String sql = "INSERT INTO ItemData (Store_ID, Item_ID, Item_Name, Shelf_Life) VALUES (?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);

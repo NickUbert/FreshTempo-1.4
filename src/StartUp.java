@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -96,6 +97,14 @@ public class StartUp {
 		}
 		if (!flushData.exists()) {
 			flushData.createNewFile();
+		}
+		
+		Database db = new Database();
+		try {
+			db.connect();
+		} catch (SQLException e) {
+			System.out.println("Database connection failed...");
+			e.printStackTrace();
 		}
 
 		// Create the program's fullscren window but not opening it yet.

@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 05/26/20 20:31:52
+The day and time of the software exiting was: 06/06/20 20:42:58
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,47 +11,47 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (05/26/20 20:31:52):
+Timers recorded at system exit (06/06/20 20:42:58):
 
- SANITIZER: 4:32
- SALAD1: 14:44
- SALAD2: 57:38
- CORN: 10:40
- PORKRIB: 5:58:52
- MUFFIN: 40:27
- COFFEE1: 7:23:43
- COFFEE2: 35:11
- COFFEE3: 7:23:34
- DECAF: -0:07
- CHICKEN: -24:11
- PIZZA1: 6:59:44
- PIZZA2: 3:30
- DOUGHNUT: -27:35
- WATER: 3:58:59
- SMOOTHIE1: 3:44
- SMOOTHIE2: 2:27
- HAM: 43:54
- STEAK: 0:01
- BACON: -1:56
- MILK: -27:34
- EGGS: -28:24
- HUMMUS: 19:58
- BEANS: 6:57
- CHOWDER: 6:56
- SOUP1: 69:02:45
- SOUP2: 2:46
- TOMATO: -0:01
- SANITIZER2: 0:13
- BROCCOLI: -26:53
- LETTUCE: 44:56
- ONIONS: 3:29
- RELISH: 8:43
- PICKLES: 2:48
- CHEESE: 0:55
- SWISS: 0:54
- WHITECHED: 2:31
- MILK: 2:57
- BACON: -0:05
- LETTUCE: -28:14
- TEST: 8:29
- TTEST: 44:30
+ SANITIZER: 4:24
+ SALAD1: 14:36
+ SALAD2: 57:30
+ CORN: 44:20
+ PORKRIB: 5:58:44
+ MUFFIN: 34:28
+ COFFEE1: 7:17:26
+ COFFEE2: 35:03
+ COFFEE3: 7:17:36
+ DECAF: 0:46
+ CHICKEN: 11:16
+ PIZZA1: 6:59:36
+ PIZZA2: 3:22
+ DOUGHNUT: -33:34
+ WATER: 3:58:51
+ SMOOTHIE1: 3:36
+ SMOOTHIE2: 2:19
+ HAM: 43:46
+ STEAK: -0:07
+ BACON: 2:48
+ MILK: 7:55
+ EGGS: -35:10
+ HUMMUS: 13:11
+ BEANS: 6:49
+ CHOWDER: 6:48
+ SOUP1: 69:02:37
+ SOUP2: 2:38
+ TOMATO: -0:09
+ SANITIZER2: 0:05
+ BROCCOLI: 2:25
+ LETTUCE: 38:57
+ ONIONS: 4:04
+ RELISH: 8:35
+ PICKLES: 2:40
+ CHEESE: 0:47
+ SWISS: 0:46
+ WHITECHED: 2:23
+ MILK: 2:49
+ BACON: 0:37
+ LETTUCE: -34:56
+ TEST: 8:21
+ TTEST: 44:22

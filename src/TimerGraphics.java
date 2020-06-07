@@ -225,21 +225,17 @@ public class TimerGraphics {
 		 */
 
 		Database db = new Database();
+
 		
-	
-		try {
-			db.connect();
-		} catch (SQLException e) {
-			System.out.println("Database connection failed...");
-			e.printStackTrace();
-		}
+
+		
+
 		try {
 			db.recordItem(timer.getTimerID(), timerShelfSec);
 		} catch (SQLException e) {
 			System.out.println("Unable to record item...");
 			e.printStackTrace();
 		}
-		
 
 		// Update the timer and session values for expirations.
 		if (timer.getCurrentlyExpired()) {
@@ -385,6 +381,7 @@ public class TimerGraphics {
 				prg.repaint();
 				prg.revalidate();
 				animationTimer.stop();
+				timer.setJustRefreshed(true);
 
 			} else {
 				prg.setValue(spaceToFill);
