@@ -5,8 +5,10 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,17 +33,17 @@ public class Options {
 	// Bounds
 	private int textFontX = (int) (.0625 * screenY);
 	private int optionsX = (int) (.4875 * screenX);
-	private int optionsY = (int) (.66667 * screenY);
+	private int optionsY = (int) (.75 * screenY);
 	private int autoSortYL = (int) (.57813 * optionsY);
 	private int freshNetYL = (int) (.925 * optionsY);
 	private int exitXY = (int) (.15385 * optionsX);
 	private int exitXYL = (int) (.01282 * optionsX);
-	private int removeScrollXL = (int) (.225 * optionsX);
-	private int removeScrollYL = (int) (.19 * optionsY);
-	private int removeScrollXY = (int) (.55 * optionsX);
+	private int removeScrollXL = (int) (.025 * optionsX);
+	private int removeScrollYL = (int) (.20 * optionsY);
+	private int removeScrollXY = (int) (.875 * optionsX);
 	private int layoutYL = (int) (.40625 * optionsY);
-	private int scrollDimX = (int) (.05128 * optionsX);
-	private int listPanelX = (int) (.76923 * optionsX);
+	private int scrollDimX = (int) (.053 * optionsX);
+	private int listPanelX = (int) (.85 * optionsX);
 	private int settingsLabelX = (int) (.64103 * optionsX);
 	private int settingsLabelY = (int) (.21875 * optionsY);
 	private int settingsLabelXL = (int) (.2 * optionsX);
@@ -53,12 +55,14 @@ public class Options {
 	private int analyticsYL = (int) (.75 * optionsY);
 	private int removeYL = (int) (.23438 * optionsY);
 	private int listItemX = (int) (.46154 * optionsX);
+	private int analyticsItemX = (int) (.85 * optionsX);
 	private int listItemY = (int) (.115 * optionsY);
 	private int analyticsItemY = (int) (.09 * optionsY);
 	private int removeLabelX = (int) (optionsX - (optionsX * .15));
 	private int optionsBtnX = (int) (optionsX - (optionsBtnXL * 4));
 	private int analyticsFontX = (int) (.03 * screenY);
 	private int sessionFontX = (int) (.025 * screenY);
+	private int scrollPanelGap = (int) (.046 * screenY);
 
 	// Fonts
 	private Font optionFont = new Font("Helvetica", Font.PLAIN, (int) (.03 * screenX));
@@ -118,7 +122,8 @@ public class Options {
 		removePanel.setBackground(Color.WHITE);
 		removePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		removeScrollPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-		removeScrollPanel.setBounds(removeScrollXL, removeScrollYL, removeScrollXY, (optionsY - removeScrollYL) - 5);
+		removeScrollPanel.setBounds(removeScrollXL, removeScrollYL, removeScrollXY,
+				(optionsY - removeScrollYL) - scrollPanelGap);
 
 		// Remove page title
 		JLabel removePanelTitle = new JLabel("Remove Timer:");
@@ -159,56 +164,6 @@ public class Options {
 
 			}
 		});
-
-		// Layout button
-		JButton layoutBtn = new JButton("Switch Layout");
-		layoutBtn.setVisible(true);
-		layoutBtn.setBounds(optionsBtnXL, layoutYL, optionsBtnX, optionsBtnY);
-		layoutBtn.setFocusable(false);
-		layoutBtn.setFont(optionFont);
-		layoutBtn.setBackground(optionButtonBackground);
-		layoutBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				cs.setCardLayout(!cs.getCardLayout());
-
-				PageManager pm = new PageManager();
-				pm.clearPage();
-
-				// These values are hard coded and need to be updated when page layouts are
-				// changed.
-				if (cs.getCardLayout()) {
-					cs.setFrameLimit(3);
-				} else {
-					cs.setFrameLimit(15);
-				}
-				cs.updateCAP();
-
-				// This loop switches the design of all the timers.
-				for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
-					if (CurrentSession.itHash.get(curTimerID) != null) {
-						CurrentSession.itHash.get(curTimerID).switchTimerLayout();
-					}
-				}
-				// Reset back to first page and update page graphics.
-				cs.setCurrentPage(0);
-
-				TaskBar tb = new TaskBar();
-				tb.updateTaskBar();
-
-				@SuppressWarnings("unused")
-				StartUp su = new StartUp();
-				StartUp.switchLayoutGaps();
-
-				Sorter so = new Sorter();
-				so.valueSort(CurrentSession.itHash);
-
-				// Auto exit the menu
-				exitBtn.doClick();
-
-			}
-		});
-
-		StartUp.optionPanel.add(layoutBtn);
 
 		// Audio Button
 		JButton autoSortBtn = new JButton();
@@ -264,7 +219,6 @@ public class Options {
 						removePanel.setVisible(false);
 						returnbtn.setVisible(false);
 						exitBtn.setVisible(true);
-						layoutBtn.setVisible(true);
 						autoSortBtn.setVisible(true);
 						removebtn.setVisible(true);
 						freshNetBtn.setVisible(true);
@@ -275,7 +229,7 @@ public class Options {
 				removeScrollPanel.setVisible(true);
 				returnbtn.setVisible(true);
 				StartUp.optionPanel.add(returnbtn);
-				layoutBtn.setVisible(false);
+
 				autoSortBtn.setVisible(false);
 				removebtn.setVisible(false);
 				analyticsBtn.setVisible(false);
@@ -283,74 +237,78 @@ public class Options {
 				freshNetBtn.setVisible(false);
 
 				Analytics an = new Analytics();
-				// Calculate average expiration time using analytics
-				String avgTime = "error";
+
+				int numOfRotations = 0;
 				try {
-					avgTime = an.getAverageExpirationTime();
+					numOfRotations = Integer.parseInt(an.getNumberOfRotations());
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-				String sessionDays = "" + an.getSessionLength();
-
-				int numOfExp = Integer.parseInt(an.getNumberOfExpirations());
-
 				// Analytics scroll value is calculated by multiplying the height of each timer
 				// label by the number of timer labels. Sets the height of the scroll page.
-				int anScrollValue = (numOfExp + 3) * ((int) (.095 * optionsY));
+
+				int anScrollValue = (numOfRotations + 3) * (analyticsItemY + 5);
 
 				// Create remove panel
 				removePanel.setPreferredSize(new Dimension(listPanelX, anScrollValue));
 				removePanel.setVisible(true);
 				StartUp.optionPanel.add(removeScrollPanel);
 
-				// Label for length of session
-				JLabel sessionDaysLabel = new JLabel("Session Length: " + sessionDays + " days");
-				sessionDaysLabel.setFont(sessionFont);
-				sessionDaysLabel.setPreferredSize(new Dimension(listItemX, analyticsItemY));
-				sessionDaysLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				sessionDaysLabel.setVisible(true);
-				removePanel.add(sessionDaysLabel);
-
-				// Label for average expirations
-				JLabel avgTimeLabel = new JLabel("Avg. Expiration: " + avgTime);
-				avgTimeLabel.setFont(sessionFont);
-				avgTimeLabel.setPreferredSize(new Dimension(listItemX, analyticsItemY));
-				avgTimeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				avgTimeLabel.setVisible(true);
-				removePanel.add(avgTimeLabel);
-
 				// Label for the header of the expirations list
-				JLabel itemsRecordedLabel = new JLabel("Expired Items Recorded:");
+				JLabel itemsRecordedLabel = new JLabel("Rotations Recorded:");
 				itemsRecordedLabel.setFont(sessionFont);
-				itemsRecordedLabel.setPreferredSize(new Dimension(listItemX, analyticsItemY));
+				itemsRecordedLabel.setPreferredSize(new Dimension(analyticsItemX, analyticsItemY));
 				itemsRecordedLabel.setHorizontalAlignment(SwingConstants.CENTER);
 				itemsRecordedLabel.setVisible(true);
 				removePanel.add(itemsRecordedLabel);
 
-				JLabel[] labelArray = new JLabel[numOfExp];
+				JLabel itemsFormatLabel = new JLabel("Item Name : Shelf Time : TimeStamp");
+				itemsFormatLabel.setFont(sessionFont);
+				itemsFormatLabel.setPreferredSize(new Dimension(analyticsItemX, analyticsItemY));
+				itemsFormatLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				itemsFormatLabel.setVisible(true);
+				removePanel.add(itemsFormatLabel);
+
+				JLabel[] labelArray = new JLabel[numOfRotations];
+				ArrayList<String> rotationDates = new ArrayList<String>();
+				ArrayList<String> rotationTitles = new ArrayList<String>();
+				ArrayList<String> rotationTimes = new ArrayList<String>();
+				try {
+					rotationDates = an.getRotationDates();
+					rotationTitles = an.getRotationTitles();
+					rotationTimes = an.getRotationTimes();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				// Create individual expiration info labels
-				for (int curLabelNum = 0; curLabelNum < an.getExpiredDates().size(); curLabelNum++) {
+				for (int curLabelNum = 0; curLabelNum < numOfRotations; curLabelNum++) {
 
 					// Set values for individual expirations
 					labelArray[curLabelNum] = new JLabel();
-					String date = an.getExpiredDates().get(curLabelNum);
-					String title = an.getExpiredTitles().get(curLabelNum);
+					String date = rotationDates.get(curLabelNum);
+					String title = rotationTitles.get(curLabelNum);
 
-					// Cap the title lenght to save room.
-					if (title.length() > 5) {
-						title = title.substring(0, 5) + ".";
-					}
+				
 
 					// Create string representing the date and time of expiration. Might be cut off
 					// in some cases.
-					String time = an.getExpiredTimes().get(curLabelNum);
-					labelArray[curLabelNum].setText(title + " " + time + " : " + date);
-					labelArray[curLabelNum].setPreferredSize(new Dimension(listItemX, analyticsItemY));
+					String time = rotationTimes.get(curLabelNum);
+
+					labelArray[curLabelNum].setText(title + " : " + time + " : " + date);
+					if (time.contains("-")) {
+						labelArray[curLabelNum].setForeground(Color.RED);
+					} 
+					labelArray[curLabelNum].setPreferredSize(new Dimension(analyticsItemX, analyticsItemY));
 					labelArray[curLabelNum].setHorizontalAlignment(SwingConstants.CENTER);
 					labelArray[curLabelNum].setFont(analyticsFont);
-					labelArray[curLabelNum].setBackground(Color.LIGHT_GRAY);
+
 					labelArray[curLabelNum].setVisible(true);
 
 					removePanel.add(labelArray[curLabelNum]);
@@ -387,7 +345,6 @@ public class Options {
 						removePanel.setVisible(false);
 						returnbtn.setVisible(false);
 						exitBtn.setVisible(true);
-						layoutBtn.setVisible(true);
 						autoSortBtn.setVisible(true);
 						removebtn.setVisible(true);
 						freshNetBtn.setVisible(true);
@@ -399,7 +356,7 @@ public class Options {
 				removePanel.setVisible(true);
 				returnbtn.setVisible(true);
 				StartUp.optionPanel.add(returnbtn);
-				layoutBtn.setVisible(false);
+
 				autoSortBtn.setVisible(false);
 				removebtn.setVisible(false);
 				analyticsBtn.setVisible(false);
@@ -478,7 +435,7 @@ public class Options {
 		// Store ID Button
 		freshNetBtn = new JButton("FreshNet ID");
 		freshNetBtn.setVisible(true);
-		freshNetBtn.setBounds(optionsBtnXL, freshNetYL, optionsBtnX, optionsBtnY);
+		freshNetBtn.setBounds(optionsBtnXL, layoutYL, optionsBtnX, optionsBtnY);
 		freshNetBtn.setFocusable(false);
 		freshNetBtn.setFont(optionFont);
 		freshNetBtn.setBackground(Color.LIGHT_GRAY);

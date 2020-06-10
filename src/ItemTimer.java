@@ -134,7 +134,6 @@ public class ItemTimer {
 		public void actionPerformed(ActionEvent ae) {
 			if (justRefreshed) {
 				justRefreshed = false;
-				timerGraphics.getTimeDisplay().setForeground(Color.BLACK);
 				timerGraphics.refreshTimer();
 
 				Sorter so = new Sorter();
@@ -431,7 +430,7 @@ public class ItemTimer {
 	 */
 	public void increaseColorCode() {
 		colorCodeInt++;
-		if (colorCodeInt == 3) {
+		if (colorCodeInt == 5) {
 			colorCodeInt = 0;
 		}
 	}

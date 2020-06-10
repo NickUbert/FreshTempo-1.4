@@ -99,6 +99,8 @@ public class StartUp {
 			flushData.createNewFile();
 		}
 		
+		//TODO
+		/*
 		Database db = new Database();
 		try {
 			db.connect();
@@ -106,12 +108,14 @@ public class StartUp {
 			System.out.println("Database connection failed...");
 			e.printStackTrace();
 		}
+		*/
 
 		// Create the program's fullscren window but not opening it yet.
 		window = new JFrame();
 		window.setLayout(null);
 		window.setExtendedState(Frame.MAXIMIZED_BOTH);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setTitle("FreshTempo V1.1");
 
 		// Adding the option panel so that it appears on top of other components.
 		optionPanel.setBounds(optionXL, optionYL, optionX, optionY);
@@ -140,7 +144,7 @@ public class StartUp {
 		for (int curWindowNum = 0; curWindowNum < windowCount; curWindowNum++) {
 			JPanel display = new JPanel();
 			display.setBounds(0, 0, screenX, screenY - taskGap);
-			display.setLayout(cardLayout);
+			display.setLayout(tabLayout);
 			display.setBackground(backgroundColor);
 
 			// display.setBackground(Color.RED);
@@ -210,7 +214,7 @@ public class StartUp {
 						}
 
 						// Write session info before looping through timers.
-						bw.write(cs.getTNOT() + "," + timerCount + "," + cardLayoutInt + "," + autoSortInt + ","
+						bw.write(cs.getTNOT() + "," + timerCount + "," + 0 + "," + autoSortInt + ","
 								+ sessionAddress);
 						bw.newLine();
 
@@ -318,7 +322,7 @@ public class StartUp {
 		}
 
 		// Sets base values for session details.
-		cs.setCardLayout(sessionDataInt[2] == 1);
+		cs.setCardLayout(false);
 		cs.setCNOT(0);
 
 		// Initialize ItemTimers from stored data.

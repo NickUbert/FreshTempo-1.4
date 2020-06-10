@@ -57,7 +57,7 @@ public class CreateTimer {
 	private int minNewLabelYL = (int) (.10127 * cardY);
 
 	private int titleNewLabelYL = (int) (.17722 * cardY);
-	private int titleNewLabelXL = (int) (.022 * cardX);
+	private int titleNewLabelXL = (int) (.01 * cardX);
 	private int titleNewLabelY = (int) (.03544 * cardY);
 	private int titleNewLabelX = (int) (.4 * cardX);
 
@@ -203,7 +203,7 @@ public class CreateTimer {
 		createPanel.add(titleTf);
 
 		// Set title label.
-		JLabel newTitleLabel = new JLabel("Set Unique Name");
+		JLabel newTitleLabel = new JLabel("Set Timer Name");
 		newTitleLabel.setFont(createPanelFont);
 		newTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		newTitleLabel.setBounds(titleNewLabelXL, titleNewLabelYL, titleNewLabelX, titleNewLabelY);
@@ -580,19 +580,21 @@ public class CreateTimer {
 		// will be created.Graphics are updated and a timer creation is called using the
 		// user inputs as constructor values.
 		if (validTitle && validMin && validHour) {
-			Database db = new Database();
+		
 			CurrentSession cs = new CurrentSession();
 			int shelfSec = (userHour * 36060) + (userMin * 60);
 
 			
-		
-		
+			//TODO DEMO DISCONNECT
+			
+			Database db = new Database();
 			try {
 				db.recordNewItem(cs.getTNOT(), userTitle, shelfSec);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 			 
 			cs.increaseCNOT();
 			cs.increaseTNOT();

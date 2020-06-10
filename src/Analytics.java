@@ -2,6 +2,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -216,8 +217,16 @@ public class Analytics {
 	 * getNumberOfExpirations returns the number of timers refreshed past their
 	 * expirations. This must also be called after average time calc.
 	 */
-	public String getNumberOfExpirations() {
-		return "" + numOfExpirations;
+	public String getNumberOfRotations() throws IOException {
+		FileReader fw = new FileReader("./usageData.txt");
+		BufferedReader bw = new BufferedReader(fw);
+		int numOfLines = 0;
+		String temp = bw.readLine();
+		while (temp != null) {
+			numOfLines++;
+			temp = bw.readLine();
+		}
+		return "" + numOfLines;
 	}
 
 	/*
@@ -346,21 +355,75 @@ public class Analytics {
 	/*
 	 * getExpiredTitles is used to return the arrayList of expired titles.
 	 */
-	public ArrayList<String> getExpiredTitles() {
-		return expiredTitles;
+	public ArrayList<String> getRotationTitles() throws IOException {
+		FileReader fr = new FileReader("./usageData.txt");
+		BufferedReader br = new BufferedReader(fr);
+		ArrayList<String> rotationTitles = new ArrayList<String>();
+
+		String temp = br.readLine();
+		while (temp != null) {
+			int sep = 0;
+			while (sep != 2) {
+				if (temp.charAt(0) == '$') {
+					sep++;
+				}
+				temp = temp.substring(1);
+			}
+			rotationTitles.add(temp.substring(0, temp.indexOf('$')));
+			temp = br.readLine();
+		}
+
+		return rotationTitles;
 	}
 
 	/*
 	 * getExpiredDates is used to return the arrayList of expired dates.
 	 */
-	public ArrayList<String> getExpiredDates() {
-		return expiredDates;
+	public ArrayList<String> getRotationDates() throws IOException {
+		FileReader fr = new FileReader("./usageData.txt");
+		BufferedReader br = new BufferedReader(fr);
+		ArrayList<String> rotationDates = new ArrayList<String>();
+
+		String temp = br.readLine();
+		while (temp != null) {
+
+			rotationDates.add(temp.substring(0, temp.indexOf('$')));
+			temp = br.readLine();
+		}
+		return rotationDates;
 	}
 
 	/*
 	 * getExpiredTimes is used to return the arrayList of expiredTimes.
 	 */
-	public ArrayList<String> getExpiredTimes() {
-		return expiredTimes;
+	public ArrayList<String> getRotationTimes() throws IOException {
+		FileReader fr = new FileReader("./usageData.txt");
+		BufferedReader br = new BufferedReader(fr);
+		ArrayList<String> rotationTimes = new ArrayList<String>();
+
+		String temp = br.readLine();
+		while (temp != null) {
+			int sep = 0;
+			while (sep != 3) {
+				if (temp.charAt(0) == '$') {
+					sep++;
+				}
+				temp = temp.substring(1);
+			}
+			String hourString = temp.substring(0, temp.indexOf('$'));
+			String minString = temp.substring(temp.indexOf('$') + 1, temp.lastIndexOf('$'));
+			String secString = temp.substring(temp.lastIndexOf('$') + 1);
+
+			int sec = Integer.parseInt(secString);
+			int min = Integer.parseInt(minString);
+			int hour = Integer.parseInt(hourString);
+			ItemTimer it = new ItemTimer();
+			String timeString = it.timeValueToString(sec, min, hour);
+			rotationTimes.add(timeString);
+
+			temp = br.readLine();
+		}
+
+		return rotationTimes;
 	}
 }

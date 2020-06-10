@@ -72,7 +72,7 @@ public class Database {
 		message.setInt(4, shelfSec);
 
 		message.executeUpdate();
-		// TODO disconnect
+	
 	}
 
 }

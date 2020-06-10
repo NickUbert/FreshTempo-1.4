@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 06/06/20 20:42:58
+The day and time of the software exiting was: 06/10/20 12:12:12
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,47 +11,47 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (06/06/20 20:42:58):
+Timers recorded at system exit (06/10/20 12:12:12):
 
- SANITIZER: 4:24
- SALAD1: 14:36
- SALAD2: 57:30
- CORN: 44:20
- PORKRIB: 5:58:44
- MUFFIN: 34:28
- COFFEE1: 7:17:26
- COFFEE2: 35:03
- COFFEE3: 7:17:36
- DECAF: 0:46
- CHICKEN: 11:16
- PIZZA1: 6:59:36
- PIZZA2: 3:22
- DOUGHNUT: -33:34
- WATER: 3:58:51
- SMOOTHIE1: 3:36
- SMOOTHIE2: 2:19
- HAM: 43:46
- STEAK: -0:07
- BACON: 2:48
- MILK: 7:55
- EGGS: -35:10
- HUMMUS: 13:11
- BEANS: 6:49
- CHOWDER: 6:48
- SOUP1: 69:02:37
- SOUP2: 2:38
- TOMATO: -0:09
- SANITIZER2: 0:05
- BROCCOLI: 2:25
- LETTUCE: 38:57
- ONIONS: 4:04
- RELISH: 8:35
- PICKLES: 2:40
- CHEESE: 0:47
- SWISS: 0:46
- WHITECHED: 2:23
- MILK: 2:49
- BACON: 0:37
- LETTUCE: -34:56
- TEST: 8:21
- TTEST: 44:22
+ SANITIZER: -34:45
+ SALAD1: 13:17
+ SALAD2: 54:04
+ CORN: 27:31
+ PORKRIB: 5:57:25
+ MUFFIN: 26:10
+ COFFEE1: 7:18:30
+ COFFEE2: 33:44
+ COFFEE3: 7:19:00
+ DECAF: -27:42
+ CHICKEN: -5:39
+ PIZZA1: 6:58:17
+ PIZZA2: -14:05
+ DOUGHNUT: -19:33
+ WATER: 3:55:37
+ SMOOTHIE1: -23:49
+ SMOOTHIE2: -22:54
+ HAM: 42:27
+ STEAK: -1:26
+ BACON: -13:53
+ MILK: -20:19
+ EGGS: -12:09
+ HUMMUS: -3:56
+ BEANS: 5:30
+ CHOWDER: 5:29
+ SOUP1: 68:59:18
+ SOUP2: -36:47
+ TOMATO: -1:28
+ SANITIZER2: -16:35
+ BROCCOLI: -10:46
+ LETTUCE: 26:10
+ ONIONS: -11:30
+ RELISH: 4:24
+ PICKLES: -22:15
+ CHEESE: -0:32
+ SWISS: -31:54
+ WHITECHED: 1:04
+ MILK: 1:30
+ BACON: -16:47
+ LETTUCE: -35:08
+ TEST: -33:37
+ TTEST: 41:07

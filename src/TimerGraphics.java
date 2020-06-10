@@ -77,8 +77,16 @@ public class TimerGraphics {
 	private Color prgExpired = Color.decode("#CC2936");
 	private Color backgroundColor = Color.decode("#223843");
 
-	private Color colorCodeA = Color.decode("#FFFFFF");
-	private Color colorCodeB = Color.decode("#0AD3FF");
+	// Black
+	private Color colorCodeA = Color.decode("#000000");
+	// Blue
+	private Color colorCodeB = Color.decode("#00A8E8");
+	// Pink
+	private Color colorCodeC = Color.decode("#FF00FF");
+	// Orange
+	private Color colorCodeD = Color.decode("#FF7D00");
+	// Green
+	private Color colorCodeE = Color.decode("#6BD425");
 
 	// Progress Bar
 	private JProgressBar prg = new JProgressBar();
@@ -115,13 +123,7 @@ public class TimerGraphics {
 		timerPanel.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				timer.increaseColorCode();
-				if (timer.getColorCode() == 0) {
-					timerPanel.setBackground(colorCodeA);
-				}
-				if (timer.getColorCode() == 2) {
-					timerPanel.setBackground(colorCodeB);
-				}
-
+				switchColorGroup();
 			}
 		});
 
@@ -195,13 +197,11 @@ public class TimerGraphics {
 				if (!timer.getDoubleTap()) {
 					refreshAnimation();
 					String resetTime = timer.timeValueToString(0, timer.getStartMin(), timer.getStartHour());
-					timeLabel.setForeground(prgRemainder);
 					timeLabel.setText(resetTime);
 					timeLabel.repaint();
 					timeLabel.revalidate();
 
 					timer.setJustRefreshed(true);
-					
 
 				}
 
@@ -220,16 +220,16 @@ public class TimerGraphics {
 
 	public void refreshTimer() {
 		// Record the timer refresh data no matter what
-		/*
-		 * Analytics an = new Analytics(); try { an.recordTimeData(timer); } catch
-		 * (IOException e1) { e1.printStackTrace(); }
-		 */
 
-		Database db = new Database();
-
-		// TODO
-
+		Analytics an = new Analytics();
+		try {
+			an.recordTimeData(timer);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
+		//TODO DEMO DISCONNECT
+		Database db = new Database();
 
 		try {
 			db.recordItem(timer.getTimerID(), timerShelfSec);
@@ -269,12 +269,7 @@ public class TimerGraphics {
 		timerPanel.setOpaque(false);
 
 		// Check for color code in case a layout change was made.
-		if (timer.getColorCode() == 0) {
-			timerPanel.setBackground(colorCodeA);
-		}
-		if (timer.getColorCode() == 2) {
-			timerPanel.setBackground(colorCodeB);
-		}
+		switchColorGroup();
 
 		// Set card specific progress bar properties.
 		prg.setOrientation(SwingConstants.VERTICAL);
@@ -326,12 +321,7 @@ public class TimerGraphics {
 		timerPanel.setOpaque(false);
 
 		// Check for color code in case of layout switch.
-		if (timer.getColorCode() == 0) {
-			timerPanel.setBackground(colorCodeA);
-		}
-		if (timer.getColorCode() == 2) {
-			timerPanel.setBackground(colorCodeB);
-		}
+		switchColorGroup();
 		// Update tab specific progress bar properties.
 		prg.setOrientation(SwingConstants.HORIZONTAL);
 		prg.setBounds(prgTXL, 1, prgTX, tabY - shadowGap - 1);
@@ -382,7 +372,6 @@ public class TimerGraphics {
 				prg.repaint();
 				prg.revalidate();
 				animationTimer.stop();
-				
 
 			} else {
 				prg.setValue(spaceToFill);
@@ -392,6 +381,24 @@ public class TimerGraphics {
 			}
 		}
 	});
+
+	private void switchColorGroup() {
+		if (timer.getColorCode() == 0) {
+			timeLabel.setForeground(colorCodeA);
+		}
+		if (timer.getColorCode() == 1) {
+			timeLabel.setForeground(colorCodeB);
+		}
+		if (timer.getColorCode() == 2) {
+			timeLabel.setForeground(colorCodeC);
+		}
+		if (timer.getColorCode() == 3) {
+			timeLabel.setForeground(colorCodeD);
+		}
+		if (timer.getColorCode() == 4) {
+			timeLabel.setForeground(colorCodeE);
+		}
+	}
 
 	/*
 	 * switchToPauseGraphics just changes the colors on this timers progress bar to

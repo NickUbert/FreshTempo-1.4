@@ -20,7 +20,7 @@ import javax.swing.Timer;
  * 
  */
 public class CurrentSession {
-	private static boolean cardLayout = true;
+	private static boolean cardLayout = false;
 	private static boolean autoSortEnabled = false;
 	private static int currentPage = 0;
 	private static int cAP;
