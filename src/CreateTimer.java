@@ -619,7 +619,7 @@ public class CreateTimer {
 
 	}
 
-	//TODO this isn't used currently
+	//TODO this isn't used currently but might be useful
 	private boolean existingTitle(String s) {
 		CurrentSession cs = new CurrentSession();
 		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {

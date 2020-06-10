@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 06/10/20 12:12:12
+The day and time of the software exiting was: 06/10/20 14:34:08
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,47 +11,47 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (06/10/20 12:12:12):
+Timers recorded at system exit (06/10/20 14:34:08):
 
- SANITIZER: -34:45
- SALAD1: 13:17
- SALAD2: 54:04
- CORN: 27:31
- PORKRIB: 5:57:25
- MUFFIN: 26:10
- COFFEE1: 7:18:30
- COFFEE2: 33:44
- COFFEE3: 7:19:00
- DECAF: -27:42
- CHICKEN: -5:39
- PIZZA1: 6:58:17
- PIZZA2: -14:05
- DOUGHNUT: -19:33
- WATER: 3:55:37
- SMOOTHIE1: -23:49
- SMOOTHIE2: -22:54
- HAM: 42:27
- STEAK: -1:26
- BACON: -13:53
- MILK: -20:19
- EGGS: -12:09
- HUMMUS: -3:56
- BEANS: 5:30
- CHOWDER: 5:29
- SOUP1: 68:59:18
- SOUP2: -36:47
- TOMATO: -1:28
- SANITIZER2: -16:35
- BROCCOLI: -10:46
- LETTUCE: 26:10
- ONIONS: -11:30
- RELISH: 4:24
- PICKLES: -22:15
- CHEESE: -0:32
- SWISS: -31:54
- WHITECHED: 1:04
- MILK: 1:30
- BACON: -16:47
- LETTUCE: -35:08
- TEST: -33:37
- TTEST: 41:07
+ SANITIZER: -34:48
+ SALAD1: 13:14
+ SALAD2: 54:01
+ CORN: 43:17
+ PORKRIB: 5:57:22
+ MUFFIN: 43:24
+ COFFEE1: 7:58:28
+ COFFEE2: 33:41
+ COFFEE3: 7:16:35
+ DECAF: -0:33
+ CHICKEN: 10:18
+ PIZZA1: 6:58:14
+ PIZZA2: -14:08
+ DOUGHNUT: 8:22
+ WATER: 3:55:34
+ SMOOTHIE1: -23:52
+ SMOOTHIE2: -22:57
+ HAM: 42:24
+ STEAK: -1:29
+ BACON: 2:18
+ MILK: -20:22
+ EGGS: 6:26
+ HUMMUS: 53:24
+ BEANS: 5:27
+ CHOWDER: 5:26
+ SOUP1: 68:59:15
+ SOUP2: -36:50
+ TOMATO: -1:31
+ SANITIZER2: -16:38
+ BROCCOLI: 6:20
+ LETTUCE: 43:21
+ ONIONS: 6:23
+ RELISH: 4:21
+ PICKLES: -22:18
+ CHEESE: -0:35
+ SWISS: -31:57
+ WHITECHED: 1:01
+ MILK: 1:27
+ BACON: -0:42
+ LETTUCE: 3:25
+ TEST: -33:40
+ TTEST: 41:04

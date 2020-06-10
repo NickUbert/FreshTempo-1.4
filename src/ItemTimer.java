@@ -270,14 +270,6 @@ public class ItemTimer {
 	}
 
 	/*
-	 * switchTimerLayout is a void method used to call a specific method within the
-	 * timer graphics object linked to each specific itemTimer.
-	 */
-	public void switchTimerLayout() {
-		tg.switchLayout();
-	}
-
-	/*
 	 * getMax is used to set the max value for all new progress bars, it returns the
 	 * starting time values in seconds. min is min+1 because of automatic
 	 * conversions.

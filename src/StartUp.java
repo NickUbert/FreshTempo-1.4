@@ -100,7 +100,7 @@ public class StartUp {
 		}
 		
 		//TODO
-		/*
+		
 		Database db = new Database();
 		try {
 			db.connect();
@@ -108,7 +108,7 @@ public class StartUp {
 			System.out.println("Database connection failed...");
 			e.printStackTrace();
 		}
-		*/
+		
 
 		// Create the program's fullscren window but not opening it yet.
 		window = new JFrame();

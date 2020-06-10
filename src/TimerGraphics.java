@@ -209,12 +209,7 @@ public class TimerGraphics {
 
 		});
 
-		// Check which format to use.
-		if (cs.getCardLayout()) {
-			createCardUI();
-		} else {
-			createTabUI();
-		}
+		createTabUI();
 
 	}
 
@@ -227,8 +222,9 @@ public class TimerGraphics {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		//TODO DEMO DISCONNECT
+
+		// TODO DEMO DISCONNECT
+
 		Database db = new Database();
 
 		try {
@@ -251,59 +247,6 @@ public class TimerGraphics {
 	}
 
 	/*
-	 * createCardUI is used to paint the timergraphics needed for timers running in
-	 * a card layout session.
-	 */
-	@SuppressWarnings("static-access")
-	private void createCardUI() {
-
-		// Remove all components before creating the card.
-		Icon resizedRefreshIcon = new ImageIcon(
-				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh.png")).getImage()
-						.getScaledInstance(refreshXY, refreshXY, Image.SCALE_SMOOTH));
-
-		refreshBtn.setIcon(resizedRefreshIcon);
-		timerPanel.removeAll();
-		timerPanel.setLayout(null);
-		timerPanel.setPreferredSize(new Dimension(cardX, cardY));
-		timerPanel.setOpaque(false);
-
-		// Check for color code in case a layout change was made.
-		switchColorGroup();
-
-		// Set card specific progress bar properties.
-		prg.setOrientation(SwingConstants.VERTICAL);
-		prg.setBounds(0, prgy, prgwidth, prgheight);
-		prg.setStringPainted(false);
-
-		// Update fonts and bounds
-		titleLabel.setFont(cardTitleFont);
-		timeLabel.setBounds(timeDisplayXL, timeDisplayY, timeDisplayWidth, timeDisplayHeight);
-		timeLabel.setFont(cardTimeFont);
-		titleLabel.setBounds(titleLabelXL, titleLabely, titleLabelwidth, titleLabelheight);
-		refreshBtn.setBounds(refreshXL, refreshY, refreshXY, refreshXY);
-
-		// Add components
-		timerPanel.add(titleLabel);
-		timerPanel.add(prg);
-		timerPanel.add(refreshBtn);
-		timerPanel.add(timeLabel);
-		timerPanel.repaint();
-		timerPanel.revalidate();
-
-		// Add to page if needed.
-		CurrentSession cs = new CurrentSession();
-		if (timer.getToggled()) {
-			cs.addToCAP(timerPanel);
-		}
-
-		StartUp su = new StartUp();
-		su.window.repaint();
-		su.window.revalidate();
-
-	}
-
-	/*
 	 * createTabUI is used to paint the components needed for timers running in a
 	 * tab layout session.
 	 */
@@ -311,17 +254,16 @@ public class TimerGraphics {
 	private void createTabUI() {
 
 		// Clear all components before making a tab layout timer.
-		Icon resizedRefreshIcon = new ImageIcon(
-				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
-		refreshBtn.setIcon(resizedRefreshIcon);
+
 		timerPanel.removeAll();
+
+		// Check for color code in case of layout switch.
+		switchColorGroup();
+
 		timerPanel.setLayout(null);
 		timerPanel.setPreferredSize(new Dimension(tabX, tabY));
 		timerPanel.setOpaque(false);
 
-		// Check for color code in case of layout switch.
-		switchColorGroup();
 		// Update tab specific progress bar properties.
 		prg.setOrientation(SwingConstants.HORIZONTAL);
 		prg.setBounds(prgTXL, 1, prgTX, tabY - shadowGap - 1);
@@ -382,21 +324,42 @@ public class TimerGraphics {
 		}
 	});
 
+	
+	
 	private void switchColorGroup() {
-		if (timer.getColorCode() == 0) {
-			timeLabel.setForeground(colorCodeA);
-		}
-		if (timer.getColorCode() == 1) {
-			timeLabel.setForeground(colorCodeB);
-		}
-		if (timer.getColorCode() == 2) {
-			timeLabel.setForeground(colorCodeC);
-		}
-		if (timer.getColorCode() == 3) {
-			timeLabel.setForeground(colorCodeD);
-		}
-		if (timer.getColorCode() == 4) {
-			timeLabel.setForeground(colorCodeE);
+
+		Icon resizedBlackRefreshIcon = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-black.png")).getImage()
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+		Icon resizedGreenRefreshIcon = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-green.png")).getImage()
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+		Icon resizedPinkRefreshIcon = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-pink.png")).getImage()
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+		Icon resizedOrangeRefreshIcon = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-orange.png")).getImage()
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+		Icon resizedBlueRefreshIcon = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-blue.png")).getImage()
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+
+		switch (timer.getColorCode()) {
+		case 0:
+			refreshBtn.setIcon(resizedBlackRefreshIcon);
+			break;
+		case 1:
+			refreshBtn.setIcon(resizedBlueRefreshIcon);
+			break;
+		case 2:
+			refreshBtn.setIcon(resizedOrangeRefreshIcon);
+			break;
+		case 3:
+			refreshBtn.setIcon(resizedPinkRefreshIcon);
+			break;
+		case 4:
+			refreshBtn.setIcon(resizedGreenRefreshIcon);
+			break;
 		}
 	}
 
@@ -416,17 +379,6 @@ public class TimerGraphics {
 	public void switchToResumedGraphics() {
 		prg.setBackground(prgRemainder);
 		prg.setForeground(prgExpired);
-	}
-
-	/*
-	 * switchLayout is used to change the layout of each timer.
-	 */
-	public void switchLayout() {
-		if (cs.getCardLayout()) {
-			createCardUI();
-		} else {
-			createTabUI();
-		}
 	}
 
 	/*
