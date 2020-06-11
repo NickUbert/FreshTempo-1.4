@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,10 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -45,12 +49,12 @@ public class CreateTimer {
 	private int titleTextFieldXL = (int) (.44 * cardX);
 	private int titleTextFieldYL = (int) (.16456 * cardY);
 	private int titleTextFieldX = (int) (.48 * cardX);
-	private int titleTextFieldY = (int) (.07595 * cardY);
+	private int titleTextFieldY = (int) (.074 * cardY);
 
 	private int minTextFieldYL = (int) (.08861 * cardY);
 
 	private int keyPadButtonX = (int) (.3 * cardX);
-	private int keyPadButtonY = (int) (.1745 * cardY);
+	private int keyPadButtonY = (int) (.165 * cardY);
 
 	private int hTextFieldYL = (int) (.01266 * cardY);
 
@@ -60,6 +64,15 @@ public class CreateTimer {
 	private int titleNewLabelXL = (int) (.01 * cardX);
 	private int titleNewLabelY = (int) (.03544 * cardY);
 	private int titleNewLabelX = (int) (.4 * cardX);
+
+	private int initialLabelYL = (int) (.26 * cardY);
+	private int initialLabelXL = (int) (.01 * cardX);
+	private int initialLabelX = (int) (.4 * cardX);
+	private int initialLabelY = (int) (.03 * cardY);
+
+	private int initialBoxYL = (int) (.25 * cardY);
+	private int initialBoxXL = (int) (.45 * cardX);
+	private int initialBoxXY = (int) (.065 * cardX);
 
 	private int textFieldX = (int) (.24 * cardX);
 	private int textFieldXL = (int) (.5 * cardX - (textFieldX / 2));
@@ -78,7 +91,7 @@ public class CreateTimer {
 	private int keyboardBottomRowX = (int) (.091 * screenX);
 	private int keyboardY = (int) (.183 * screenY);
 
-	private int keyPadYL = (int) (.25316 * cardY);
+	private int keyPadYL = (int) (.3 * cardY);
 	private int keyPadY = (int) (.75949 * cardY);
 
 	private int curveD = (int) (.03125 * screenX);
@@ -138,10 +151,19 @@ public class CreateTimer {
 	Font backspaceFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.03 * screenY));
 	Font numSwitchFont = new Font("Helvetica", Font.ITALIC, (int) (.035 * screenY));
 
+	Icon resizedUncheckedBoxIcon = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-unchecked.png")).getImage()
+					.getScaledInstance(initialBoxXY, initialBoxXY, Image.SCALE_SMOOTH));
+
+	Icon resizedCheckedBoxIcon = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-checked.png")).getImage()
+					.getScaledInstance(initialBoxXY, initialBoxXY, Image.SCALE_SMOOTH));
+
 	// Default user entered values
 	private int userMin = 0;
 	private int userHour = 0;
 	private String userTitle = "";
+	private boolean initialsRequired = false;
 
 	/*
 	 * paintCreatePanel is used to fill the creation panel with all components
@@ -225,6 +247,31 @@ public class CreateTimer {
 		hNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		hNewLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
 		createPanel.add(hNewLabel);
+
+		JLabel initialLabel = new JLabel("Require Initials?");
+		initialLabel.setFont(createPanelFont);
+		initialLabel.setBounds(initialLabelXL, initialLabelYL, initialLabelX, initialLabelY);
+		initialLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		initialLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
+		createPanel.add(initialLabel);
+
+		JButton checkBox = new JButton();
+		checkBox.setIcon(resizedUncheckedBoxIcon);
+		checkBox.setBounds(initialBoxXL, initialBoxYL, initialBoxXY, initialBoxXY);
+		checkBox.setFocusable(false);
+		checkBox.setBackground(switchToNumColor);
+		checkBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				initialsRequired = !initialsRequired;
+				if (initialsRequired) {
+					checkBox.setIcon(resizedCheckedBoxIcon);
+				} else {
+					checkBox.setIcon(resizedUncheckedBoxIcon);
+				}
+			}
+		});
+
+		createPanel.add(checkBox);
 
 		// Set create panel properties and add it.
 		createPanel.setPreferredSize(new Dimension(cardX, cardY));
@@ -580,13 +627,12 @@ public class CreateTimer {
 		// will be created.Graphics are updated and a timer creation is called using the
 		// user inputs as constructor values.
 		if (validTitle && validMin && validHour) {
-		
+
 			CurrentSession cs = new CurrentSession();
 			int shelfSec = (userHour * 36060) + (userMin * 60);
 
-			
-			//TODO DEMO DISCONNECT
-			
+			// TODO DEMO DISCONNECT
+
 			Database db = new Database();
 			try {
 				db.recordNewItem(cs.getTNOT(), userTitle, shelfSec);
@@ -594,8 +640,7 @@ public class CreateTimer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			 
+
 			cs.increaseCNOT();
 			cs.increaseTNOT();
 			cs.updateCAP();
@@ -611,7 +656,7 @@ public class CreateTimer {
 
 			// Suppresses are used because these are contructor calls
 			@SuppressWarnings("unused")
-			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true);
+			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true, initialsRequired);
 			@SuppressWarnings("unused")
 			TimerToggles tt = new TimerToggles();
 
@@ -619,7 +664,7 @@ public class CreateTimer {
 
 	}
 
-	//TODO this isn't used currently but might be useful
+	// TODO this isn't used currently but might be useful
 	private boolean existingTitle(String s) {
 		CurrentSession cs = new CurrentSession();
 		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {

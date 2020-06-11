@@ -196,9 +196,7 @@ public class TimerGraphics {
 
 				if (!timer.getDoubleTap()) {
 
-					// TODO add a if statement to check if initials are required
-
-					if (true) {
+					if (timer.getInitialsRequired()) {
 						InitialsMenu im = new InitialsMenu(timer);
 					} else {
 						refreshTimer();

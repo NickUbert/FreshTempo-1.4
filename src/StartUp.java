@@ -225,6 +225,10 @@ public class StartUp {
 								if (cs.itHash.get(timerID).getToggled()) {
 									toggleInt = 1;
 								}
+								int initialsReqInt = 0;
+								if (cs.itHash.get(timerID).getInitialsRequired()) {
+									initialsReqInt = 1;
+								}
 								bw.write(cs.itHash.get(timerID).getTimerID() + ",");
 								bw.write(cs.itHash.get(timerID).getStartMin() + ",");
 								bw.write(cs.itHash.get(timerID).getStartHour() + ",");
@@ -232,6 +236,7 @@ public class StartUp {
 								bw.write(cs.itHash.get(timerID).getCurMin() + ",");
 								bw.write(cs.itHash.get(timerID).getCurHour() + ",");
 								bw.write(toggleInt + ",");
+								bw.write(initialsReqInt + ",");
 								bw.write(cs.itHash.get(timerID).getTitle());
 								bw.newLine();
 							}
@@ -333,8 +338,8 @@ public class StartUp {
 
 			// String lengths are hardcoded, alter these when storing more data on
 			// individual timers.
-			String[] rawDataStrings = new String[8];
-			int[] timerValues = new int[8];
+			String[] rawDataStrings = new String[9];
+			int[] timerValues = new int[9];
 
 			// Seperates each data value and stores them appropiately.
 			for (int j = 0; j < rawDataStrings.length; j++) {
@@ -358,6 +363,7 @@ public class StartUp {
 			int curMin = timerValues[4];
 			int curHour = timerValues[5];
 			boolean toggled = (timerValues[6] == 1);
+			boolean initials = (timerValues[7] == 1);
 
 			cs.increaseCNOT();
 
@@ -365,7 +371,7 @@ public class StartUp {
 				cs.increaseANOT();
 			}
 
-			ItemTimer it = new ItemTimer(startMin, startHour, title, id, true, toggled);
+			ItemTimer it = new ItemTimer(startMin, startHour, title, id, true, toggled,initials);
 
 			// Set the timers progress so that timers can save where they were.
 			it.setCurSec(curSec);

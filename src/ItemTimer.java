@@ -24,6 +24,7 @@ public class ItemTimer {
 	private int colorCodeInt;
 	private double timerPercent;
 	private boolean paused;
+	private boolean initialsRequired;
 	private TimerGraphics timerGraphics;
 	public JPanel timerPanel;
 	private TimerGraphics tg;
@@ -40,12 +41,13 @@ public class ItemTimer {
 	/*
 	 * Constructor sets itemTimer values to user inputs.
 	 */
-	public ItemTimer(int min, int hour, String title, int id, boolean loaded, boolean isToggled) {
+	public ItemTimer(int min, int hour, String title, int id, boolean loaded, boolean isToggled, boolean initials) {
 		// Set all initial values needed when timers are created since the old values
 		// are refrenced later in the session when timers are used.
 		startMin = min;
 		startHour = hour;
-		
+		initialsRequired = initials;
+
 		timerTitle = title;
 		prior = loaded;
 		paused = loaded;
@@ -448,7 +450,7 @@ public class ItemTimer {
 	public boolean getDoubleTap() {
 		return prgValue < 5;
 	}
-	
+
 	public TimerGraphics getTimerGraphics() {
 		return timerGraphics;
 	}
@@ -503,9 +505,8 @@ public class ItemTimer {
 
 	}
 
-
 	public int getShelfSec() {
-		return ((min * 60) + (hour * 3600)+sec);
+		return ((min * 60) + (hour * 3600) + sec);
 	}
 
 	/*
@@ -521,6 +522,10 @@ public class ItemTimer {
 	 */
 	public boolean getToggled() {
 		return toggled;
+	}
+
+	public boolean getInitialsRequired() {
+		return initialsRequired;
 	}
 
 	/*

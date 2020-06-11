@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 06/10/20 23:02:59
+The day and time of the software exiting was: 06/11/20 15:10:34
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,47 +11,47 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (06/10/20 23:02:59):
+Timers recorded at system exit (06/11/20 15:10:34):
 
- SANITIZER: -36:42
- SALAD1: 11:20
- SALAD2: 52:07
- CORN: 42:02
- PORKRIB: 5:55:28
- MUFFIN: 42:39
- COFFEE1: 7:54:50
- COFFEE2: 31:47
- COFFEE3: 7:57:30
- DECAF: 0:35
- CHICKEN: 11:39
- PIZZA1: 6:56:20
- PIZZA2: -16:02
- DOUGHNUT: 9:16
- WATER: 3:53:40
- SMOOTHIE1: -25:46
- SMOOTHIE2: -24:51
- HAM: 40:30
- STEAK: -3:23
- BACON: 3:08
- MILK: -22:16
- EGGS: 7:30
- HUMMUS: 52:57
- BEANS: 3:33
- CHOWDER: 3:32
- SOUP1: 68:57:21
- SOUP2: -38:44
- TOMATO: -3:25
- SANITIZER2: -18:32
- BROCCOLI: 6:00
- LETTUCE: 42:55
- ONIONS: 7:20
- RELISH: 2:27
- PICKLES: -24:12
- CHEESE: -2:29
- SWISS: -33:51
- WHITECHED: -0:53
- MILK: -0:27
- BACON: 0:10
- LETTUCE: 4:25
- TEST: -35:34
- TTEST: 39:10
+ SANITIZER: -37:03
+ SALAD1: 10:59
+ SALAD2: 51:46
+ CORN: 44:52
+ PORKRIB: 5:55:07
+ MUFFIN: 42:18
+ COFFEE1: 7:54:08
+ COFFEE2: 31:26
+ COFFEE3: 7:57:09
+ DECAF: 0:52
+ CHICKEN: 10:56
+ PIZZA1: 6:55:59
+ PIZZA2: -16:23
+ DOUGHNUT: 8:55
+ WATER: 3:53:19
+ SMOOTHIE1: -26:07
+ SMOOTHIE2: -25:12
+ HAM: 40:09
+ STEAK: -3:44
+ BACON: 2:25
+ MILK: -22:37
+ EGGS: 7:12
+ HUMMUS: 52:13
+ BEANS: 7:59
+ CHOWDER: 3:11
+ SOUP1: 68:57:00
+ SOUP2: -39:05
+ TOMATO: -3:46
+ SANITIZER2: -18:53
+ BROCCOLI: 5:39
+ LETTUCE: 42:34
+ ONIONS: 6:59
+ RELISH: 2:06
+ PICKLES: -24:33
+ CHEESE: -2:50
+ SWISS: -34:12
+ WHITECHED: -1:14
+ MILK: -0:48
+ BACON: -0:13
+ LETTUCE: 4:04
+ TEST: -35:55
+ TTEST: 38:49
