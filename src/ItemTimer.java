@@ -164,6 +164,17 @@ public class ItemTimer {
 					hour--;
 				}
 			}
+
+			int day = 0;
+			int week = 0;
+			if (hour >= 24) {
+		
+				day = (hour / 24);
+			
+			}
+			if (day >= 7) {
+				week = (day / 7);
+			}
 			if (!getPause()) {
 				if (getPrgPercentage() <= .2 && getPrgPercentage() > 0) {
 					timerGraphics.getPrg().setBackground(yieldColor);
@@ -185,7 +196,16 @@ public class ItemTimer {
 			}
 
 			// Call the method responsible for updating the time, but not painting it
-			timeDisplayString = timeValueToString(sec, min, hour);
+			if (day == 0 && week == 0) {
+				timeDisplayString = timeValueToString(sec, min, hour);
+
+			} else if (day > 0 && week == 0) {
+
+				timeDisplayString = day + " d";
+			} else if (week > 0) {
+				timeDisplayString = week + "w";
+
+			}
 
 			// Handles all graphic updates for time passing
 			if (!cs.getTyping()) {

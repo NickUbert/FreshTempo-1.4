@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 06/11/20 15:10:34
+The day and time of the software exiting was: 06/11/20 17:08:39
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,47 +11,46 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (06/11/20 15:10:34):
+Timers recorded at system exit (06/11/20 17:08:39):
 
- SANITIZER: -37:03
- SALAD1: 10:59
- SALAD2: 51:46
- CORN: 44:52
- PORKRIB: 5:55:07
- MUFFIN: 42:18
- COFFEE1: 7:54:08
- COFFEE2: 31:26
- COFFEE3: 7:57:09
- DECAF: 0:52
- CHICKEN: 10:56
- PIZZA1: 6:55:59
- PIZZA2: -16:23
- DOUGHNUT: 8:55
- WATER: 3:53:19
- SMOOTHIE1: -26:07
- SMOOTHIE2: -25:12
- HAM: 40:09
- STEAK: -3:44
- BACON: 2:25
- MILK: -22:37
- EGGS: 7:12
- HUMMUS: 52:13
- BEANS: 7:59
- CHOWDER: 3:11
- SOUP1: 68:57:00
- SOUP2: -39:05
- TOMATO: -3:46
- SANITIZER2: -18:53
- BROCCOLI: 5:39
- LETTUCE: 42:34
- ONIONS: 6:59
- RELISH: 2:06
- PICKLES: -24:33
- CHEESE: -2:50
- SWISS: -34:12
- WHITECHED: -1:14
- MILK: -0:48
- BACON: -0:13
- LETTUCE: 4:04
- TEST: -35:55
- TTEST: 38:49
+ SANITIZER: -37:38
+ SALAD1: 10:24
+ SALAD2: 51:11
+ CORN: 43:45
+ PORKRIB: 5:54:32
+ MUFFIN: 41:14
+ COFFEE1: 7:52:58
+ COFFEE2: 30:51
+ COFFEE3: 7:56:03
+ DECAF: -0:40
+ CHICKEN: 11:10
+ PIZZA1: 6:55:24
+ PIZZA2: -16:58
+ DOUGHNUT: 7:49
+ WATER: 3:52:44
+ SMOOTHIE1: -26:42
+ SMOOTHIE2: -25:47
+ HAM: 39:34
+ STEAK: -4:19
+ BACON: 1:19
+ MILK: -23:12
+ EGGS: 7:08
+ HUMMUS: 51:09
+ BEANS: 7:22
+ CHOWDER: 2:36
+ SOUP1: 68:56:25
+ SOUP2: -39:40
+ TOMATO: -4:21
+ SANITIZER2: -19:28
+ BROCCOLI: 4:32
+ LETTUCE: 41:28
+ ONIONS: 6:24
+ RELISH: 1:31
+ PICKLES: -25:08
+ CHEESE: -3:25
+ SWISS: -34:47
+ WHITECHED: -1:49
+ MILK: -1:23
+ BACON: 0:32
+ LETTUCE: 4:10
+ TEST: -36:30

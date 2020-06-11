@@ -38,6 +38,8 @@ public class CreateTimer {
 	private Dimension mtk = Toolkit.getDefaultToolkit().getScreenSize();
 
 	// Bounds
+
+	// TODO Update naming for coponents
 	private final int screenX = ((int) mtk.getWidth());
 	private final int screenY = ((int) mtk.getHeight());
 	private int cardX = (int) (.3125 * screenX);
@@ -60,6 +62,10 @@ public class CreateTimer {
 
 	private int minNewLabelYL = (int) (.10127 * cardY);
 
+	private int switchLabelX = (int) (.24 * cardX);
+	private int switchLabelXL = (int) (.85 * cardX - (switchLabelX / 2));
+	private int switchLabelY = (int) (.05 * cardY);
+
 	private int titleNewLabelYL = (int) (.17722 * cardY);
 	private int titleNewLabelXL = (int) (.01 * cardX);
 	private int titleNewLabelY = (int) (.03544 * cardY);
@@ -74,6 +80,10 @@ public class CreateTimer {
 	private int initialBoxXL = (int) (.45 * cardX);
 	private int initialBoxXY = (int) (.065 * cardX);
 
+	private int switchYL = (int) (.065 * cardY);
+	private int switchXL = (int) (.8125 * cardX);
+	private int switchXY = (int) (.075 * cardX);
+
 	private int textFieldX = (int) (.24 * cardX);
 	private int textFieldXL = (int) (.5 * cardX - (textFieldX / 2));
 	private int textFieldY = (int) (.06329 * cardY);
@@ -82,7 +92,7 @@ public class CreateTimer {
 	private int switchToNumBtnX = (int) (.075 * screenX);
 
 	private int newLabelX = (int) (.32 * cardX);
-	private int newLabelY = (int) (.02532 * cardY);
+	private int newLabelY = (int) (.035 * cardY);
 
 	private int hNewLabelX = (int) (newLabelX - (cardX * .0425));
 	private int hNewLabelYL = (int) (.02532 * cardY);
@@ -120,8 +130,8 @@ public class CreateTimer {
 
 	// Textfields
 	private JTextField titleTf = new JTextField();
-	private JTextField hourTf = new JTextField();
-	private JTextField minTf = new JTextField();
+	private JTextField longerTf = new JTextField();
+	private JTextField shorterTf = new JTextField();
 	private JTextField addyTf = new JTextField();
 
 	// Colors
@@ -145,6 +155,7 @@ public class CreateTimer {
 
 	// Fonts
 	Font createPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .048));
+	Font switchFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .038));
 	Font addyPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .068));
 	Font connectionPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .058));
 	Font keyboardFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.0625 * screenY));
@@ -159,11 +170,19 @@ public class CreateTimer {
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-checked.png")).getImage()
 					.getScaledInstance(initialBoxXY, initialBoxXY, Image.SCALE_SMOOTH));
 
+	Icon resizedSwitchOn = new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("FT-icon-switch-on.png"))
+			.getImage().getScaledInstance(switchXY, switchXY, Image.SCALE_SMOOTH));
+
+	Icon resizedSwitchOff = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-switch-off.png")).getImage()
+					.getScaledInstance(switchXY, switchXY, Image.SCALE_SMOOTH));
+
 	// Default user entered values
 	private int userMin = 0;
 	private int userHour = 0;
 	private String userTitle = "";
 	private boolean initialsRequired = false;
+	private boolean longerShelf = false;
 
 	/*
 	 * paintCreatePanel is used to fill the creation panel with all components
@@ -175,36 +194,36 @@ public class CreateTimer {
 		createPanel = new RoundedPanel();
 
 		// Hour input textfield.
-		hourTf.setFont(createPanelFont);
-		hourTf.setBounds(textFieldXL, hTextFieldYL, textFieldX, textFieldY);
-		hourTf.setBorder(fieldBorder);
-		hourTf.setColumns(5);
-		hourTf.setHorizontalAlignment(SwingConstants.CENTER);
-		hourTf.addMouseListener(new MouseAdapter() {
+		longerTf.setFont(createPanelFont);
+		longerTf.setBounds(textFieldXL, hTextFieldYL, textFieldX, textFieldY);
+		longerTf.setBorder(fieldBorder);
+		longerTf.setColumns(5);
+		longerTf.setHorizontalAlignment(SwingConstants.CENTER);
+		longerTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				displayKeypad(hourTf, true);
+				displayKeypad(longerTf, true);
 				CurrentSession cs = new CurrentSession();
 				cs.setTyping(false);
 			}
 		});
-		createPanel.add(hourTf);
+		createPanel.add(longerTf);
 
 		// Min input textfield.
-		minTf.setFont(createPanelFont);
-		minTf.setBounds(textFieldXL, minTextFieldYL, textFieldX, textFieldY);
-		minTf.setColumns(5);
-		minTf.setBorder(fieldBorder);
-		minTf.setHorizontalAlignment(SwingConstants.CENTER);
-		minTf.addMouseListener(new MouseAdapter() {
+		shorterTf.setFont(createPanelFont);
+		shorterTf.setBounds(textFieldXL, minTextFieldYL, textFieldX, textFieldY);
+		shorterTf.setColumns(5);
+		shorterTf.setBorder(fieldBorder);
+		shorterTf.setHorizontalAlignment(SwingConstants.CENTER);
+		shorterTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				displayKeypad(minTf, true);
+				displayKeypad(shorterTf, true);
 				CurrentSession cs = new CurrentSession();
 				cs.setTyping(false);
 			}
 		});
-		createPanel.add(minTf);
+		createPanel.add(shorterTf);
 
 		// Title input textfield.
 		titleTf.setFont(createPanelFont);
@@ -233,20 +252,20 @@ public class CreateTimer {
 		createPanel.add(newTitleLabel);
 
 		// Set min label.
-		JLabel minNewLabel = new JLabel("Set Minutes");
-		minNewLabel.setFont(createPanelFont);
-		minNewLabel.setBounds(0, minNewLabelYL, newLabelX, newLabelY);
-		minNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		minNewLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
-		createPanel.add(minNewLabel);
+		JLabel shorterLabel = new JLabel("Set Minutes");
+		shorterLabel.setFont(createPanelFont);
+		shorterLabel.setBounds(0, minNewLabelYL, newLabelX, newLabelY);
+		shorterLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		shorterLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
+		createPanel.add(shorterLabel);
 
 		// Set hour label.
-		JLabel hNewLabel = new JLabel("Set Hours");
-		hNewLabel.setFont(createPanelFont);
-		hNewLabel.setBounds(0, hNewLabelYL, hNewLabelX, newLabelY);
-		hNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		hNewLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
-		createPanel.add(hNewLabel);
+		JLabel longerLabel = new JLabel("Set Hours");
+		longerLabel.setFont(createPanelFont);
+		longerLabel.setBounds(0, hNewLabelYL, hNewLabelX, newLabelY);
+		longerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		longerLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
+		createPanel.add(longerLabel);
 
 		JLabel initialLabel = new JLabel("Require Initials?");
 		initialLabel.setFont(createPanelFont);
@@ -272,6 +291,47 @@ public class CreateTimer {
 		});
 
 		createPanel.add(checkBox);
+
+		JLabel shortSwitchLabel = new JLabel("Short");
+		shortSwitchLabel.setFont(switchFont);
+		shortSwitchLabel.setBounds(switchLabelXL, hNewLabelYL, switchLabelX, switchLabelY);
+		shortSwitchLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		shortSwitchLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
+		createPanel.add(shortSwitchLabel);
+
+		JButton switchButton = new JButton();
+		switchButton.setIcon(resizedSwitchOn);
+		switchButton.setBounds(switchXL, switchYL, switchXY, switchXY);
+		switchButton.setFocusable(false);
+		switchButton.setBackground(Color.WHITE);
+		switchButton.setBorderPainted(false);
+		switchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				longerShelf = !longerShelf;
+				if (!longerShelf) {
+					shorterLabel.setText("Set Minutes");
+					shorterLabel.setHorizontalAlignment(SwingConstants.CENTER);
+					longerLabel.setText("Set Hours");
+					longerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+					switchButton.setIcon(resizedSwitchOn);
+				} else {
+					shorterLabel.setText(" Set Days");
+					shorterLabel.setHorizontalAlignment(SwingConstants.LEFT);
+					longerLabel.setText(" Set Weeks");
+					longerLabel.setHorizontalAlignment(SwingConstants.LEFT);
+					switchButton.setIcon(resizedSwitchOff);
+				}
+			}
+		});
+
+		createPanel.add(switchButton);
+
+		JLabel longSwitchLabel = new JLabel("Long");
+		longSwitchLabel.setFont(switchFont);
+		longSwitchLabel.setBounds(switchLabelXL, minNewLabelYL, switchLabelX, switchLabelY);
+		longSwitchLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		longSwitchLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
+		createPanel.add(longSwitchLabel);
 
 		// Set create panel properties and add it.
 		createPanel.setPreferredSize(new Dimension(cardX, cardY));
@@ -383,12 +443,12 @@ public class CreateTimer {
 					userTitle = titleTf.getText();
 				}
 
-				if (minTf.getText().length() != 0 && hourTf.getText().length() < 4) {
-					userMin = Integer.parseInt(minTf.getText());
+				if (shorterTf.getText().length() != 0 && longerTf.getText().length() < 4) {
+					userMin = Integer.parseInt(shorterTf.getText());
 				}
 
-				if (hourTf.getText().length() != 0 && hourTf.getText().length() < 4) {
-					userHour = Integer.parseInt(hourTf.getText());
+				if (longerTf.getText().length() != 0 && longerTf.getText().length() < 4) {
+					userHour = Integer.parseInt(longerTf.getText());
 				}
 
 				startButtonPressed();
@@ -513,12 +573,12 @@ public class CreateTimer {
 						userTitle = titleTf.getText();
 					}
 
-					if (minTf.getText().length() != 0) {
-						userMin = Integer.parseInt(minTf.getText());
+					if (shorterTf.getText().length() != 0) {
+						userMin = Integer.parseInt(shorterTf.getText());
 					}
 
-					if (hourTf.getText().length() != 0) {
-						userHour = Integer.parseInt(hourTf.getText());
+					if (longerTf.getText().length() != 0) {
+						userHour = Integer.parseInt(longerTf.getText());
 					}
 
 					startButtonPressed();
@@ -587,8 +647,8 @@ public class CreateTimer {
 		boolean validTitle = true;
 		boolean validMin = true;
 		boolean validHour = true;
-		minTf.setBorder(fieldBorder);
-		hourTf.setBorder(fieldBorder);
+		shorterTf.setBorder(fieldBorder);
+		longerTf.setBorder(fieldBorder);
 		titleTf.setBorder(fieldBorder);
 
 		// Check to see if a title length is too long.
@@ -601,25 +661,25 @@ public class CreateTimer {
 		// Make sure minutes value isn't over 60.
 		if (userMin >= 60) {
 			validMin = false;
-			minTf.setText("");
-			minTf.setBorder(errorBorder);
+			shorterTf.setText("");
+			shorterTf.setBorder(errorBorder);
 		}
 
 		// Hour value is capped at 100
-		if (userHour >= 100) {
+		if (userHour >= 52) {
 			validHour = false;
-			hourTf.setText("");
-			hourTf.setBorder(errorBorder);
+			longerTf.setText("");
+			longerTf.setBorder(errorBorder);
 		}
 
 		// Make sure a time value was entered for either minutes or hours.
 		if (userHour == 0 && userMin == 0) {
 			validHour = false;
 			validMin = false;
-			hourTf.setText("");
-			minTf.setText("");
-			hourTf.setBorder(errorBorder);
-			minTf.setBorder(errorBorder);
+			longerTf.setText("");
+			shorterTf.setText("");
+			longerTf.setBorder(errorBorder);
+			shorterTf.setBorder(errorBorder);
 
 		}
 
@@ -629,6 +689,13 @@ public class CreateTimer {
 		if (validTitle && validMin && validHour) {
 
 			CurrentSession cs = new CurrentSession();
+
+			if (longerShelf) {				
+				userHour = (userHour*168) + (userMin*24);
+				System.out.println(userHour);
+				userMin=0;
+			}
+
 			int shelfSec = (userHour * 36060) + (userMin * 60);
 
 			// TODO DEMO DISCONNECT

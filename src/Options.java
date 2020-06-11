@@ -295,8 +295,6 @@ public class Options {
 					String date = rotationDates.get(curLabelNum);
 					String title = rotationTitles.get(curLabelNum);
 
-				
-
 					// Create string representing the date and time of expiration. Might be cut off
 					// in some cases.
 					String time = rotationTimes.get(curLabelNum);
@@ -304,7 +302,7 @@ public class Options {
 					labelArray[curLabelNum].setText(title + " : " + time + " : " + date);
 					if (time.contains("-")) {
 						labelArray[curLabelNum].setForeground(Color.RED);
-					} 
+					}
 					labelArray[curLabelNum].setPreferredSize(new Dimension(analyticsItemX, analyticsItemY));
 					labelArray[curLabelNum].setHorizontalAlignment(SwingConstants.CENTER);
 					labelArray[curLabelNum].setFont(analyticsFont);
@@ -415,10 +413,11 @@ public class Options {
 
 								// update page graphics after removing. If users complain about slow process of
 								// removing multiple timers, rewrite this portion.
+								cs.setCurrentPage(0);
 								cs.updateCAP();
 								cs.setMenuOpen(false);
 								exitBtn.doClick();
-								cs.setCurrentPage(0);
+
 								TaskBar tb = new TaskBar();
 								tb.updateTaskBar();
 							}
