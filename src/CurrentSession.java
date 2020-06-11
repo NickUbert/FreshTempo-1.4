@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -43,6 +44,8 @@ public class CurrentSession {
 	// itHash is the collection of itemTimers. formerly prgHash
 	static HashMap<Integer, ItemTimer> itHash = new HashMap<Integer, ItemTimer>();
 	static ArrayList<String> downtimeQueue = new ArrayList<String>();
+	// Sorted in reverse since arraylist appends
+	static ArrayList<String> recentInitials = new ArrayList<String>();
 
 	/*
 	 * nextPage is used for naviagtion and updating graphics
@@ -78,6 +81,19 @@ public class CurrentSession {
 			if (curTimerNum % frameLimit == 0 && curTimerNum != 0) {
 				cAP++;
 			}
+		}
+	}
+
+	public void addInitials(String initials) {
+		if (!recentInitials.contains(initials)) {
+			if (recentInitials.size() >= 6) {
+				recentInitials.remove(0);
+			}
+			recentInitials.add(initials);
+
+		} else {
+			recentInitials.remove(initials);
+			recentInitials.add(initials);
 		}
 	}
 

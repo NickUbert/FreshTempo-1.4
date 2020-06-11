@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class Database {
 
-	//TODO make connection dynamic so that everyone isnt connecting as admin
+	// TODO make connection dynamic so that everyone isnt connecting as admin
 	private String url = "jdbc:mysql://freshnet.cjcf0bgozlin.us-east-2.rds.amazonaws.com:3306/freshnet?user=admin&password=Tempo2019";
 
 	private static Connection connection;
@@ -36,8 +36,7 @@ public class Database {
 	@SuppressWarnings("deprecation")
 	public void recordItem(int itemID, int shelfSec) throws SQLException {
 
-		// TODO send item data to the server when a timer is created or deleted
-		String sql = "INSERT INTO RotationData (Store_ID, Item_ID, Mod_Time, Shelf_Time) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO RotationData (Store_ID, Item_ID, Mod_Time, Shelf_Time, Emp_Initials) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);
 
 		CurrentSession cs = new CurrentSession();
@@ -50,6 +49,29 @@ public class Database {
 		message.setInt(2, itemID);
 		message.setString(3, sysTime.toString());
 		message.setInt(4, shelfSec);
+		message.setString(5, "n/a");
+
+		message.executeUpdate();
+
+	}
+
+	// Overloaded method
+	public void recordItem(int itemID, int shelfSec, String initials) throws SQLException {
+
+		String sql = "INSERT INTO RotationData (Store_ID, Item_ID, Mod_Time, Shelf_Time, Emp_Initials) VALUES (?, ?, ?, ?, ?)";
+		PreparedStatement message = connection.prepareStatement(sql);
+
+		CurrentSession cs = new CurrentSession();
+
+		Date date = new Date();
+		Timestamp sysTime = new Timestamp(date.getTime());
+		int storeID = cs.getSessionAddress();
+
+		message.setInt(1, storeID);
+		message.setInt(2, itemID);
+		message.setString(3, sysTime.toString());
+		message.setInt(4, shelfSec);
+		message.setString(5, initials);
 
 		message.executeUpdate();
 
@@ -58,7 +80,6 @@ public class Database {
 	// Record new item is used when a store adds a timer themselves, the item is
 	// recorded and sent to the database.
 	public void recordNewItem(int itemID, String itemName, int shelfSec) throws SQLException {
-		
 
 		String sql = "INSERT INTO ItemData (Store_ID, Item_ID, Item_Name, Shelf_Life) VALUES (?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);
@@ -72,7 +93,7 @@ public class Database {
 		message.setInt(4, shelfSec);
 
 		message.executeUpdate();
-	
+
 	}
 
 }

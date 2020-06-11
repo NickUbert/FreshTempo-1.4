@@ -58,7 +58,7 @@ public class TimerGraphics {
 	private int titleLabelXL = (int) ((.5 * cardX) - (titleLabelwidth / 2));
 	private int titleLabelheight = (int) (.17722 * cardY);
 
-	private int refreshY = (int) (.16456 * cardY);
+	private int refreshY = (int) (tabY);
 	private int refreshXY = (int) (.11658 * cardY);
 	private int refreshXL = (int) (.5 * cardX - (refreshXY / 2));
 
@@ -81,10 +81,10 @@ public class TimerGraphics {
 	private Color colorCodeA = Color.decode("#000000");
 	// Blue
 	private Color colorCodeB = Color.decode("#00A8E8");
-	// Pink
-	private Color colorCodeC = Color.decode("#FF00FF");
 	// Orange
-	private Color colorCodeD = Color.decode("#FF7D00");
+	private Color colorCodeC = Color.decode("#FF7D00");
+	// Pink
+	private Color colorCodeD = Color.decode("#FF00FF");
 	// Green
 	private Color colorCodeE = Color.decode("#6BD425");
 
@@ -195,13 +195,14 @@ public class TimerGraphics {
 				}
 
 				if (!timer.getDoubleTap()) {
-					refreshAnimation();
-					String resetTime = timer.timeValueToString(0, timer.getStartMin(), timer.getStartHour());
-					timeLabel.setText(resetTime);
-					timeLabel.repaint();
-					timeLabel.revalidate();
 
-					timer.setJustRefreshed(true);
+					// TODO add a if statement to check if initials are required
+
+					if (true) {
+						InitialsMenu im = new InitialsMenu(timer);
+					} else {
+						refreshTimer();
+					}
 
 				}
 
@@ -214,6 +215,18 @@ public class TimerGraphics {
 	}
 
 	public void refreshTimer() {
+		refreshAnimation();
+		String resetTime = timer.timeValueToString(0, timer.getStartMin(), timer.getStartHour());
+		timeLabel.setForeground(prgRemainder);
+		timeLabel.setText(resetTime);
+		timeLabel.repaint();
+		timeLabel.revalidate();
+
+		timer.setJustRefreshed(true);
+	}
+	
+
+	public void recordTimer() {
 		// Record the timer refresh data no matter what
 
 		Analytics an = new Analytics();
@@ -275,7 +288,8 @@ public class TimerGraphics {
 		// Update bounds and fonts.
 		timeLabel.setBounds(tabTimerLabelXL, 0, tabTimerLabelX, tabY);
 		timeLabel.setFont(tabTimeFont);
-		refreshBtn.setBounds(tabRefreshXL, tabRefreshYL, tabRefreshXY, tabRefreshXY);
+		refreshBtn.setBounds(tabRefreshXL, 0, tabRefreshXY, tabY);
+		refreshBtn.setVerticalAlignment(SwingConstants.CENTER);
 
 		// Add components.
 		timerPanel.add(prg);
@@ -324,8 +338,6 @@ public class TimerGraphics {
 		}
 	});
 
-	
-	
 	private void switchColorGroup() {
 
 		Icon resizedBlackRefreshIcon = new ImageIcon(
@@ -346,18 +358,23 @@ public class TimerGraphics {
 
 		switch (timer.getColorCode()) {
 		case 0:
+			// Black
 			refreshBtn.setIcon(resizedBlackRefreshIcon);
 			break;
 		case 1:
+			// Blue
 			refreshBtn.setIcon(resizedBlueRefreshIcon);
 			break;
 		case 2:
+			// Orange
 			refreshBtn.setIcon(resizedOrangeRefreshIcon);
 			break;
 		case 3:
+			// Pink
 			refreshBtn.setIcon(resizedPinkRefreshIcon);
 			break;
 		case 4:
+			// Green
 			refreshBtn.setIcon(resizedGreenRefreshIcon);
 			break;
 		}

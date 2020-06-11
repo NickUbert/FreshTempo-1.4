@@ -134,8 +134,8 @@ public class ItemTimer {
 		public void actionPerformed(ActionEvent ae) {
 			if (justRefreshed) {
 				justRefreshed = false;
-				timerGraphics.refreshTimer();
-
+				timerGraphics.recordTimer();
+				timerGraphics.getTimeDisplay().setForeground(Color.BLACK);
 				Sorter so = new Sorter();
 				so.sort(CurrentSession.itHash);
 
@@ -447,6 +447,10 @@ public class ItemTimer {
 
 	public boolean getDoubleTap() {
 		return prgValue < 5;
+	}
+	
+	public TimerGraphics getTimerGraphics() {
+		return timerGraphics;
 	}
 
 	/*

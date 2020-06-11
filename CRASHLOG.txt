@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 06/10/20 14:34:08
+The day and time of the software exiting was: 06/10/20 23:02:59
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,47 +11,47 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (06/10/20 14:34:08):
+Timers recorded at system exit (06/10/20 23:02:59):
 
- SANITIZER: -34:48
- SALAD1: 13:14
- SALAD2: 54:01
- CORN: 43:17
- PORKRIB: 5:57:22
- MUFFIN: 43:24
- COFFEE1: 7:58:28
- COFFEE2: 33:41
- COFFEE3: 7:16:35
- DECAF: -0:33
- CHICKEN: 10:18
- PIZZA1: 6:58:14
- PIZZA2: -14:08
- DOUGHNUT: 8:22
- WATER: 3:55:34
- SMOOTHIE1: -23:52
- SMOOTHIE2: -22:57
- HAM: 42:24
- STEAK: -1:29
- BACON: 2:18
- MILK: -20:22
- EGGS: 6:26
- HUMMUS: 53:24
- BEANS: 5:27
- CHOWDER: 5:26
- SOUP1: 68:59:15
- SOUP2: -36:50
- TOMATO: -1:31
- SANITIZER2: -16:38
- BROCCOLI: 6:20
- LETTUCE: 43:21
- ONIONS: 6:23
- RELISH: 4:21
- PICKLES: -22:18
- CHEESE: -0:35
- SWISS: -31:57
- WHITECHED: 1:01
- MILK: 1:27
- BACON: -0:42
- LETTUCE: 3:25
- TEST: -33:40
- TTEST: 41:04
+ SANITIZER: -36:42
+ SALAD1: 11:20
+ SALAD2: 52:07
+ CORN: 42:02
+ PORKRIB: 5:55:28
+ MUFFIN: 42:39
+ COFFEE1: 7:54:50
+ COFFEE2: 31:47
+ COFFEE3: 7:57:30
+ DECAF: 0:35
+ CHICKEN: 11:39
+ PIZZA1: 6:56:20
+ PIZZA2: -16:02
+ DOUGHNUT: 9:16
+ WATER: 3:53:40
+ SMOOTHIE1: -25:46
+ SMOOTHIE2: -24:51
+ HAM: 40:30
+ STEAK: -3:23
+ BACON: 3:08
+ MILK: -22:16
+ EGGS: 7:30
+ HUMMUS: 52:57
+ BEANS: 3:33
+ CHOWDER: 3:32
+ SOUP1: 68:57:21
+ SOUP2: -38:44
+ TOMATO: -3:25
+ SANITIZER2: -18:32
+ BROCCOLI: 6:00
+ LETTUCE: 42:55
+ ONIONS: 7:20
+ RELISH: 2:27
+ PICKLES: -24:12
+ CHEESE: -2:29
+ SWISS: -33:51
+ WHITECHED: -0:53
+ MILK: -0:27
+ BACON: 0:10
+ LETTUCE: 4:25
+ TEST: -35:34
+ TTEST: 39:10

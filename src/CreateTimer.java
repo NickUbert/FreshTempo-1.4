@@ -321,7 +321,7 @@ public class CreateTimer {
 		});
 		keyboardPanel.add(switchToNumBtn);
 		// Add the start button to the keyboard.
-		JButton startBtn = new JButton("Start");
+		JButton startBtn = new JButton("Enter");
 		startBtn.setBackground(confirmColor);
 		startBtn.setFont(backspaceFont);
 		startBtn.setForeground(Color.WHITE);
