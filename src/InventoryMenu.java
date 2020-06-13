@@ -43,7 +43,7 @@ public class InventoryMenu {
 
 	private int newTimerIconXY = (int) (screenX * .045);
 
-	private int scrollRowsNum = 3 + ((cs.getCNOT() + 1) / 5) + (cs.folders.size() / 6);
+	private int scrollRowsNum = 3 + ((cs.getCNOT() + 1) / 5) + (CurrentSession.folders.size() / 6);
 	private int toggleScrollValue = (((scrollRowsNum) * (toggleY + flowGap)));
 
 	// Fonts
@@ -107,6 +107,33 @@ public class InventoryMenu {
 
 		inventoryBanner.setForeground(Color.WHITE);
 		inventoryPanel.add(inventoryBanner);
+		// Exit button labeled "Save/Close"
+		JButton exitButton = new JButton("SAVE/CLOSE");
+		exitButton.setPreferredSize(new Dimension(exitButtonX, toggleY));
+		exitButton.setForeground(Color.WHITE);
+		exitButton.setBackground(exitColor);
+		exitButton.setBorder(exitBorder);
+		exitButton.setFont(toggleFont);
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// update the graphics when exiting the toggle panel.
+				cs.setMenuOpen(false);
+				inventoryPanel.removeAll();
+				inventoryPanel.setVisible(false);
+				toggleScrollPanel.setVisible(false);
+				cs.setCurrentPage(0);
+				StartUp.switchLayoutGaps();
+
+				// prevents null calls when no timers need to be sorted.
+				if (cs.getANOT() != 0) {
+					Sorter so = new Sorter();
+					so.sort(CurrentSession.itHash);
+				}
+
+			}
+		});
+
+		inventoryPanel.add(exitButton);
 
 		JButton newFolderButton = new JButton();
 		newFolderButton.setPreferredSize(new Dimension(newFolderButtonX, toggleY));
@@ -138,8 +165,7 @@ public class InventoryMenu {
 				toggleScrollPanel.setVisible(false);
 
 				// Updates layout type and proper gap spacing
-				StartUp su = new StartUp();
-				su.switchToAddingGraphics();
+				StartUp.switchToAddingGraphics();
 
 				TaskBar tb = new TaskBar();
 				tb.updateBar("UNDO");
@@ -147,6 +173,7 @@ public class InventoryMenu {
 				// This loop may not be needed since the addition of the menu used for adding
 				while (cs.getCurrentPage() < cs.getCAP()) {
 					cs.nextPage();
+					@SuppressWarnings("unused")
 					Sorter so = new Sorter();
 				}
 
@@ -161,39 +188,18 @@ public class InventoryMenu {
 
 		inventoryPanel.add(newTimerButton);
 
-		// Exit button labeled "Save/Close"
-		JButton exitButton = new JButton("SAVE/CLOSE");
-		exitButton.setPreferredSize(new Dimension(exitButtonX, toggleY));
-		exitButton.setForeground(Color.WHITE);
-		exitButton.setBackground(exitColor);
-		exitButton.setBorder(exitBorder);
-		exitButton.setFont(toggleFont);
-		exitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// update the graphics when exiting the toggle panel.
-				cs.setMenuOpen(false);
-				inventoryPanel.removeAll();
-				inventoryPanel.setVisible(false);
-				toggleScrollPanel.setVisible(false);
-				cs.setCurrentPage(0);
-				StartUp.switchLayoutGaps();
-
-				// prevents null calls when no timers need to be sorted.
-				if (cs.getANOT() != 0) {
-					Sorter so = new Sorter();
-					so.sort(CurrentSession.itHash);
-				}
-
-			}
-		});
-
-		inventoryPanel.add(exitButton);
+	
 
 		addFolderGap();
 
 		InventoryFolder iv = new InventoryFolder();
-		JPanel folder = iv.createNewIcon("All");
-		inventoryPanel.add(folder);
+		
+		inventoryPanel.add(iv.createNewIcon("ALL"));
+
+		for (int i = 1; i < CurrentSession.folders.size(); i++) {
+			JPanel folder = iv.createNewIcon(CurrentSession.folders.get(i).getName());
+			inventoryPanel.add(folder);
+		}
 
 		addFolderGap();
 
@@ -264,13 +270,23 @@ public class InventoryMenu {
 		HashMap<Integer, ItemTimer> hm = CurrentSession.itHash;
 
 		// This loop adds the enabled timer's names to the timerValues Arraylist
-		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
-			if (hm.get(curTimerID) != null) {
-				if (hm.get(curTimerID).getInventoryGroups().contains(groupName)) {
+		if (!grouping) {
+			for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
+				if (hm.get(curTimerID) != null) {
+					if (hm.get(curTimerID).getInventoryGroups().contains(groupName)) {
+						timerTitles.add(hm.get(curTimerID).getTitle());
+						activeList[curTimerID] = hm.get(curTimerID);
+					}
+
+				}
+			}
+		} else {
+			for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
+				if (hm.get(curTimerID) != null) {
 					timerTitles.add(hm.get(curTimerID).getTitle());
 					activeList[curTimerID] = hm.get(curTimerID);
-				}
 
+				}
 			}
 		}
 		// Actual sorting for timer names

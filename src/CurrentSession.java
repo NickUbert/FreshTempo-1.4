@@ -99,18 +99,15 @@ public class CurrentSession {
 		}
 	}
 
-	public void addFolder(InventoryFolder in) {
-		// TODO test this, is this needed?
-		///USE THIS FOR CHECKING EXISTING TITTLES
+	public boolean checkFolderTitle(String groupName) {
+
 		for (InventoryFolder temp : folders) {
-			if (temp.getName().equals(in.getName())) {
-				//return 0;
+			if (temp.getName().equals(groupName)) {
+				return false;
 			}
 		}
 
-		folders.add(in);
-
-	
+		return true;
 
 	}
 

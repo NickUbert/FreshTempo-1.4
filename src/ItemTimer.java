@@ -65,7 +65,7 @@ public class ItemTimer {
 		tg.createTimerUI();
 		toggled = isToggled;
 		currentlyExpired = false;
-		inventoryGroup.add("All");
+		inventoryGroup.add("ALL");
 
 		// All pre loaded timers are set to paused onced loaded to avoid overwhelming
 		// startups for the user.
@@ -540,7 +540,7 @@ public class ItemTimer {
 	};
 
 	public void removeFromGroup(String name) {
-		if (inventoryGroup.contains(name) && !name.equals("All")) {
+		if (inventoryGroup.contains(name) && !name.equals("ALL")) {
 			inventoryGroup.remove(name);
 		}
 	};
