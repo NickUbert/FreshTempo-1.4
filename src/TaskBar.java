@@ -172,7 +172,7 @@ public class TaskBar {
 				StartUp.optionPanel.setVisible(false);
 
 				@SuppressWarnings("unused")
-				TimerToggles tt = new TimerToggles();
+				InventoryMenu im = new InventoryMenu();
 				updateBar("MENU");
 			}
 		});
@@ -188,7 +188,7 @@ public class TaskBar {
 			public void actionPerformed(ActionEvent e) {
 
 				@SuppressWarnings("unused")
-				TimerToggles tt = new TimerToggles();
+				InventoryMenu im = new InventoryMenu();
 				// This loop updates the background for pages that may have had their color
 				// switched due to expiration flashes.
 				for (int i = 0; i <= cs.getCAP(); i++) {
@@ -212,10 +212,10 @@ public class TaskBar {
 				// Update session values and open new toggle page
 				cs.setMenuOpen(true);
 				cs.setTyping(false);
-				TimerToggles tt = new TimerToggles();
-				tt.togglePanel.removeAll();
-				tt.togglePanel.setVisible(false);
-				tt.toggleScrollPanel.setVisible(false);
+				InventoryMenu im = new InventoryMenu();
+				im.inventoryPanel.removeAll();
+				im.inventoryPanel.setVisible(false);
+				im.toggleScrollPanel.setVisible(false);
 
 				// Updates layout type and proper gap spacing
 				StartUp su = new StartUp();
@@ -280,7 +280,7 @@ public class TaskBar {
 			taskBarNeither.add(menuBtn);
 		} else if (name.equals("MENU")) {
 			taskBarMenu.add(optionsBtn);
-			taskBarMenu.add(addBtn);
+			//taskBarMenu.add(addBtn);
 		} else if (name.equals("UNDO")) {
 			taskBarUndo.add(undoBtn);
 		}

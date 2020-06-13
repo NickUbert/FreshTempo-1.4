@@ -229,7 +229,7 @@ public class TimerGraphics {
 
 		Analytics an = new Analytics();
 		try {
-			an.recordTimeData(timer);
+			an.recordTimeData(timer, "n/a");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

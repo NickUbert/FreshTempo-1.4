@@ -267,7 +267,7 @@ public class Options {
 				itemsRecordedLabel.setVisible(true);
 				removePanel.add(itemsRecordedLabel);
 
-				JLabel itemsFormatLabel = new JLabel("Item Name : Shelf Time : TimeStamp");
+				JLabel itemsFormatLabel = new JLabel("Item Name : Shelf Time : Time Stamp : Emp. Initials");
 				itemsFormatLabel.setFont(sessionFont);
 				itemsFormatLabel.setPreferredSize(new Dimension(analyticsItemX, analyticsItemY));
 				itemsFormatLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -277,11 +277,13 @@ public class Options {
 				JLabel[] labelArray = new JLabel[numOfRotations];
 				ArrayList<String> rotationDates = new ArrayList<String>();
 				ArrayList<String> rotationTitles = new ArrayList<String>();
+				ArrayList<String> rotationInitials = new ArrayList<String>();
 				ArrayList<String> rotationTimes = new ArrayList<String>();
 				try {
 					rotationDates = an.getRotationDates();
 					rotationTitles = an.getRotationTitles();
 					rotationTimes = an.getRotationTimes();
+					rotationInitials = an.getRotationInitilas();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -294,12 +296,16 @@ public class Options {
 					labelArray[curLabelNum] = new JLabel();
 					String date = rotationDates.get(curLabelNum);
 					String title = rotationTitles.get(curLabelNum);
+					String initials = rotationInitials.get(curLabelNum);
 
 					// Create string representing the date and time of expiration. Might be cut off
 					// in some cases.
 					String time = rotationTimes.get(curLabelNum);
-
-					labelArray[curLabelNum].setText(title + " : " + time + " : " + date);
+					if (initials.equals("n/a")) {
+						labelArray[curLabelNum].setText(title + " : " + time + " : " + date);
+					} else {
+						labelArray[curLabelNum].setText(title + " : " + time + " : " + date + " : " + initials);
+					}
 					if (time.contains("-")) {
 						labelArray[curLabelNum].setForeground(Color.RED);
 					}

@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 06/11/20 17:08:39
+The day and time of the software exiting was: 06/13/20 10:05:45
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,46 +11,48 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (06/11/20 17:08:39):
+Timers recorded at system exit (06/13/20 10:05:45):
 
- SANITIZER: -37:38
- SALAD1: 10:24
- SALAD2: 51:11
- CORN: 43:45
- PORKRIB: 5:54:32
- MUFFIN: 41:14
- COFFEE1: 7:52:58
- COFFEE2: 30:51
- COFFEE3: 7:56:03
- DECAF: -0:40
- CHICKEN: 11:10
- PIZZA1: 6:55:24
- PIZZA2: -16:58
- DOUGHNUT: 7:49
- WATER: 3:52:44
- SMOOTHIE1: -26:42
- SMOOTHIE2: -25:47
- HAM: 39:34
- STEAK: -4:19
- BACON: 1:19
- MILK: -23:12
- EGGS: 7:08
- HUMMUS: 51:09
- BEANS: 7:22
- CHOWDER: 2:36
- SOUP1: 68:56:25
- SOUP2: -39:40
- TOMATO: -4:21
- SANITIZER2: -19:28
- BROCCOLI: 4:32
- LETTUCE: 41:28
- ONIONS: 6:24
- RELISH: 1:31
- PICKLES: -25:08
- CHEESE: -3:25
- SWISS: -34:47
- WHITECHED: -1:49
- MILK: -1:23
- BACON: 0:32
- LETTUCE: 4:10
- TEST: -36:30
+ SANITIZER: -38:44
+ SALAD1: 9:18
+ SALAD2: 50:05
+ CORN: 41:52
+ PORKRIB: 5:53:26
+ MUFFIN: 40:08
+ COFFEE1: 7:50:17
+ COFFEE2: 29:45
+ COFFEE3: 7:54:57
+ DECAF: -18:16
+ CHICKEN: 3:01
+ PIZZA1: 6:54:18
+ PIZZA2: -18:04
+ DOUGHNUT: 6:43
+ WATER: 3:51:38
+ SMOOTHIE1: -27:48
+ SMOOTHIE2: -26:53
+ HAM: 38:28
+ STEAK: -5:25
+ BACON: 3:11
+ MILK: -24:18
+ EGGS: 6:02
+ HUMMUS: 50:03
+ BEANS: 6:16
+ CHOWDER: 3:09
+ SOUP1: 68:55:19
+ SOUP2: -40:46
+ TOMATO: -5:27
+ SANITIZER2: -20:34
+ BROCCOLI: 2:53
+ LETTUCE: 40:22
+ ONIONS: 5:18
+ RELISH: 0:25
+ PICKLES: -26:14
+ CHEESE: -4:31
+ SWISS: -35:53
+ WHITECHED: 4:56
+ MILK: -2:29
+ BACON: -0:14
+ LETTUCE: 3:04
+ TEST: -37:36
+ DAY: 23:51:37
+ ALL: 4:37

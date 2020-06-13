@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,8 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 //TODO
-public class TimerToggles {
+public class InventoryMenu {
 	CurrentSession cs = new CurrentSession();
 	StartUp su = new StartUp();
 	PageManager pm = new PageManager();
@@ -32,11 +35,16 @@ public class TimerToggles {
 	private int toggleScrollX = (int) (screenX);
 	private int toggleScrollDimX = (int) (.06128 * screenX);
 	private int toggleX = (int) (toggleScrollX * .18);
+	private int exitButtonX = (int) (toggleScrollX * .15);
+	private int newFolderButtonX = (int) (toggleScrollX * .07);
 	private int toggleY = (int) (screenY * .1);
-	private int flowGap = (int) (screenY* .004);
-	
-	private int scrollRowsNum = 1 + ((cs.getCNOT() + 1) / 5);
-	private int toggleScrollValue = (((scrollRowsNum) * (toggleY+flowGap)));
+	private int flowGap = (int) (screenY * .004);
+	private int newFolderIconXY = (int) (screenX * .045);
+
+	private int newTimerIconXY = (int) (screenX * .045);
+
+	private int scrollRowsNum = 3 + ((cs.getCNOT() + 1) / 5) + (cs.folders.size() / 6);
+	private int toggleScrollValue = (((scrollRowsNum) * (toggleY + flowGap)));
 
 	// Fonts
 	private Font toggleFont = new Font("Helvetica", Font.BOLD, ((int) (.02 * screenX)));
@@ -45,55 +53,117 @@ public class TimerToggles {
 	private Color backgroundColor = Color.decode("#223843");
 	private Color exitColor = Color.decode("#CC2936");
 	private Color toggledColor = Color.decode("#4DA167");
+	private Color newFolderColor = Color.decode("#6B818C");
 
-	private JLabel toggleBanner = new JLabel("Select the timers you would like to use");
+	private JLabel inventoryBanner = new JLabel("Inventory Menu");
 	Border toggleBorder = BorderFactory.createLineBorder(Color.GREEN, 3);
-	Border exitBorder = BorderFactory.createLineBorder(Color.RED, 8);
+	Border exitBorder = BorderFactory.createLineBorder(Color.RED, 3);
 	Border unToggledBorder = BorderFactory.createLineBorder(Color.WHITE, 3);
 
+	Icon resizedNewFolderIcon = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-new-folder.png")).getImage()
+					.getScaledInstance(newFolderIconXY, newFolderIconXY, Image.SCALE_SMOOTH));
+
+	Icon resizedNewTimerIcon = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-new-timer.png")).getImage()
+					.getScaledInstance(newTimerIconXY, newTimerIconXY, Image.SCALE_SMOOTH));
+
 	// Create togglePanel and scrollPanel
-	JPanel togglePanel = new JPanel();
-	JScrollPane toggleScrollPanel = new JScrollPane(togglePanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+	JPanel inventoryPanel = new JPanel();
+	JScrollPane toggleScrollPanel = new JScrollPane(inventoryPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 	/*
 	 * The TimerToggles constructor handles updating values needed for the panel and
 	 * setting the dimensions/graphics up before calling addToggles.
 	 */
-	public TimerToggles() {
+	public InventoryMenu() {
 
 		// Clear the page and values before doing a value update of ANOT.
 		pm.clearPage();
 		cs.setANOT(0);
 		cs.setMenuOpen(true);
-		togglePanel.removeAll();
+		inventoryPanel.removeAll();
 
 		// Prevents overflow for the scroll page.
 		if (((cs.getCNOT() + 1) % 5) > 0) {
-			toggleScrollValue = ((scrollRowsNum) * toggleY) + (int) (toggleY * 1.3);
+			toggleScrollValue = ((scrollRowsNum + 2) * toggleY) + (int) (toggleY * 1.3);
 		}
 
 		// Set up layout and dims for togglePanel
-		togglePanel.setLayout(new FlowLayout(FlowLayout.CENTER, flowGap, flowGap));
+		inventoryPanel.setLayout(new FlowLayout(FlowLayout.CENTER, flowGap, flowGap));
 		toggleScrollPanel.getVerticalScrollBar().setPreferredSize(new Dimension(toggleScrollDimX, 0));
-		togglePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		inventoryPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		toggleScrollPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		toggleScrollPanel.setPreferredSize(new Dimension(toggleScrollX, screenY - (int) (screenY * .12)));
-		togglePanel.setBackground(backgroundColor);
-		togglePanel.setPreferredSize(new Dimension(timerTogglePanelX, toggleScrollValue));
+		inventoryPanel.setBackground(backgroundColor);
+		inventoryPanel.setPreferredSize(new Dimension(timerTogglePanelX, toggleScrollValue));
 
 		toggleScrollPanel.getVerticalScrollBar().setBackground(backgroundColor);
 
-		toggleBanner.setPreferredSize(new Dimension(screenX, (int) (toggleY / 1.2)));
-		toggleBanner.setFont(bannerFont);
-		toggleBanner.setHorizontalAlignment(JLabel.CENTER);
-		;
-		toggleBanner.setForeground(Color.WHITE);
-		togglePanel.add(toggleBanner);
+		inventoryBanner.setPreferredSize(new Dimension(screenX, (int) (toggleY / 1.2)));
+		inventoryBanner.setFont(bannerFont);
+		inventoryBanner.setHorizontalAlignment(JLabel.CENTER);
+
+		inventoryBanner.setForeground(Color.WHITE);
+		inventoryPanel.add(inventoryBanner);
+
+		JButton newFolderButton = new JButton();
+		newFolderButton.setPreferredSize(new Dimension(newFolderButtonX, toggleY));
+		newFolderButton.setBackground(newFolderColor);
+		newFolderButton.setFocusable(false);
+		newFolderButton.setIcon(resizedNewFolderIcon);
+		newFolderButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				InventoryFolder inf = new InventoryFolder();
+				inf.openNewFolder();
+			}
+		});
+
+		inventoryPanel.add(newFolderButton);
+
+		JButton newTimerButton = new JButton();
+		newTimerButton.setPreferredSize(new Dimension(newFolderButtonX, toggleY));
+		newTimerButton.setBackground(newFolderColor);
+		newTimerButton.setFocusable(false);
+		newTimerButton.setIcon(resizedNewTimerIcon);
+		newTimerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Update session values and open new toggle page
+				cs.setMenuOpen(true);
+				cs.setTyping(false);
+
+				inventoryPanel.removeAll();
+				inventoryPanel.setVisible(false);
+				toggleScrollPanel.setVisible(false);
+
+				// Updates layout type and proper gap spacing
+				StartUp su = new StartUp();
+				su.switchToAddingGraphics();
+
+				TaskBar tb = new TaskBar();
+				tb.updateBar("UNDO");
+
+				// This loop may not be needed since the addition of the menu used for adding
+				while (cs.getCurrentPage() < cs.getCAP()) {
+					cs.nextPage();
+					Sorter so = new Sorter();
+				}
+
+				PageManager pm = new PageManager();
+				pm.clearPage();
+
+				CreateTimer ct = new CreateTimer();
+				ct.paintCreatePanel();
+
+			}
+		});
+
+		inventoryPanel.add(newTimerButton);
 
 		// Exit button labeled "Save/Close"
 		JButton exitButton = new JButton("SAVE/CLOSE");
-		exitButton.setPreferredSize(new Dimension(toggleX, toggleY));
+		exitButton.setPreferredSize(new Dimension(exitButtonX, toggleY));
 		exitButton.setForeground(Color.WHITE);
 		exitButton.setBackground(exitColor);
 		exitButton.setBorder(exitBorder);
@@ -102,8 +172,8 @@ public class TimerToggles {
 			public void actionPerformed(ActionEvent arg0) {
 				// update the graphics when exiting the toggle panel.
 				cs.setMenuOpen(false);
-				togglePanel.removeAll();
-				togglePanel.setVisible(false);
+				inventoryPanel.removeAll();
+				inventoryPanel.setVisible(false);
 				toggleScrollPanel.setVisible(false);
 				cs.setCurrentPage(0);
 				StartUp.switchLayoutGaps();
@@ -117,11 +187,26 @@ public class TimerToggles {
 			}
 		});
 
-		// Add the panel to the page and call addToggles.
-		togglePanel.add(exitButton);
+		inventoryPanel.add(exitButton);
+
+		addFolderGap();
+
+		InventoryFolder iv = new InventoryFolder();
+		JPanel folder = iv.createNewIcon("All");
+		inventoryPanel.add(folder);
+
+		addFolderGap();
+
 		cs.addToCurrentPage(toggleScrollPanel);
 		addToggles();
 
+	}
+
+	public void addFolderGap() {
+		JPanel gapRow = new JPanel();
+		gapRow.setPreferredSize(new Dimension(screenX, (int) (toggleY * .5)));
+		gapRow.setBackground(null);
+		inventoryPanel.add(gapRow);
 	}
 
 	/*
@@ -157,7 +242,7 @@ public class TimerToggles {
 		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
 			if (CurrentSession.itHash.get(sortedKeys[curTimerID]) != null) {
 
-				togglePanel.add(createToggle(CurrentSession.itHash.get(sortedKeys[curTimerID]).getTitle(),
+				inventoryPanel.add(createToggle(CurrentSession.itHash.get(sortedKeys[curTimerID]).getTitle(),
 						sortedKeys[curTimerID]));
 
 				if (CurrentSession.itHash.get(sortedKeys[curTimerID]).getToggled()) {
@@ -167,8 +252,59 @@ public class TimerToggles {
 
 		}
 
-		togglePanel.repaint();
-		togglePanel.revalidate();
+		inventoryPanel.repaint();
+		inventoryPanel.revalidate();
+	}
+
+	public void addToggles(String groupName, boolean grouping) {
+		int key;
+		ArrayList<String> timerTitles = new ArrayList<String>();
+		ItemTimer[] activeList = new ItemTimer[cs.getTNOT()];
+		int[] sortedKeys = new int[cs.getTNOT()];
+		HashMap<Integer, ItemTimer> hm = CurrentSession.itHash;
+
+		// This loop adds the enabled timer's names to the timerValues Arraylist
+		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
+			if (hm.get(curTimerID) != null) {
+				if (hm.get(curTimerID).getInventoryGroups().contains(groupName)) {
+					timerTitles.add(hm.get(curTimerID).getTitle());
+					activeList[curTimerID] = hm.get(curTimerID);
+				}
+
+			}
+		}
+		// Actual sorting for timer names
+		Collections.sort(timerTitles);
+
+		// This loop fills the sorted array with the ID's of the timers by looking up
+		// the keys associated with the sorted timer names.
+		for (int sortKey = 0; sortKey < timerTitles.size(); sortKey++) {
+			key = getStringKey(activeList, timerTitles.get(sortKey));
+			sortedKeys[sortKey] = key;
+		}
+
+		if (grouping) {
+			for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
+				if (CurrentSession.itHash.get(sortedKeys[curTimerID]) != null) {
+
+					inventoryPanel.add(createGroupToggle(CurrentSession.itHash.get(sortedKeys[curTimerID]).getTitle(),
+							sortedKeys[curTimerID], groupName));
+				}
+
+			}
+		} else {
+			for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
+				if (CurrentSession.itHash.get(sortedKeys[curTimerID]) != null) {
+
+					inventoryPanel.add(createToggle(CurrentSession.itHash.get(sortedKeys[curTimerID]).getTitle(),
+							sortedKeys[curTimerID]));
+				}
+
+			}
+		}
+
+		inventoryPanel.repaint();
+		inventoryPanel.revalidate();
 	}
 
 	/*
@@ -188,6 +324,54 @@ public class TimerToggles {
 			}
 		}
 		return null;
+	}
+
+	private JButton createGroupToggle(String name, int id, String groupName) {
+		// Create a reference object for the ID being called.
+		ItemTimer it = CurrentSession.itHash.get(id);
+
+		// Create the toggle button for this itemTimer
+		JButton toggleButton = new JButton(name);
+		toggleButton.setPreferredSize(new Dimension(toggleX, toggleY));
+
+		boolean groupedAlready = it.getInventoryGroups().contains(groupName);
+		if (groupedAlready) {
+			toggleButton.setBorder(toggleBorder);
+			toggleButton.setBackground(Color.decode("#4DA167"));
+			toggleButton.setForeground(Color.WHITE);
+		} else {
+			toggleButton.setBorder(unToggledBorder);
+			toggleButton.setBackground(Color.WHITE);
+			toggleButton.setForeground(backgroundColor);
+		}
+
+		toggleButton.setFocusable(false);
+		toggleButton.setFont(toggleFont);
+
+		// Action performed when toggle button is clicked.
+		toggleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!groupName.contentEquals("All")) {
+					if (it.getInventoryGroups().contains(groupName)) {
+
+						toggleButton.setBorder(unToggledBorder);
+						toggleButton.setBackground(Color.WHITE);
+						toggleButton.setForeground(backgroundColor);
+						CurrentSession.itHash.get(id).removeFromGroup(groupName);
+
+						// update graphics and session/itemtimer values.
+					} else {
+						toggleButton.setBorder(toggleBorder);
+						toggleButton.setBackground(toggledColor);
+						toggleButton.setForeground(Color.WHITE);
+						CurrentSession.itHash.get(id).addToGroup(groupName);
+					}
+				}
+
+			}
+		});
+
+		return toggleButton;
 	}
 
 	/*

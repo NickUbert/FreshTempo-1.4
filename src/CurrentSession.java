@@ -47,6 +47,8 @@ public class CurrentSession {
 	// Sorted in reverse since arraylist appends
 	static ArrayList<String> recentInitials = new ArrayList<String>();
 
+	static ArrayList<InventoryFolder> folders = new ArrayList<InventoryFolder>();
+
 	/*
 	 * nextPage is used for naviagtion and updating graphics
 	 */
@@ -95,6 +97,21 @@ public class CurrentSession {
 			recentInitials.remove(initials);
 			recentInitials.add(initials);
 		}
+	}
+
+	public void addFolder(InventoryFolder in) {
+		// TODO test this, is this needed?
+		///USE THIS FOR CHECKING EXISTING TITTLES
+		for (InventoryFolder temp : folders) {
+			if (temp.getName().equals(in.getName())) {
+				//return 0;
+			}
+		}
+
+		folders.add(in);
+
+	
+
 	}
 
 	/*

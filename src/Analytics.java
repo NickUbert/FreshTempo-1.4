@@ -234,7 +234,7 @@ public class Analytics {
 	 * text file.
 	 */
 
-	public void recordTimeData(ItemTimer it) throws IOException {
+	public void recordTimeData(ItemTimer it, String initials) throws IOException {
 
 		FileWriter fw = new FileWriter("./usageData.txt", true);
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -253,13 +253,15 @@ public class Analytics {
 		}
 
 		// Write the new line.
-		String dataToWrite = date + "$" + expired + "$" + title + "$" + recordHour + "$" + recordMin + "$" + recordSec;
+		String dataToWrite = date + "$" + expired + "$" + title + "$" + initials + "$" + recordHour + "$" + recordMin
+				+ "$" + recordSec;
 		bw.append(dataToWrite);
 		bw.newLine();
 
 		bw.flush();
 		bw.close();
 
+		// TODO FLUSH FILE
 		/*
 		 * // After recording data, send to server if the client is connected.
 		 * CurrentSession cs = new CurrentSession(); if (cs.getClientConnected()) {
@@ -375,6 +377,30 @@ public class Analytics {
 
 		return rotationTitles;
 	}
+	
+	/*
+	 * getExpiredTitles is used to return the arrayList of expired titles.
+	 */
+	public ArrayList<String> getRotationInitilas() throws IOException {
+		FileReader fr = new FileReader("./usageData.txt");
+		BufferedReader br = new BufferedReader(fr);
+		ArrayList<String> rotationInitials = new ArrayList<String>();
+
+		String temp = br.readLine();
+		while (temp != null) {
+			int sep = 0;
+			while (sep != 3) {
+				if (temp.charAt(0) == '$') {
+					sep++;
+				}
+				temp = temp.substring(1);
+			}
+			rotationInitials.add(temp.substring(0, temp.indexOf('$')));
+			temp = br.readLine();
+		}
+
+		return rotationInitials;
+	}
 
 	/*
 	 * getExpiredDates is used to return the arrayList of expired dates.
@@ -404,7 +430,7 @@ public class Analytics {
 		String temp = br.readLine();
 		while (temp != null) {
 			int sep = 0;
-			while (sep != 3) {
+			while (sep != 4) {
 				if (temp.charAt(0) == '$') {
 					sep++;
 				}

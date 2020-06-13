@@ -725,7 +725,7 @@ public class CreateTimer {
 			@SuppressWarnings("unused")
 			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true, initialsRequired);
 			@SuppressWarnings("unused")
-			TimerToggles tt = new TimerToggles();
+			InventoryMenu im = new InventoryMenu();
 
 		}
 
@@ -807,7 +807,7 @@ public class CreateTimer {
 			cs.setMenuOpen(true);
 			cs.setCurrentPage(0);
 			@SuppressWarnings("unused")
-			TimerToggles tt = new TimerToggles();
+			InventoryMenu im = new InventoryMenu();
 			TaskBar tb = new TaskBar();
 			tb.updateTaskBar();
 		} else {

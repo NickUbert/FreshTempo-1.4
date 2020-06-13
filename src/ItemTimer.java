@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -37,6 +39,7 @@ public class ItemTimer {
 	private Color yieldColor = Color.decode("#E0CA3C");
 	private Color prgRemainder = Color.decode("#4DA167");
 	CurrentSession cs = new CurrentSession();
+	ArrayList<String> inventoryGroup = new ArrayList<String>();
 
 	/*
 	 * Constructor sets itemTimer values to user inputs.
@@ -62,6 +65,7 @@ public class ItemTimer {
 		tg.createTimerUI();
 		toggled = isToggled;
 		currentlyExpired = false;
+		inventoryGroup.add("All");
 
 		// All pre loaded timers are set to paused onced loaded to avoid overwhelming
 		// startups for the user.
@@ -168,9 +172,9 @@ public class ItemTimer {
 			int day = 0;
 			int week = 0;
 			if (hour >= 24) {
-		
+
 				day = (hour / 24);
-			
+
 			}
 			if (day >= 7) {
 				week = (day / 7);
@@ -524,6 +528,22 @@ public class ItemTimer {
 		}
 
 	}
+
+	public ArrayList<String> getInventoryGroups() {
+		return inventoryGroup;
+	}
+
+	public void addToGroup(String name) {
+		if (!inventoryGroup.contains(name)) {
+			inventoryGroup.add(name);
+		}
+	};
+
+	public void removeFromGroup(String name) {
+		if (inventoryGroup.contains(name) && !name.equals("All")) {
+			inventoryGroup.remove(name);
+		}
+	};
 
 	public int getShelfSec() {
 		return ((min * 60) + (hour * 3600) + sec);

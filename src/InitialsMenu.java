@@ -266,7 +266,7 @@ public class InitialsMenu {
 	private void recordTimer(String initials) {
 		Analytics an = new Analytics();
 		try {
-			an.recordTimeData(timer);
+			an.recordTimeData(timer,initials);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
