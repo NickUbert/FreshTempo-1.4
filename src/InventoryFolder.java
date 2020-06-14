@@ -109,6 +109,14 @@ public class InventoryFolder {
 	private RoundedPanel popupPanel = new RoundedPanel();
 	JButton enterButton;
 
+	public InventoryFolder(String name) {
+		folderName = name;
+	}
+
+	public InventoryFolder() {
+
+	}
+
 	public JPanel createNewIcon(String name) {
 		// Assumed that there is no duplicate folder
 
@@ -355,7 +363,7 @@ public class InventoryFolder {
 		im.inventoryPanel.add(newFolderPrompt);
 		im.inventoryPanel.add(popupPanel);
 		popupPanel.setVisible(false);
-		
+
 		TaskBar tb = new TaskBar();
 		tb.updateBar("UNDO");
 		displayKeyboard(nameField);

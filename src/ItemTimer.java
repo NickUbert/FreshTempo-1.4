@@ -44,13 +44,15 @@ public class ItemTimer {
 	/*
 	 * Constructor sets itemTimer values to user inputs.
 	 */
-	public ItemTimer(int min, int hour, String title, int id, boolean loaded, boolean isToggled, boolean initials) {
+	public ItemTimer(int min, int hour, String title, int id, boolean loaded, boolean isToggled, boolean initials,
+			ArrayList<String> groups) {
 		// Set all initial values needed when timers are created since the old values
 		// are refrenced later in the session when timers are used.
 		startMin = min;
 		startHour = hour;
 		initialsRequired = initials;
 
+		inventoryGroup = groups;
 		timerTitle = title;
 		prior = loaded;
 		paused = loaded;
@@ -65,7 +67,9 @@ public class ItemTimer {
 		tg.createTimerUI();
 		toggled = isToggled;
 		currentlyExpired = false;
-		inventoryGroup.add("ALL");
+		if (!inventoryGroup.contains("ALL")) {
+			inventoryGroup.add("ALL");
+		}
 
 		// All pre loaded timers are set to paused onced loaded to avoid overwhelming
 		// startups for the user.
@@ -357,7 +361,7 @@ public class ItemTimer {
 
 		timerPercent = (double) (currentSec) / (double) (initialSec);
 
-		timerPercent += ((double) timerID / (double) 10000000);
+		timerPercent += ((double) timerID / (double) 1000000);
 		return timerPercent;
 
 	}

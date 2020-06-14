@@ -188,14 +188,13 @@ public class InventoryMenu {
 
 		inventoryPanel.add(newTimerButton);
 
-	
-
 		addFolderGap();
 
 		InventoryFolder iv = new InventoryFolder();
-		
-		inventoryPanel.add(iv.createNewIcon("ALL"));
 
+		if (cs.checkFolderTitle("ALL")) {
+			iv.createNewIcon("ALL");
+		}
 		for (int i = 1; i < CurrentSession.folders.size(); i++) {
 			JPanel folder = iv.createNewIcon(CurrentSession.folders.get(i).getName());
 			inventoryPanel.add(folder);
@@ -367,7 +366,7 @@ public class InventoryMenu {
 		// Action performed when toggle button is clicked.
 		toggleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (!groupName.contentEquals("All")) {
+				if (!groupName.contentEquals("ALL")) {
 					if (it.getInventoryGroups().contains(groupName)) {
 
 						toggleButton.setBorder(unToggledBorder);
@@ -423,6 +422,9 @@ public class InventoryMenu {
 				// updates graphics and session/itemtimer values.
 				if (it.getToggled()) {
 					cs.decreaseANOT();
+					if (it.getPrgPercentage() < .9) {
+						it.getTimerGraphics().recordTimer();
+					}
 					toggleButton.setBorder(unToggledBorder);
 					toggleButton.setBackground(Color.WHITE);
 					toggleButton.setForeground(backgroundColor);

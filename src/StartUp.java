@@ -78,7 +78,7 @@ public class StartUp {
 	static JPanel optionPanel = new RoundedPanel();
 
 	public static void main(String[] args) throws IOException {
-		
+
 		// Create file paths
 		File crashData = new File("./CRASHLOG.txt");
 		File usageData = new File("./usageData.txt");
@@ -98,9 +98,9 @@ public class StartUp {
 		if (!flushData.exists()) {
 			flushData.createNewFile();
 		}
-		
-		//TODO
-		
+
+		// TODO
+
 		Database db = new Database();
 		try {
 			db.connect();
@@ -108,7 +108,6 @@ public class StartUp {
 			System.out.println("Database connection failed...");
 			e.printStackTrace();
 		}
-		
 
 		// Create the program's fullscren window but not opening it yet.
 		window = new JFrame();
@@ -203,19 +202,19 @@ public class StartUp {
 						// Create ints used to represent the boolean values for the session details,
 						// makes writing and reading easier.
 						int autoSortInt = 0;
-						int cardLayoutInt = 0;
 						int sessionAddress = cs.getSessionAddress();
 
 						if (cs.getAutoSortEnabled()) {
 							autoSortInt = 1;
 						}
-						if (cs.getCardLayout()) {
-							cardLayoutInt = 1;
-						}
 
 						// Write session info before looping through timers.
-						bw.write(cs.getTNOT() + "," + timerCount + "," + 0 + "," + autoSortInt + ","
-								+ sessionAddress);
+						String sessionText = cs.getTNOT() + "," + timerCount + "," + 0 + "," + autoSortInt + ",";
+						for (InventoryFolder temp : CurrentSession.folders) {
+							sessionText += temp.getName() + ",";
+						}
+						sessionText += sessionAddress;
+						bw.write(sessionText);
 						bw.newLine();
 
 						// This loop writes the indivial timer data.
@@ -229,6 +228,8 @@ public class StartUp {
 								if (cs.itHash.get(timerID).getInitialsRequired()) {
 									initialsReqInt = 1;
 								}
+								ArrayList<String> inventoryGroups = cs.itHash.get(timerID).getInventoryGroups();
+
 								bw.write(cs.itHash.get(timerID).getTimerID() + ",");
 								bw.write(cs.itHash.get(timerID).getStartMin() + ",");
 								bw.write(cs.itHash.get(timerID).getStartHour() + ",");
@@ -237,6 +238,9 @@ public class StartUp {
 								bw.write(cs.itHash.get(timerID).getCurHour() + ",");
 								bw.write(toggleInt + ",");
 								bw.write(initialsReqInt + ",");
+								for (int i = 0; i < inventoryGroups.size(); i++) {
+									bw.write(inventoryGroups.get(i) + ",");
+								}
 								bw.write(cs.itHash.get(timerID).getTitle());
 								bw.newLine();
 							}
@@ -312,23 +316,47 @@ public class StartUp {
 		int[] sessionDataInt = new int[5];
 
 		// Convert session data strings to values stored in an int array.
+
+		int freqOfSessionComma = 1;
+
+		for (int i = 0; i < sessionData.length(); i++) {
+			if (sessionData.charAt(i) == ',') {
+				freqOfSessionComma++;
+			}
+		}
+		int sessionIndex = 0;
+
+		ArrayList<String> sessionFolderNames = new ArrayList<String>();
+
 		int curSessionIndex = 0;
 		String curSessionString = sessionData;
-		for (int curStringNum = 0; curStringNum < sessionStrings.length; curStringNum++) {
+		for (int curStringNum = 0; curStringNum < freqOfSessionComma; curStringNum++) {
 			curSessionIndex = curSessionString.indexOf(',');
 			if (curSessionIndex == -1) {
 				sessionDataInt[4] = Integer.parseInt(curSessionString);
 
 			} else {
-				sessionStrings[curStringNum] = curSessionString.substring(0, curSessionIndex);
-				sessionDataInt[curStringNum] = Integer.parseInt(sessionStrings[curStringNum]);
-				curSessionString = curSessionString.substring(curSessionIndex + 1);
+				sessionIndex++;
+				if (sessionIndex < 4) {
+					sessionStrings[curStringNum] = curSessionString.substring(0, curSessionIndex);
+					sessionDataInt[curStringNum] = Integer.parseInt(sessionStrings[curStringNum]);
+					curSessionString = curSessionString.substring(curSessionIndex + 1);
+				} else {
+					sessionFolderNames.add(curSessionString.substring(0, curSessionIndex));
+					curSessionString = curSessionString.substring(curSessionIndex + 1);
+				}
 			}
 		}
 
 		// Sets base values for session details.
 		cs.setCardLayout(false);
 		cs.setCNOT(0);
+
+		for (String name : sessionFolderNames) {
+			if (cs.checkFolderTitle(name)) {
+				CurrentSession.folders.add(new InventoryFolder(name));
+			}
+		}
 
 		// Initialize ItemTimers from stored data.
 		for (int curStringNum = 0; curStringNum < stringData.size(); curStringNum++) {
@@ -338,20 +366,36 @@ public class StartUp {
 
 			// String lengths are hardcoded, alter these when storing more data on
 			// individual timers.
+			int freqOfComma = 1;
+
+			for (int i = 0; i < curDataString.length(); i++) {
+				if (curDataString.charAt(i) == ',') {
+					freqOfComma++;
+				}
+			}
+
 			String[] rawDataStrings = new String[9];
+			ArrayList<String> inventoryGroups = new ArrayList<String>();
 			int[] timerValues = new int[9];
 
+			int index = 0;
 			// Seperates each data value and stores them appropiately.
-			for (int j = 0; j < rawDataStrings.length; j++) {
+			for (int j = 0; j < freqOfComma; j++) {
 				curDataIndex = curDataString.indexOf(',');
 
 				if (curDataIndex == -1) {
 					title = curDataString;
 
 				} else {
-					rawDataStrings[j] = curDataString.substring(0, curDataIndex);
-					timerValues[j] = Integer.parseInt(rawDataStrings[j]);
-					curDataString = curDataString.substring(curDataIndex + 1);
+					index++;
+					if (index <= 8) {
+						rawDataStrings[j] = curDataString.substring(0, curDataIndex);
+						timerValues[j] = Integer.parseInt(rawDataStrings[j]);
+						curDataString = curDataString.substring(curDataIndex + 1);
+					} else {
+						inventoryGroups.add(curDataString.substring(0, curDataIndex));
+						curDataString = curDataString.substring(curDataIndex + 1);
+					}
 				}
 			}
 
@@ -371,7 +415,7 @@ public class StartUp {
 				cs.increaseANOT();
 			}
 
-			ItemTimer it = new ItemTimer(startMin, startHour, title, id, true, toggled,initials);
+			ItemTimer it = new ItemTimer(startMin, startHour, title, id, true, toggled, initials, inventoryGroups);
 
 			// Set the timers progress so that timers can save where they were.
 			it.setCurSec(curSec);

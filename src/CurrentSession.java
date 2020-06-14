@@ -100,7 +100,7 @@ public class CurrentSession {
 	}
 
 	public boolean checkFolderTitle(String groupName) {
-
+		//Returns whether a name is valid or not
 		for (InventoryFolder temp : folders) {
 			if (temp.getName().equals(groupName)) {
 				return false;

@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -720,10 +721,11 @@ public class CreateTimer {
 			tb.updateBar("MENU");
 			cs.setTyping(false);
 			cs.increaseANOT();
-
+			
+			
 			// Suppresses are used because these are contructor calls
 			@SuppressWarnings("unused")
-			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true, initialsRequired);
+			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true, initialsRequired, new ArrayList<String>());
 			@SuppressWarnings("unused")
 			InventoryMenu im = new InventoryMenu();
 
