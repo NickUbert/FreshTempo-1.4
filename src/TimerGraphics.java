@@ -136,36 +136,38 @@ public class TimerGraphics {
 		prg.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				// Resuming the timer
-				if (timer.getPause()) {
-					prg.setBackground(prgRemainder);
-					prg.setForeground(prgExpired);
-					timer.setPause(false);
+				if (!timer.getTask()) {
+					if (timer.getPause()) {
+						prg.setBackground(prgRemainder);
+						prg.setForeground(prgExpired);
+						timer.setPause(false);
 
-					// update the NOAE value for the session
-					if (timer.getCurrentlyExpired()) {
-						cs.increaseNOAE();
-						if (cs.getNOAE() == 1) {
-							cs.setActiveExpiratons(true);
+						// update the NOAE value for the session
+						if (timer.getCurrentlyExpired()) {
+							cs.increaseNOAE();
+							if (cs.getNOAE() == 1) {
+								cs.setActiveExpiratons(true);
+							}
 						}
-					}
-					timer.countDown.start();
-				} else {
-					// Pausing the timer
-					prg.setBackground(Color.GRAY);
-					prg.setForeground(Color.darkGray);
+						timer.countDown.start();
+					} else {
+						// Pausing the timer
+						prg.setBackground(Color.GRAY);
+						prg.setForeground(Color.darkGray);
 
-					timer.setPause(true);
-					// Update the NOAE value for the session.
-					if (timer.getCurrentlyExpired()) {
-						cs.decreaseNOAE();
-						if (cs.getNOAE() == 0) {
+						timer.setPause(true);
+						// Update the NOAE value for the session.
+						if (timer.getCurrentlyExpired()) {
+							cs.decreaseNOAE();
+							if (cs.getNOAE() == 0) {
 
-							cs.setActiveExpiratons(false);
+								cs.setActiveExpiratons(false);
+							}
+
 						}
 
+						timer.countDown.stop();
 					}
-
-					timer.countDown.stop();
 				}
 
 			}
@@ -222,7 +224,6 @@ public class TimerGraphics {
 
 		timer.setJustRefreshed(true);
 	}
-	
 
 	public void recordTimer() {
 		// Record the timer refresh data no matter what
@@ -354,27 +355,35 @@ public class TimerGraphics {
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-blue.png")).getImage()
 						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
 
-		switch (timer.getColorCode()) {
-		case 0:
-			// Black
-			refreshBtn.setIcon(resizedBlackRefreshIcon);
-			break;
-		case 1:
-			// Blue
-			refreshBtn.setIcon(resizedBlueRefreshIcon);
-			break;
-		case 2:
-			// Orange
-			refreshBtn.setIcon(resizedOrangeRefreshIcon);
-			break;
-		case 3:
-			// Pink
-			refreshBtn.setIcon(resizedPinkRefreshIcon);
-			break;
-		case 4:
-			// Green
-			refreshBtn.setIcon(resizedGreenRefreshIcon);
-			break;
+		Icon resizedTaskCheckIcon = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-task-check.png")).getImage()
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+		if (timer.getTask()) {
+			refreshBtn.setIcon(resizedTaskCheckIcon);
+		} else {
+
+			switch (timer.getColorCode()) {
+			case 0:
+				// Black
+				refreshBtn.setIcon(resizedBlackRefreshIcon);
+				break;
+			case 1:
+				// Blue
+				refreshBtn.setIcon(resizedBlueRefreshIcon);
+				break;
+			case 2:
+				// Orange
+				refreshBtn.setIcon(resizedOrangeRefreshIcon);
+				break;
+			case 3:
+				// Pink
+				refreshBtn.setIcon(resizedPinkRefreshIcon);
+				break;
+			case 4:
+				// Green
+				refreshBtn.setIcon(resizedGreenRefreshIcon);
+				break;
+			}
 		}
 	}
 

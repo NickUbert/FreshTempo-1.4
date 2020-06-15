@@ -14,7 +14,9 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -34,7 +36,7 @@ import javax.swing.border.Border;
  * min. In the future this will maybe include a fourth option for days.
  * 
  */
-public class CreateTimer {
+public class CreateTask {
 
 	private Dimension mtk = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -179,11 +181,11 @@ public class CreateTimer {
 					.getScaledInstance(switchXY, switchXY, Image.SCALE_SMOOTH));
 
 	// Default user entered values
+	ArrayList<Time> deadlines = new ArrayList<Time>();
 	private int userMin = 0;
 	private int userHour = 0;
 	private String userTitle = "";
-	private boolean initialsRequired = false;
-	private boolean longerShelf = false;
+	private boolean AM = true;
 
 	/*
 	 * paintCreatePanel is used to fill the creation panel with all components
@@ -268,32 +270,85 @@ public class CreateTimer {
 		longerLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
 		createPanel.add(longerLabel);
 
-		JLabel initialLabel = new JLabel("Require Initials?");
+		JLabel initialLabel = new JLabel("Add another time?");
 		initialLabel.setFont(createPanelFont);
-		initialLabel.setBounds(initialLabelXL, initialLabelYL, initialLabelX, initialLabelY);
+		initialLabel.setBounds(initialLabelXL, initialLabelYL, titleTextFieldX, initialLabelY);
 		initialLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		initialLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
 		createPanel.add(initialLabel);
 
-		JButton checkBox = new JButton();
-		checkBox.setIcon(resizedUncheckedBoxIcon);
-		checkBox.setBounds(initialBoxXL, initialBoxYL, initialBoxXY, initialBoxXY);
-		checkBox.setFocusable(false);
-		checkBox.setBackground(switchToNumColor);
-		checkBox.addActionListener(new ActionListener() {
+		JButton addNewDeadlineButton = new JButton("Add");
+
+		addNewDeadlineButton.setBounds(titleTextFieldXL + (int) (titleTextFieldXL * .3), initialBoxYL, textFieldX,
+				initialBoxXY);
+		addNewDeadlineButton.setFocusable(false);
+		addNewDeadlineButton.setFont(switchFont);
+		addNewDeadlineButton.setBackground(switchToNumColor);
+		addNewDeadlineButton.setForeground(Color.WHITE);
+		addNewDeadlineButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				initialsRequired = !initialsRequired;
-				if (initialsRequired) {
-					checkBox.setIcon(resizedCheckedBoxIcon);
-				} else {
-					checkBox.setIcon(resizedUncheckedBoxIcon);
+
+				userMin = 0;
+				userHour = 0;
+				if (shorterTf.getText().length() != 0) {
+					userMin = Integer.parseInt(shorterTf.getText());
 				}
+
+				if (longerTf.getText().length() != 0) {
+					userHour = Integer.parseInt(longerTf.getText());
+				}
+
+				boolean validMin = true;
+				boolean validHour = true;
+				shorterTf.setBorder(fieldBorder);
+				longerTf.setBorder(fieldBorder);
+
+				// Make sure minutes value isn't over 60.
+				if (userMin >= 60) {
+					validMin = false;
+					shorterTf.setText("");
+					shorterTf.setBorder(errorBorder);
+				}
+
+				// Hour value is capped at 100
+				if (userHour >= 13) {
+					validHour = false;
+					longerTf.setText("");
+					longerTf.setBorder(errorBorder);
+				}
+
+				// Make sure a time value was entered for either minutes or hours.
+				if (userHour == 0 && userMin == 0) {
+					validHour = false;
+					validMin = false;
+					longerTf.setText("");
+					shorterTf.setText("");
+					longerTf.setBorder(errorBorder);
+					shorterTf.setBorder(errorBorder);
+
+				}
+
+				if (validMin && validHour) {
+					if (userHour == 12) {
+						userHour = 0;
+					}
+					if (!AM) {
+						userHour += 12;
+					}
+					Time newTime = new Time(userHour, userMin, 0);
+					if (!deadlines.contains(newTime)) {
+						deadlines.add(newTime);
+					}
+					longerTf.setText("");
+					shorterTf.setText("");
+				}
+
 			}
 		});
 
-		createPanel.add(checkBox);
+		createPanel.add(addNewDeadlineButton);
 
-		JLabel shortSwitchLabel = new JLabel("Short");
+		JLabel shortSwitchLabel = new JLabel("AM");
 		shortSwitchLabel.setFont(switchFont);
 		shortSwitchLabel.setBounds(switchLabelXL, hNewLabelYL, switchLabelX, switchLabelY);
 		shortSwitchLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -308,18 +363,10 @@ public class CreateTimer {
 		switchButton.setBorderPainted(false);
 		switchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				longerShelf = !longerShelf;
-				if (!longerShelf) {
-					shorterLabel.setText("Set Minutes");
-					shorterLabel.setHorizontalAlignment(SwingConstants.CENTER);
-					longerLabel.setText("Set Hours");
-					longerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				AM = !AM;
+				if (AM) {
 					switchButton.setIcon(resizedSwitchOn);
 				} else {
-					shorterLabel.setText(" Set Days");
-					shorterLabel.setHorizontalAlignment(SwingConstants.LEFT);
-					longerLabel.setText(" Set Weeks");
-					longerLabel.setHorizontalAlignment(SwingConstants.LEFT);
 					switchButton.setIcon(resizedSwitchOff);
 				}
 			}
@@ -327,7 +374,7 @@ public class CreateTimer {
 
 		createPanel.add(switchButton);
 
-		JLabel longSwitchLabel = new JLabel("Long");
+		JLabel longSwitchLabel = new JLabel("PM");
 		longSwitchLabel.setFont(switchFont);
 		longSwitchLabel.setBounds(switchLabelXL, minNewLabelYL, switchLabelX, switchLabelY);
 		longSwitchLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -338,7 +385,7 @@ public class CreateTimer {
 		createPanel.setPreferredSize(new Dimension(cardX, cardY));
 		createPanel.setOpaque(false);
 		createPanel.setLayout(null);
-		createPanel.setBackground(Color.white);
+		createPanel.setBackground(Color.WHITE);
 
 		CurrentSession cs = new CurrentSession();
 		cs.addToCurrentPage(createPanel);
@@ -440,18 +487,16 @@ public class CreateTimer {
 		startBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// First test for inputs
-				if (titleTf.getText().length() != 0) {
-					userTitle = titleTf.getText();
-				}
-
-				if (shorterTf.getText().length() != 0 && longerTf.getText().length() < 4) {
+				userMin = 0;
+				userHour = 0;
+				userTitle = titleTf.getText();
+				if (shorterTf.getText().length() != 0) {
 					userMin = Integer.parseInt(shorterTf.getText());
 				}
 
-				if (longerTf.getText().length() != 0 && longerTf.getText().length() < 4) {
+				if (longerTf.getText().length() != 0) {
 					userHour = Integer.parseInt(longerTf.getText());
 				}
-
 				startButtonPressed();
 
 			}
@@ -567,64 +612,20 @@ public class CreateTimer {
 		startBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 
-				// Execute if the start btn was on the create timer panel.
-				if (isCreatePanel) {
-					// First check for inputs.
-					if (titleTf.getText().length() != 0) {
-						userTitle = titleTf.getText();
-					}
-
-					if (shorterTf.getText().length() != 0) {
-						userMin = Integer.parseInt(shorterTf.getText());
-					}
-
-					if (longerTf.getText().length() != 0) {
-						userHour = Integer.parseInt(longerTf.getText());
-					}
-
-					startButtonPressed();
-					// If it came from the address panel else executes.
-				} else {
-					// If the user didn't enter anything and clicked start.
-					if (addyTf.getText().length() == 0) {
-						// Filler address that will never be assigned to a store.
-						cs.setSessionAddress(11111111);
-						cs.setClientConnected(false);
-						returnToToggleScreen();
-						// If the user enetered a valid length of a store address execute this.
-					} else if (addyTf.getText().length() == 8) {
-						// Set the address equal to whatever integers were entered.
-						cs.setSessionAddress(Integer.parseInt(addyTf.getText()));
-
-						// Update the session settings so that the system knows to try to send data to
-						// the server.
-						cs.setClientConnected(true);
-
-						// Send initial connection message to server that will establish its data
-						// folders and the time conversion needed for the server.
-						try {
-							ClientConnection cc = new ClientConnection();
-							Analytics an = new Analytics();
-
-							// The @ symbol indicates that there is a connection message.
-							cc.sendMessage(cs.getSessionAddress() + "@" + an.getDateAndTime());
-
-							// Display the status of the connection after a host check is done.
-							paintConnectionMessage(cc.hostAvailabilityCheck());
-							TaskBar tb = new TaskBar();
-							tb.updateBar("UNDO");
-						} catch (UnknownHostException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-
-					} else {
-						// If the user entered something >0 and <8
-						addyTf.setBorder(errorBorder);
-						addyTf.setText("");
-					}
+				userMin = 0;
+				userHour = 0;
+				userTitle = titleTf.getText();
+				if (shorterTf.getText().length() != 0) {
+					userMin = Integer.parseInt(shorterTf.getText());
 				}
+
+				if (longerTf.getText().length() != 0) {
+					userHour = Integer.parseInt(longerTf.getText());
+				}
+
+				userTitle = titleTf.getText();
+				startButtonPressed();
+
 			}
 		});
 		if (isCreatePanel) {
@@ -653,7 +654,7 @@ public class CreateTimer {
 		titleTf.setBorder(fieldBorder);
 
 		// Check to see if a title length is too long.
-		if (userTitle.length() == 0 || userTitle.length() > 11) {
+		if (userTitle.length() == 0 || userTitle.length() > 11 || existingTitle(userTitle)) {
 			validTitle = false;
 			titleTf.setText("");
 			titleTf.setBorder(errorBorder);
@@ -667,14 +668,14 @@ public class CreateTimer {
 		}
 
 		// Hour value is capped at 100
-		if (userHour >= 52) {
+		if (userHour >= 13) {
 			validHour = false;
 			longerTf.setText("");
 			longerTf.setBorder(errorBorder);
 		}
 
 		// Make sure a time value was entered for either minutes or hours.
-		if (userHour == 0 && userMin == 0) {
+		if (deadlines.size() == 0 && userHour == 0 && userMin == 0) {
 			validHour = false;
 			validMin = false;
 			longerTf.setText("");
@@ -684,30 +685,18 @@ public class CreateTimer {
 
 		}
 
-		// Only if all three conditions are met, then the timer
+		// Only if all three conditions are met and the title is unique, then the timer
 		// will be created.Graphics are updated and a timer creation is called using the
 		// user inputs as constructor values.
 		if (validTitle && validMin && validHour) {
 
 			CurrentSession cs = new CurrentSession();
 
-			if (longerShelf) {				
-				userHour = (userHour*168) + (userMin*24);
-				System.out.println(userHour);
-				userMin=0;
+			Time newTime = new Time(userHour, userMin, 0);
+			if (!deadlines.contains(newTime) && (userHour != 0 && userMin != 0)) {
+				deadlines.add(newTime);
 			}
-
-			int shelfSec = (userHour * 36060) + (userMin * 60);
-
-			// TODO DEMO DISCONNECT
-
-			Database db = new Database();
-			try {
-				db.recordNewItem(cs.getTNOT(), userTitle, shelfSec);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Collections.sort(deadlines);
 
 			cs.increaseCNOT();
 			cs.increaseTNOT();
@@ -721,11 +710,11 @@ public class CreateTimer {
 			tb.updateBar("MENU");
 			cs.setTyping(false);
 			cs.increaseANOT();
-			
-			
+
 			// Suppresses are used because these are contructor calls
+
 			@SuppressWarnings("unused")
-			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true, initialsRequired, new ArrayList<String>());
+			ItemTimer it = new ItemTimer(userTitle, cs.getTNOT() - 1, false, deadlines);
 			@SuppressWarnings("unused")
 			InventoryMenu im = new InventoryMenu();
 
@@ -733,7 +722,6 @@ public class CreateTimer {
 
 	}
 
-	// TODO this isn't used currently but might be useful
 	private boolean existingTitle(String s) {
 		CurrentSession cs = new CurrentSession();
 		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {

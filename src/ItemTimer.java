@@ -1,7 +1,10 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -34,12 +37,15 @@ public class ItemTimer {
 	private boolean toggled;
 	private boolean currentlyExpired;
 	private boolean justRefreshed;
+	private boolean taskTimer;
 	private Color backgroundColor = Color.decode("#223843");
 	private Color flashColor = Color.decode("#CC2936");
 	private Color yieldColor = Color.decode("#E0CA3C");
 	private Color prgRemainder = Color.decode("#4DA167");
 	CurrentSession cs = new CurrentSession();
 	ArrayList<String> inventoryGroup = new ArrayList<String>();
+	private ArrayList<Time> deadlines = new ArrayList<Time>();
+	private int deadlineIndex;
 
 	/*
 	 * Constructor sets itemTimer values to user inputs.
@@ -51,7 +57,7 @@ public class ItemTimer {
 		startMin = min;
 		startHour = hour;
 		initialsRequired = initials;
-
+		taskTimer = false;
 		inventoryGroup = groups;
 		timerTitle = title;
 		prior = loaded;
@@ -79,6 +85,30 @@ public class ItemTimer {
 
 	}
 
+	// Task Timer Constructor
+	public ItemTimer(String title, int id, boolean loaded, ArrayList<Time> deadline) {
+		// TODO
+		taskTimer = true;
+		timerTitle = title;
+		prior = loaded;
+		timerID = id;
+		initialsRequired = true;
+		Collections.sort(deadline);
+		deadlines = deadline;
+		CurrentSession.itHash.put(id, this);
+		cs.updateCAP();
+
+		toggled = true;
+		deadlineIndex = -1;
+
+		startCountDown(false);
+
+		tg = new TimerGraphics(this);
+		timerPanel = tg.getTimerPanel();
+		timerGraphics = tg;
+		tg.createTimerUI();
+	}
+
 	public ItemTimer() {
 
 	}
@@ -97,6 +127,16 @@ public class ItemTimer {
 		prgValue = 0;
 		sec = 60;
 
+		if (taskTimer) {
+
+			int index = getClosestIndex(deadlines, deadlineIndex);
+			deadlineIndex = index;
+			int[] timerValues = getHourMinUntil(deadlines.get(deadlineIndex));
+			startMin = timerValues[1];
+			startHour = timerValues[0];
+
+		}
+
 		// Handles all initial conversions.
 		if (startMin != 0) {
 			min = startMin - 1;
@@ -114,6 +154,10 @@ public class ItemTimer {
 			prgValue = 100;
 		}
 		if (resetting) {
+			if (taskTimer) {
+		
+				tg.getPrg().setMaximum(getMax());
+			}
 			timerGraphics.getPrg().setValue(prgValue);
 			timerGraphics.getPrg().repaint();
 			timerGraphics.getPrg().revalidate();
@@ -224,7 +268,7 @@ public class ItemTimer {
 			}
 
 			// Simply updating the prior value, not sure if it needs to be here though
-			if (prior) {
+			if (prior && !taskTimer) {
 				countDown.stop();
 				prior = false;
 			}
@@ -483,6 +527,80 @@ public class ItemTimer {
 		return timerGraphics;
 	}
 
+	@SuppressWarnings("deprecation")
+	private Integer getClosestIndex(ArrayList<Time> times, int justUsed) {
+		ArrayList<Time> tempTimes = times;
+
+		if (tempTimes.size() <= 1) {
+			return 0;
+		}
+
+		ArrayList<Integer> secUntil = new ArrayList<Integer>();
+		for (Time temp : tempTimes) {
+			int targetHour = temp.getHours() * 3600;
+			int targetMin = temp.getMinutes() * 60;
+			int totalTarget = targetHour + targetMin;
+			secUntil.add(totalTarget);
+		}
+
+		Time now = Time.valueOf(LocalTime.now());
+
+		int curHour = now.getHours() * 3600;
+		int curMin = now.getMinutes() * 60;
+		int curTotal = curHour + curMin;
+
+		int smallestIndex = -1;
+		int smallestDifference = Integer.MAX_VALUE;
+
+		for (int i = 0; i < secUntil.size(); i++) {
+			int diff = secUntil.get(i) - curTotal;
+			if (diff <= smallestDifference && diff > 0 && i != justUsed) {
+				smallestIndex = i;
+				smallestDifference = diff;
+			}
+		}
+
+		if (smallestIndex == -1) {
+			if(justUsed==0 && times.size()>1) {
+				return 1;
+			}
+			smallestIndex = 0;
+		}
+
+		return smallestIndex;
+
+	}
+
+	@SuppressWarnings("deprecation")
+	private int[] getHourMinUntil(Time target) {
+		// Always round sec down?
+
+		int targetHour = target.getHours() * 3600;
+		int targetMin = target.getMinutes() * 60;
+		int totalTarget = targetHour + targetMin;
+
+		Time now = Time.valueOf(LocalTime.now());
+		int curHour = now.getHours() * 3600;
+		int curMin = now.getMinutes() * 60;
+		int curTotal = curHour + curMin;
+
+		int secDiff = totalTarget - curTotal;
+
+		int newDiff = 0;
+		if (secDiff < 0) {
+			newDiff = (86400 - curTotal);
+			newDiff += totalTarget;
+			secDiff = newDiff;
+		}
+
+		int hours = (int) secDiff / 3600;
+		int remainder = (int) secDiff - hours * 3600;
+		int mins = remainder / 60;
+
+		return new int[] { hours, mins };
+
+	}
+
 	/*
 	 * setPrgValue is used to set a specific value to the progress bar linked with
 	 * this itemTimer. This is mainly used by loading priors in order to update the
@@ -536,6 +654,10 @@ public class ItemTimer {
 	public ArrayList<String> getInventoryGroups() {
 		return inventoryGroup;
 	}
+	
+	public ArrayList<Time> getDeadlines(){
+		return deadlines;
+	}
 
 	public void addToGroup(String name) {
 		if (!inventoryGroup.contains(name)) {
@@ -558,6 +680,10 @@ public class ItemTimer {
 	 */
 	public Timer getTimer() {
 		return countDown;
+	}
+
+	public boolean getTask() {
+		return taskTimer;
 	}
 
 	/*

@@ -15,6 +15,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -98,8 +102,6 @@ public class StartUp {
 		if (!flushData.exists()) {
 			flushData.createNewFile();
 		}
-
-		// TODO
 
 		Database db = new Database();
 		try {
@@ -221,12 +223,17 @@ public class StartUp {
 						for (int timerID = 0; timerID < cs.getTNOT(); timerID++) {
 							if (cs.itHash.get(timerID) != null) {
 								int toggleInt = 0;
+								int taskInt = 0;
 								if (cs.itHash.get(timerID).getToggled()) {
 									toggleInt = 1;
 								}
 								int initialsReqInt = 0;
 								if (cs.itHash.get(timerID).getInitialsRequired()) {
 									initialsReqInt = 1;
+								}
+
+								if (cs.itHash.get(timerID).getTask()) {
+									taskInt = cs.itHash.get(timerID).getDeadlines().size();
 								}
 								ArrayList<String> inventoryGroups = cs.itHash.get(timerID).getInventoryGroups();
 
@@ -238,6 +245,10 @@ public class StartUp {
 								bw.write(cs.itHash.get(timerID).getCurHour() + ",");
 								bw.write(toggleInt + ",");
 								bw.write(initialsReqInt + ",");
+								bw.write(taskInt + ",");
+								for (int i = 0; i < taskInt; i++) {
+									bw.write(cs.itHash.get(timerID).getDeadlines().get(i).toString() + ",");
+								}
 								for (int i = 0; i < inventoryGroups.size(); i++) {
 									bw.write(inventoryGroups.get(i) + ",");
 								}
@@ -337,7 +348,7 @@ public class StartUp {
 
 			} else {
 				sessionIndex++;
-				if (sessionIndex < 4) {
+				if (sessionIndex <= 4) {
 					sessionStrings[curStringNum] = curSessionString.substring(0, curSessionIndex);
 					sessionDataInt[curStringNum] = Integer.parseInt(sessionStrings[curStringNum]);
 					curSessionString = curSessionString.substring(curSessionIndex + 1);
@@ -376,8 +387,9 @@ public class StartUp {
 
 			String[] rawDataStrings = new String[9];
 			ArrayList<String> inventoryGroups = new ArrayList<String>();
+			ArrayList<Time> deadlines = new ArrayList<Time>();
 			int[] timerValues = new int[9];
-
+			boolean noDeadlinesYet = true;
 			int index = 0;
 			// Seperates each data value and stores them appropiately.
 			for (int j = 0; j < freqOfComma; j++) {
@@ -393,8 +405,26 @@ public class StartUp {
 						timerValues[j] = Integer.parseInt(rawDataStrings[j]);
 						curDataString = curDataString.substring(curDataIndex + 1);
 					} else {
-						inventoryGroups.add(curDataString.substring(0, curDataIndex));
-						curDataString = curDataString.substring(curDataIndex + 1);
+						if (noDeadlinesYet) {
+							String rawNum = curDataString.substring(0, curDataIndex);
+							int numOfDeadlines = Integer.parseInt(rawNum);
+							curDataString = curDataString.substring(curDataIndex + 1);
+							for (int i = 0; i < numOfDeadlines; i++) {
+								curDataIndex = curDataString.indexOf(',');
+								String rawTimeString = curDataString.substring(0, curDataIndex);
+								DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss");
+								LocalTime timeL = LocalTime.parse(rawTimeString, format);
+								Time realTime = Time.valueOf(timeL);
+								deadlines.add(realTime);
+								curDataString = curDataString.substring(curDataIndex + 1);
+							}
+							noDeadlinesYet = false;
+
+						} else {
+
+							inventoryGroups.add(curDataString.substring(0, curDataIndex));
+							curDataString = curDataString.substring(curDataIndex + 1);
+						}
 					}
 				}
 			}
@@ -415,17 +445,21 @@ public class StartUp {
 				cs.increaseANOT();
 			}
 
-			ItemTimer it = new ItemTimer(startMin, startHour, title, id, true, toggled, initials, inventoryGroups);
-
+			ItemTimer it;
+			if (deadlines.size() == 0) {
+				it = new ItemTimer(startMin, startHour, title, id, true, toggled, initials, inventoryGroups);
+				it.setCurSec(curSec);
+				it.setCurMin(curMin);
+				it.setCurHour(curHour);
+				// Prg is the progress value of the bar, basically converting everything to
+				// seconds and subtracting total by current seconds.
+				int prgValue = (startMin * 60) + (startHour * 3600) - (curSec + (curMin * 60) + (curHour * 3600));
+				it.setPrgValue(prgValue);
+			} else {
+				it = new ItemTimer(title, id, true, deadlines);
+			}
 			// Set the timers progress so that timers can save where they were.
-			it.setCurSec(curSec);
-			it.setCurMin(curMin);
-			it.setCurHour(curHour);
 
-			// Prg is the progress value of the bar, basically converting everything to
-			// seconds and subtracting total by current seconds.
-			int prgValue = (startMin * 60) + (startHour * 3600) - (curSec + (curMin * 60) + (curHour * 3600));
-			it.setPrgValue(prgValue);
 		}
 
 		// SwitchLayoutGaps is called no matter what since it performs its own session
