@@ -35,7 +35,7 @@ public class Database {
 
 	@SuppressWarnings("deprecation")
 	public void recordItem(int itemID, int shelfSec) throws SQLException {
-
+		connect();
 		String sql = "INSERT INTO RotationData (Store_ID, Item_ID, Mod_Time, Shelf_Time, Emp_Initials) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);
 
@@ -52,12 +52,12 @@ public class Database {
 		message.setString(5, "n/a");
 
 		message.executeUpdate();
-
+		disconnect();
 	}
 
 	// Overloaded method
 	public void recordItem(int itemID, int shelfSec, String initials) throws SQLException {
-
+		connect();
 		String sql = "INSERT INTO RotationData (Store_ID, Item_ID, Mod_Time, Shelf_Time, Emp_Initials) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);
 
@@ -74,13 +74,13 @@ public class Database {
 		message.setString(5, initials);
 
 		message.executeUpdate();
-
+		disconnect();
 	}
 
 	// Record new item is used when a store adds a timer themselves, the item is
 	// recorded and sent to the database.
 	public void recordNewItem(int itemID, String itemName, int shelfSec) throws SQLException {
-
+		connect();
 		String sql = "INSERT INTO ItemData (Store_ID, Item_ID, Item_Name, Shelf_Life) VALUES (?, ?, ?, ?)";
 		PreparedStatement message = connection.prepareStatement(sql);
 
@@ -93,7 +93,7 @@ public class Database {
 		message.setInt(4, shelfSec);
 
 		message.executeUpdate();
-
+		disconnect();
 	}
 
 }

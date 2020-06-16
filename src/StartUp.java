@@ -103,20 +103,13 @@ public class StartUp {
 			flushData.createNewFile();
 		}
 
-		Database db = new Database();
-		try {
-			db.connect();
-		} catch (SQLException e) {
-			System.out.println("Database connection failed...");
-			e.printStackTrace();
-		}
 
 		// Create the program's fullscren window but not opening it yet.
 		window = new JFrame();
 		window.setLayout(null);
 		window.setExtendedState(Frame.MAXIMIZED_BOTH);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setTitle("FreshTempo V1.1");
+		window.setTitle("FreshTempo V1.2");
 
 		// Adding the option panel so that it appears on top of other components.
 		optionPanel.setBounds(optionXL, optionYL, optionX, optionY);

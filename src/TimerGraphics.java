@@ -313,7 +313,7 @@ public class TimerGraphics {
 
 	private void refreshAnimation() {
 		spaceToFill = ((prg.getValue()));
-		increment = ((double) spaceToFill / 50);
+		increment = ((double) spaceToFill / 40);
 		prg.setBackground(prgRemainder);
 		animationTimer.start();
 

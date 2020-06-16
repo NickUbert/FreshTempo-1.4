@@ -39,11 +39,12 @@ public class InventoryMenu {
 	private int newFolderButtonX = (int) (toggleScrollX * .07);
 	private int toggleY = (int) (screenY * .1);
 	private int flowGap = (int) (screenY * .004);
-	private int newFolderIconXY = (int) (screenX * .045);
+	private int newFolderIconXY = (int) (screenX * .042);
 
 	private int newTimerIconXY = (int) (screenX * .045);
+	private int newTaskIconXY = (int) (screenX * .047);
 
-	private int scrollRowsNum = 4 + ((cs.getCNOT() + 1) / 5) + (CurrentSession.folders.size() / 6);
+	private int scrollRowsNum = 4 + ((cs.getCNOT() + 1) / 5) + (CurrentSession.folders.size() / 5);
 	private int toggleScrollValue = (((scrollRowsNum) * (toggleY + flowGap)));
 
 	// Fonts
@@ -67,10 +68,10 @@ public class InventoryMenu {
 	Icon resizedNewTimerIcon = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-new-timer.png")).getImage()
 					.getScaledInstance(newTimerIconXY, newTimerIconXY, Image.SCALE_SMOOTH));
-	
+
 	Icon resizedNewTaskIcon = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-new-task.png")).getImage()
-					.getScaledInstance(newTimerIconXY, newTimerIconXY, Image.SCALE_SMOOTH));
+					.getScaledInstance(newTaskIconXY, newTaskIconXY, Image.SCALE_SMOOTH));
 
 	// Create togglePanel and scrollPanel
 	JPanel inventoryPanel = new JPanel();
@@ -151,7 +152,9 @@ public class InventoryMenu {
 			}
 		});
 
-		inventoryPanel.add(newFolderButton);
+		if (CurrentSession.folders.size() < 15) {
+			inventoryPanel.add(newFolderButton);
+		}
 
 		JButton newTimerButton = new JButton();
 		newTimerButton.setPreferredSize(new Dimension(newFolderButtonX, toggleY));
@@ -189,9 +192,9 @@ public class InventoryMenu {
 
 			}
 		});
-		
+
 		inventoryPanel.add(newTimerButton);
-		
+
 		JButton newTaskButton = new JButton();
 		newTaskButton.setPreferredSize(new Dimension(newFolderButtonX, toggleY));
 		newTaskButton.setBackground(newFolderColor);
@@ -223,15 +226,13 @@ public class InventoryMenu {
 				PageManager pm = new PageManager();
 				pm.clearPage();
 
-			
 				CreateTask ct = new CreateTask();
 				ct.paintCreatePanel();
-				
 
 			}
 		});
 
-		//TODO add the taskTimer option
+		// TODO add the taskTimer option
 		inventoryPanel.add(newTaskButton);
 
 		addFolderGap();

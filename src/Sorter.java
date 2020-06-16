@@ -55,7 +55,7 @@ public class Sorter {
 		public void actionPerformed(ActionEvent ae) {
 			bufferIndex++;
 			if (!cs.getMenuOpen() && !cs.getTyping()) {
-				if (bufferIndex % 6 == 0) {
+				if (bufferIndex % 7 == 0) {
 					sort(CurrentSession.itHash);
 				}
 			}

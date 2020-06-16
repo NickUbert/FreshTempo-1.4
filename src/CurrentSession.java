@@ -31,6 +31,7 @@ public class CurrentSession {
 	private static int nOAE = 0;
 	private static int frameLimit;
 	private static boolean menuOpen = true;
+	private static boolean refreshing = false;
 	private static boolean typing = false;
 	private static boolean activeExpiration = false;
 	private static boolean serverUp = true;
@@ -100,7 +101,7 @@ public class CurrentSession {
 	}
 
 	public boolean checkFolderTitle(String groupName) {
-		//Returns whether a name is valid or not
+		// Returns whether a name is valid or not
 		for (InventoryFolder temp : folders) {
 			if (temp.getName().equals(groupName)) {
 				return false;

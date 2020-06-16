@@ -693,7 +693,6 @@ public class CreateTimer {
 
 			if (longerShelf) {				
 				userHour = (userHour*168) + (userMin*24);
-				System.out.println(userHour);
 				userMin=0;
 			}
 
