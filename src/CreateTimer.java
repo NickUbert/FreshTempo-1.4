@@ -602,22 +602,20 @@ public class CreateTimer {
 
 						// Send initial connection message to server that will establish its data
 						// folders and the time conversion needed for the server.
-						try {
-							ClientConnection cc = new ClientConnection();
-							Analytics an = new Analytics();
+						
+							Database db = new Database();
+							//TODO send in the store data in the database class
+							try {
+								db.connect();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 
-							// The @ symbol indicates that there is a connection message.
-							cc.sendMessage(cs.getSessionAddress() + "@" + an.getDateAndTime());
-
-							// Display the status of the connection after a host check is done.
-							paintConnectionMessage(cc.hostAvailabilityCheck());
+							paintConnectionMessage(db.isConnected());
 							TaskBar tb = new TaskBar();
 							tb.updateBar("UNDO");
-						} catch (UnknownHostException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						
 
 					} else {
 						// If the user entered something >0 and <8

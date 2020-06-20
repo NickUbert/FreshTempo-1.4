@@ -104,6 +104,7 @@ public class TimerGraphics {
 	String fontName = "Helvetica";
 	private Font cardTitleFont = new Font(fontName, Font.BOLD, (int) (.0725 * screenX));
 	private Font tabTitleFont = new Font(fontName, Font.BOLD, (int) (.08 * tabX));
+	private Font tabTitleSmallFont = new Font(fontName, Font.BOLD, (int) (.06 * tabX));
 	private Font cardTimeFont = new Font(fontName, Font.TRUETYPE_FONT, (int) (.0475 * screenX));
 	private Font tabTimeFont = new Font(fontName, Font.ITALIC, (int) (.07319 * tabX));
 
@@ -282,8 +283,11 @@ public class TimerGraphics {
 
 		prg.setString(timer.getTitle());
 		prg.setStringPainted(true);
+		if(timer.getTitle().length()>9) {
+			prg.setFont(tabTitleSmallFont);
+		} else {
 		prg.setFont(tabTitleFont);
-
+		}
 		// Update bounds and fonts.
 		timeLabel.setBounds(tabTimerLabelXL, 0, tabTimerLabelX, tabY);
 		timeLabel.setFont(tabTimeFont);

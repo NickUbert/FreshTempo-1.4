@@ -560,7 +560,7 @@ public class StartUp {
 	 */
 	static void freshStart() {
 		CreateTimer ct = new CreateTimer();
-		ct.paintCreatePanel();
+		ct.paintAddressPanel();
 	}
 
 }

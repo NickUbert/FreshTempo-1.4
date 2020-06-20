@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 06/15/20 21:04:41
+The day and time of the software exiting was: 06/19/20 22:16:04
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,112 +11,31 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (06/15/20 21:04:41):
+Timers recorded at system exit (06/19/20 22:16:04):
 
- A: -7:17:30
- B: -7:18:19
- C: -6:30:07
- D: -6:47:55
- E: -1:37:27
- F: -6:47:57
- G: 20:21
- H: -6:47:52
- U: 7:29
- J: -7:18:18
- K: -7:09:49
- L: -47:36
- M: -3:00:13
- N: -7:23:23
- O: -3:46:01
- P: -3:52:36
- Q: -7:17:59
- R: -6:47:48
- S: -7:22:22
- T: -6:11
- I: -7:11:14
- V: -7:14:09
- W: -6:50:00
- X: -7:25:30
- Y: -7:12:04
- Z: 61:09:16
- AA: -3:01:18
- BB: -7:30:18
- CC: -3:07:53
- DD: -7:25:30
- EE: -6:18:05
- FF: -7:24:56
- GG: -7:13:02
- HH: -5:13
- II: -5:30:33
- JJ: -7:14:20
- KK: -7:17:02
- LL: -3:52:34
- MM: -3:55:42
- NN: -7:17:31
- OO: -7:23:33
- PP: 16:20:35
- QQ: -7:17:36
- RR: 832:20:44
- ZZ: 279:50:09
- AAA: -7:17:20
- CLEAN: 3:55:13
- A: -6:45:26
- B: -2:48:49
- C: -6:49:21
- G: -7:17:14
- ASDF: -4:44
- GH: -2:48:11
- Y: -7:16:14
- G: 9:24
- D: -3:00:10
- H: -7:13:53
- GG1: -7:14:57
- SDR: -7:17:14
- H3: -2:43:20
- UI: -1:28:38
- J: -7:22:47
- J: -7:18:36
- G: 11:28
- SER: 112:11:48
- JKK: -7:16:15
- A: -2:57:09
- FUSE: 14:55:17
- G6: 952:13:32
- NM: -7:16:29
- G: 1072:13:55
- T: 1048:14:17
- W: -2:43:02
- E: -6:03
- FG: 15:01:16
- HJ: 4:55:16
- SD: -7:18:15
- YYY: 14:55:17
- RE: -1:32:21
- H6: -7:12:49
- G: -1:53:51
- YUUU6: 8:01:18
- AL: 7:56:11
- T: -7:22:39
- TT6: -6:42:09
- E: -6:27:04
- R: 16:26:21
- 65: -5:28:12
- SD: -5:30:31
- D: -3:29:16
- SM3: -1:31:10
- W: -7:16:35
- K3: -7:17:13
- J8: -3:07:34
- Q9: -2:55:47
- W: -7:20:05
- SAD: -7:17:49
- G: -7:18:54
- U: -3:04:10
- U: -31:04
- O5: 37:28:08
- WR: -7:20:10
- QH: -6:39:44
- F: 352:28:36
- H: -7:17:41
- CLEAN2: 5:55:20
- TRRTY: 164:52:05
+ SANDWICH: 4:57:53
+ PORK: 5:39:08
+ SALAD1: 3:58:14
+ SALAD2: 3:39:54
+ EGGS: 2:58:29
+ BACON: 7:59:43
+ COFFEE1: 59:51
+ COFFEE2: 59:47
+ COFFEE3: 59:44
+ SMOOTHIE: 3:58:18
+ CHICKEN: 4:59:32
+ CHEESE: 6:58:33
+ MUFFIN: 5:59:20
+ HAM: 5:29:43
+ LETTUCE: 3:58:29
+ MILK: 3:58:30
+ BACON: 7:58:41
+ HUMMUS: 5:58:53
+ CORN: 5:59:39
+ BROCCOLI: 7:58:07
+ DECAF: 59:29
+ DOUGHNUT: 5:57:42
+ CLEANBR: 1:44:13
+ TEMPS: 1:44:12
+ FREEZERTEMP: 12:44:12
+ TEST: -5:12

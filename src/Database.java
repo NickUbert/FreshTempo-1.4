@@ -13,12 +13,15 @@ public class Database {
 	// TODO make connection dynamic so that everyone isnt connecting as admin
 	private String url = "jdbc:mysql://freshnet.cjcf0bgozlin.us-east-2.rds.amazonaws.com:3306/freshnet?user=admin&password=Tempo2019";
 
-	private static Connection connection;
+	private Connection connection;
 
 	public Database() {
 
 	}
 
+	public boolean isConnected() {
+		return connection != null;
+	}
 	public void connect() throws SQLException {
 		connection = DriverManager.getConnection(url);
 	}
@@ -31,6 +34,9 @@ public class Database {
 		PreparedStatement stmt = connection.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 		return results;
+	}
+	
+	public void addStore() {
 	}
 
 	@SuppressWarnings("deprecation")
