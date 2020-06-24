@@ -102,7 +102,7 @@ public class CreateTimer {
 	private int keyboardBottomRowX = (int) (.091 * screenX);
 	private int keyboardY = (int) (.183 * screenY);
 
-	private int keyPadYL = (int) (.3 * cardY);
+	private int keyPadYL = (int) (.29 * cardY);
 	private int keyPadY = (int) (.75949 * cardY);
 
 	private int curveD = (int) (.03125 * screenX);
@@ -602,20 +602,19 @@ public class CreateTimer {
 
 						// Send initial connection message to server that will establish its data
 						// folders and the time conversion needed for the server.
-						
-							Database db = new Database();
-							//TODO send in the store data in the database class
-							try {
-								db.connect();
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
 
-							paintConnectionMessage(db.isConnected());
-							TaskBar tb = new TaskBar();
-							tb.updateBar("UNDO");
-						
+						Database db = new Database();
+						// TODO send in the store data in the database class
+						try {
+							db.connect();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						paintConnectionMessage(db.isConnected());
+						TaskBar tb = new TaskBar();
+						tb.updateBar("UNDO");
 
 					} else {
 						// If the user entered something >0 and <8
@@ -689,9 +688,9 @@ public class CreateTimer {
 
 			CurrentSession cs = new CurrentSession();
 
-			if (longerShelf) {				
-				userHour = (userHour*168) + (userMin*24);
-				userMin=0;
+			if (longerShelf) {
+				userHour = (userHour * 168) + (userMin * 24);
+				userMin = 0;
 			}
 
 			int shelfSec = (userHour * 36060) + (userMin * 60);
@@ -718,11 +717,11 @@ public class CreateTimer {
 			tb.updateBar("MENU");
 			cs.setTyping(false);
 			cs.increaseANOT();
-			
-			
+
 			// Suppresses are used because these are contructor calls
 			@SuppressWarnings("unused")
-			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true, initialsRequired, new ArrayList<String>());
+			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true, initialsRequired,
+					new ArrayList<String>());
 			@SuppressWarnings("unused")
 			InventoryMenu im = new InventoryMenu();
 
@@ -799,23 +798,16 @@ public class CreateTimer {
 	 */
 	public void returnToToggleScreen() {
 		CurrentSession cs = new CurrentSession();
-		if (cs.getTNOT() >= 2) {
-			connectedPanel.setVisible(false);
-			addressPanel.setVisible(false);
-			keyPadPanel.setVisible(false);
-			cs.setMenuOpen(true);
-			cs.setCurrentPage(0);
-			@SuppressWarnings("unused")
-			InventoryMenu im = new InventoryMenu();
-			TaskBar tb = new TaskBar();
-			tb.updateTaskBar();
-		} else {
-			cs.setTyping(false);
-			connectedPanel.setVisible(false);
-			addressPanel.setVisible(false);
-			keyPadPanel.setVisible(false);
-			paintCreatePanel();
-		}
+		cs.setTyping(false);
+		connectedPanel.setVisible(false);
+		addressPanel.setVisible(false);
+		keyPadPanel.setVisible(false);
+		cs.setMenuOpen(true);
+		cs.setCurrentPage(0);
+		@SuppressWarnings("unused")
+		InventoryMenu im = new InventoryMenu();
+		TaskBar tb = new TaskBar();
+		tb.updateTaskBar();
 
 	}
 
@@ -869,7 +861,7 @@ public class CreateTimer {
 
 		JLabel troubleLabelLineA = new JLabel(troubleMessageA);
 		troubleLabelLineA.setFont(connectionPanelFont);
-		troubleLabelLineA.setBounds(0, troubleLabelAYL, connectionPanelX, troubleLabelY);
+		troubleLabelLineA.setBounds(0, troubleLabelAYL, connectionPanelX, (int)(troubleLabelY*1.5));
 		troubleLabelLineA.setHorizontalAlignment(SwingConstants.CENTER);
 		troubleLabelLineA.setPreferredSize(new Dimension(newLabelX, newLabelY));
 		connectedPanel.add(troubleLabelLineA);

@@ -1,6 +1,6 @@
 FRESHTEMPO CRASHLOG:
 
-The day and time of the software exiting was: 06/19/20 22:16:04
+The day and time of the software exiting was: 06/24/20 14:46:56
 If this exit was not intended, we apologize for any inconvenience that this has caused your establishment.
 You can attempt to reload the software and resume where you left off. If this does not work we would advise you 
 to record the times listed below to manually monitor your expirations until the system is working again. If 
@@ -11,31 +11,33 @@ support@badger.software
 262 345 4995 
 
 Thank you again for your patience.
-Timers recorded at system exit (06/19/20 22:16:04):
+Timers recorded at system exit (06/24/20 14:46:56):
 
- SANDWICH: 4:57:53
- PORK: 5:39:08
- SALAD1: 3:58:14
- SALAD2: 3:39:54
- EGGS: 2:58:29
- BACON: 7:59:43
- COFFEE1: 59:51
- COFFEE2: 59:47
- COFFEE3: 59:44
- SMOOTHIE: 3:58:18
- CHICKEN: 4:59:32
- CHEESE: 6:58:33
- MUFFIN: 5:59:20
- HAM: 5:29:43
- LETTUCE: 3:58:29
- MILK: 3:58:30
- BACON: 7:58:41
- HUMMUS: 5:58:53
- CORN: 5:59:39
- BROCCOLI: 7:58:07
- DECAF: 59:29
- DOUGHNUT: 5:57:42
- CLEANBR: 1:44:13
- TEMPS: 1:44:12
- FREEZERTEMP: 12:44:12
- TEST: -5:12
+ SANDWICH: 4:48:42
+ PORK: 5:38:48
+ SALAD1: 3:45:25
+ SALAD2: 3:39:34
+ EGGS: 2:45:41
+ BACON: 7:59:23
+ COFFEE1: 49:52
+ COFFEE2: 46:19
+ COFFEE3: 59:24
+ SMOOTHIE: 3:48:19
+ CHICKEN: 4:59:12
+ CHEESE: 6:49:20
+ MUFFIN: 5:59:00
+ HAM: 5:29:23
+ LETTUCE: 3:45:40
+ MILK: 3:48:20
+ BACON: 7:55:42
+ HUMMUS: 5:48:34
+ CORN: 5:59:19
+ BROCCOLI: 7:55:04
+ DECAF: 46:49
+ DOUGHNUT: 5:47:24
+ CLEANBR: 1:12:48
+ TEMPS: 3:12:48
+ FREEZERTEMP: 12:48
+ TEST: -9:46
+ TEST2: -7:44
+ TEST3: -12:10

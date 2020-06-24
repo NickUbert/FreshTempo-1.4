@@ -37,7 +37,7 @@ public class InventoryFolder {
 	private int cardY = (int) (.6 * screenY);
 
 	private int folderIconX = (int) (screenX * .055);
-	private int folderIconY = (int) (screenY * .065);
+	private int folderIconY = (int) (screenY * .055);
 
 	private int folderLabelY = (int) (screenY * .03);
 
@@ -331,7 +331,7 @@ public class InventoryFolder {
 		InventoryFolder newFolder = this;
 
 		enterButton = new JButton("Enter");
-		enterButton.setBounds(enterButtonXL, titleTextFieldYL, invetoryOptionButtonX, titleTextFieldY);
+		enterButton.setBounds(enterButtonXL, titleTextFieldYL, 2*invetoryOptionButtonX, titleTextFieldY);
 		enterButton.setBackground(enterColor);
 		enterButton.setFont(backspaceFont);
 		enterButton.setForeground(Color.WHITE);
