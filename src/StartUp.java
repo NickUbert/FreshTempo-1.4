@@ -21,7 +21,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -83,7 +83,9 @@ public class StartUp {
 
 	public static void main(String[] args) throws IOException {
 
-		// Create file paths
+		// Create file paths 
+		
+		
 		File crashData = new File("./CRASHLOG.txt");
 		File usageData = new File("./usageData.txt");
 		File timerData = new File("./savedTimerData.txt");

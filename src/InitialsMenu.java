@@ -95,7 +95,7 @@ public class InitialsMenu {
 		menu.add(divider2);
 
 		// Exit button labeled "Save/Close"
-		JButton exitButton = new JButton("CANCEL");
+		JButton exitButton = new JButton("EXIT");
 		exitButton.setPreferredSize(new Dimension(cancelX, menuItemY));
 		exitButton.setForeground(Color.WHITE);
 		exitButton.setBackground(backColor);
@@ -272,7 +272,7 @@ public class InitialsMenu {
 		}
 
 		// TODO DEMO DISCONNECT
-
+		/*
 		Database db = new Database();
 		int timerShelfSec = timer.getShelfSec();
 
@@ -282,6 +282,7 @@ public class InitialsMenu {
 			System.out.println("Unable to record item...");
 			e.printStackTrace();
 		}
+		*/
 
 		// Update the timer and session values for expirations.
 		if (timer.getCurrentlyExpired()) {

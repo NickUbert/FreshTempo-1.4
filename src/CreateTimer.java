@@ -602,7 +602,7 @@ public class CreateTimer {
 
 						// Send initial connection message to server that will establish its data
 						// folders and the time conversion needed for the server.
-
+						/*
 						Database db = new Database();
 						// TODO send in the store data in the database class
 						try {
@@ -611,8 +611,11 @@ public class CreateTimer {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						*/
 
-						paintConnectionMessage(db.isConnected());
+						//paintConnectionMessage(db.isConnected());
+						//TODO swap line below for line above
+						paintConnectionMessage(false);
 						TaskBar tb = new TaskBar();
 						tb.updateBar("UNDO");
 
@@ -696,7 +699,7 @@ public class CreateTimer {
 			int shelfSec = (userHour * 36060) + (userMin * 60);
 
 			// TODO DEMO DISCONNECT
-
+			/*
 			Database db = new Database();
 			try {
 				db.recordNewItem(cs.getTNOT(), userTitle, shelfSec);
@@ -704,6 +707,7 @@ public class CreateTimer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 
 			cs.increaseCNOT();
 			cs.increaseTNOT();
