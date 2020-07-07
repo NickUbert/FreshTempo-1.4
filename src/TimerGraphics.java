@@ -37,56 +37,31 @@ public class TimerGraphics {
 	// Timer Bounds
 	private final int screenX = ((int) mtk.getWidth());
 	private final int screenY = ((int) mtk.getHeight());
-	private final int cardX = (int) (.3125 * screenX);
-	private final int cardY = (int) (.875 * screenY);
 	private final int tabX = (int) (.3 * screenX);
 	private final int tabY = (int) (.1575 * screenY);
 
-	private int timeDisplayXL = (int) (.02 * cardX);
-	private int timeDisplayY = (int) (.86076 * cardY);
-	private int timeDisplayWidth = (int) (.96 * cardX);
-	private int timeDisplayHeight = (int) (.1519 * cardY);
-
 	private int shadowGap = (int) (.007 * screenX);
-
-	private int prgwidth = cardX - shadowGap;
-	private int prgy = (int) (.29114 * cardY);
-	private int prgheight = (int) (.56962 * cardY);
-
-	private int titleLabely = 0;
-	private int titleLabelwidth = (int) (.96 * cardX);
-	private int titleLabelXL = (int) ((.5 * cardX) - (titleLabelwidth / 2));
-	private int titleLabelheight = (int) (.17722 * cardY);
-
-	private int refreshY = (int) (tabY);
-	private int refreshXY = (int) (.11658 * cardY);
-	private int refreshXL = (int) (.5 * cardX - (refreshXY / 2));
 
 	private int tabTimerLabelXL = (int) (.69737 * tabX);
 	private int tabTimerLabelX = (int) (.26316 * tabX);
+	
+	private int tabDetailsBtnXL = (int) (.81 * tabX);
+	private int tabDetailsBtnX = (int) (.15 * tabX);
+	private int tabDetailsBtnY = (int) (.5 * tabY);
+	private int tabDetailsIconYL = (int) (.05 * tabY);
+	private int tabDetailsIconXY = (int) (.05 * tabX);
+	
 
 	private int prgTXL = (int) (.17105 * tabX);
 	private int prgTX = (int) (.525 * tabX);
 
 	private int tabRefreshXL = (int) (.0125 * tabX);
 	private int tabRefreshXY = (int) (.15158 * tabX);
-	private int tabRefreshYL = (int) (.5 * tabY - (tabRefreshXY / 2));
 
 	// Timer Colors
 	private Color prgRemainder = Color.decode("#4DA167");
 	private Color prgExpired = Color.decode("#CC2936");
-	private Color backgroundColor = Color.decode("#223843");
-
-	// Black
-	private Color colorCodeA = Color.decode("#000000");
-	// Blue
-	private Color colorCodeB = Color.decode("#00A8E8");
-	// Orange
-	private Color colorCodeC = Color.decode("#FF7D00");
-	// Pink
-	private Color colorCodeD = Color.decode("#FF00FF");
-	// Green
-	private Color colorCodeE = Color.decode("#6BD425");
+	
 
 	// Progress Bar
 	private JProgressBar prg = new JProgressBar();
@@ -96,16 +71,19 @@ public class TimerGraphics {
 	private JLabel timeLabel = new JLabel("waiting", SwingConstants.CENTER);
 
 	private JButton refreshBtn = new JButton();
+	private JButton detailsBtn = new JButton();
 
 	// Timer Panel
 	private RoundedPanel timerPanel = new RoundedPanel();
+	
+	Icon resizedDetailsBtn = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-details.png")).getImage()
+					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
 
 	// Text Fonts
 	String fontName = "Helvetica";
-	private Font cardTitleFont = new Font(fontName, Font.BOLD, (int) (.0725 * screenX));
 	private Font tabTitleFont = new Font(fontName, Font.BOLD, (int) (.08 * tabX));
 	private Font tabTitleSmallFont = new Font(fontName, Font.BOLD, (int) (.06 * tabX));
-	private Font cardTimeFont = new Font(fontName, Font.TRUETYPE_FONT, (int) (.0475 * screenX));
 	private Font tabTimeFont = new Font(fontName, Font.ITALIC, (int) (.07319 * tabX));
 
 	public TimerGraphics(ItemTimer it) {
@@ -120,13 +98,6 @@ public class TimerGraphics {
 	 */
 	public void createTimerUI() {
 
-		// This mouse listener allows users to cycle through colors.
-		timerPanel.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				timer.increaseColorCode();
-				switchColorGroup();
-			}
-		});
 
 		// Creates progress bar but doesn't add specific components
 		prg.setMaximum(timer.getMax());
@@ -182,7 +153,20 @@ public class TimerGraphics {
 		// Sets the style for time display
 		timeLabel.setVisible(true);
 		timeLabel.setForeground(Color.BLACK);
-
+		
+		
+		
+		detailsBtn.setContentAreaFilled(false);
+		detailsBtn.setFocusPainted(false);
+		detailsBtn.setBorder(null);
+		detailsBtn.setForeground(Color.RED);
+		detailsBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				timer.increaseColorCode();
+				switchColorGroup();
+			}});
+		
 		// Refresh button
 		refreshBtn = new JButton("");
 		refreshBtn.setContentAreaFilled(false);
@@ -291,13 +275,20 @@ public class TimerGraphics {
 		// Update bounds and fonts.
 		timeLabel.setBounds(tabTimerLabelXL, 0, tabTimerLabelX, tabY);
 		timeLabel.setFont(tabTimeFont);
+		
 		refreshBtn.setBounds(tabRefreshXL, 0, tabRefreshXY, tabY);
 		refreshBtn.setVerticalAlignment(SwingConstants.CENTER);
+		
+		detailsBtn.setBounds(tabDetailsBtnXL, tabDetailsIconYL, tabDetailsBtnX, tabDetailsBtnY);
+		detailsBtn.setHorizontalAlignment(SwingConstants.RIGHT);
+		detailsBtn.setVerticalAlignment(SwingConstants.TOP);
+		detailsBtn.setIcon(resizedDetailsBtn);
 
 		// Add components.
 		timerPanel.add(prg);
 		timerPanel.add(refreshBtn);
 		timerPanel.add(timeLabel);
+		timerPanel.add(detailsBtn);
 		timerPanel.repaint();
 		timerPanel.revalidate();
 
