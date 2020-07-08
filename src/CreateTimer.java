@@ -347,6 +347,10 @@ public class CreateTimer {
 		createPanel.setOpaque(false);
 		createPanel.setLayout(null);
 		createPanel.setBackground(Color.white);
+		
+		//Call keyboard
+		titleTf.setBorder(focusBorder);
+		displayKeyboard(titleTf);
 
 		CurrentSession cs = new CurrentSession();
 		cs.addToCurrentPage(createPanel);

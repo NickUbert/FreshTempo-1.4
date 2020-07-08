@@ -399,6 +399,10 @@ public class CreateTask {
 		createPanel.setOpaque(false);
 		createPanel.setLayout(null);
 		createPanel.setBackground(Color.WHITE);
+		
+		//Call keyboard
+		titleTf.setBorder(focusBorder);
+		displayKeyboard(titleTf);
 
 		CurrentSession cs = new CurrentSession();
 		cs.addToCurrentPage(createPanel);
