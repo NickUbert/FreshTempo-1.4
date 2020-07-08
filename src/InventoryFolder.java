@@ -324,6 +324,7 @@ public class InventoryFolder {
 		nameField.setBounds(titleTextFieldXL, titleTextFieldYL, titleTextFieldX, titleTextFieldY);
 		nameField.setColumns(5);
 		nameField.setBorder(fieldBorder);
+		nameField.setFocusable(false);
 		nameField.setHorizontalAlignment(SwingConstants.CENTER);
 		nameField.setFont(promptFieldFont);
 		newFolderPrompt.add(nameField);

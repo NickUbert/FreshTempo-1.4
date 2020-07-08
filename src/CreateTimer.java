@@ -2,25 +2,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -144,7 +137,7 @@ public class CreateTimer {
 	// Panels
 	private RoundedPanel createPanel;
 	private RoundedPanel addressPanel;
-	private RoundedPanel connectedPanel;
+	private RoundedPanel connectedPanel = new RoundedPanel();
 	private JPanel keyPadPanel = new JPanel();
 	private JPanel keyboardPanel = StartUp.mainKeyboard;
 
@@ -153,6 +146,7 @@ public class CreateTimer {
 	Border kbBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1);
 	Border fieldBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 1);
 	Border errorBorder = BorderFactory.createLineBorder(Color.RED, 2);
+	Border focusBorder = BorderFactory.createLineBorder(Color.GREEN, 1);
 
 	// Fonts
 	Font createPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .048));
@@ -200,25 +194,35 @@ public class CreateTimer {
 		longerTf.setBorder(fieldBorder);
 		longerTf.setColumns(5);
 		longerTf.setHorizontalAlignment(SwingConstants.CENTER);
+		longerTf.setFocusable(false);
 		longerTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				longerTf.setBorder(focusBorder);
+				shorterTf.setBorder(fieldBorder);
+				titleTf.setBorder(fieldBorder);
+				
 				displayKeypad(longerTf, true);
 				CurrentSession cs = new CurrentSession();
 				cs.setTyping(false);
 			}
 		});
 		createPanel.add(longerTf);
+		
 
 		// Min input textfield.
 		shorterTf.setFont(createPanelFont);
 		shorterTf.setBounds(textFieldXL, minTextFieldYL, textFieldX, textFieldY);
 		shorterTf.setColumns(5);
 		shorterTf.setBorder(fieldBorder);
+		shorterTf.setFocusable(false);
 		shorterTf.setHorizontalAlignment(SwingConstants.CENTER);
 		shorterTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				shorterTf.setBorder(focusBorder);
+				longerTf.setBorder(fieldBorder);
+				titleTf.setBorder(fieldBorder);
 				displayKeypad(shorterTf, true);
 				CurrentSession cs = new CurrentSession();
 				cs.setTyping(false);
@@ -231,10 +235,14 @@ public class CreateTimer {
 		titleTf.setBounds(titleTextFieldXL, titleTextFieldYL, titleTextFieldX, titleTextFieldY);
 		titleTf.setColumns(5);
 		titleTf.setBorder(fieldBorder);
+		titleTf.setFocusable(false);
 		titleTf.setHorizontalAlignment(SwingConstants.CENTER);
 		titleTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				longerTf.setBorder(fieldBorder);
+				shorterTf.setBorder(fieldBorder);
+				titleTf.setBorder(focusBorder);
 				CurrentSession cs = new CurrentSession();
 				if (!cs.getTyping()) {
 					displayKeyboard(titleTf);
@@ -782,10 +790,12 @@ public class CreateTimer {
 		addyTf.setBounds(addyTextFieldXL, addyTextFieldYL, addyTextFieldX, addyTextFieldY);
 		addyTf.setBorder(fieldBorder);
 		addyTf.setColumns(5);
+		addyTf.setFocusable(false);
 		addyTf.setHorizontalAlignment(SwingConstants.CENTER);
 		addyTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				addyTf.setBorder(focusBorder);
 				CurrentSession cs = new CurrentSession();
 				cs.setTyping(true);
 			}
@@ -824,8 +834,8 @@ public class CreateTimer {
 	private void paintConnectionMessage(boolean connected) {
 		addressPanel.setVisible(false);
 		keyPadPanel.setVisible(false);
-
 		connectedPanel = new RoundedPanel();
+		
 
 		connectedPanel.setPreferredSize(new Dimension(connectionPanelX, connectionPanelY));
 		connectedPanel.setOpaque(false);

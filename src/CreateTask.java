@@ -155,6 +155,7 @@ public class CreateTask {
 	Border kbBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1);
 	Border fieldBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 1);
 	Border errorBorder = BorderFactory.createLineBorder(Color.RED, 2);
+	Border focusBorder = BorderFactory.createLineBorder(Color.GREEN, 1);
 
 	// Fonts
 	Font createPanelFont = new Font("Helvetica", Font.BOLD, (int) (cardX * .048));
@@ -201,10 +202,14 @@ public class CreateTask {
 		longerTf.setBounds(textFieldXL, hTextFieldYL, textFieldX, textFieldY);
 		longerTf.setBorder(fieldBorder);
 		longerTf.setColumns(5);
+		longerTf.setFocusable(false);
 		longerTf.setHorizontalAlignment(SwingConstants.CENTER);
 		longerTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				longerTf.setBorder(focusBorder);
+				shorterTf.setBorder(fieldBorder);
+				titleTf.setBorder(fieldBorder);
 				displayKeypad(longerTf, true);
 				CurrentSession cs = new CurrentSession();
 				cs.setTyping(false);
@@ -217,10 +222,14 @@ public class CreateTask {
 		shorterTf.setBounds(textFieldXL, minTextFieldYL, textFieldX, textFieldY);
 		shorterTf.setColumns(5);
 		shorterTf.setBorder(fieldBorder);
+		shorterTf.setFocusable(false);
 		shorterTf.setHorizontalAlignment(SwingConstants.CENTER);
 		shorterTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				shorterTf.setBorder(focusBorder);
+				longerTf.setBorder(fieldBorder);
+				titleTf.setBorder(fieldBorder);
 				displayKeypad(shorterTf, true);
 				CurrentSession cs = new CurrentSession();
 				cs.setTyping(false);
@@ -233,10 +242,14 @@ public class CreateTask {
 		titleTf.setBounds(titleTextFieldXL, titleTextFieldYL, titleTextFieldX, titleTextFieldY);
 		titleTf.setColumns(5);
 		titleTf.setBorder(fieldBorder);
+		titleTf.setFocusable(false);
 		titleTf.setHorizontalAlignment(SwingConstants.CENTER);
 		titleTf.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				titleTf.setBorder(focusBorder);
+				shorterTf.setBorder(fieldBorder);
+				longerTf.setBorder(fieldBorder);
 				CurrentSession cs = new CurrentSession();
 				if (!cs.getTyping()) {
 					displayKeyboard(titleTf);

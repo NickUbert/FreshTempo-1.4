@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ public class InitialsMenu {
 	Border kbBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1);
 	Border fieldBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 1);
 	Border errorBorder = BorderFactory.createLineBorder(Color.RED, 2);
+	Border focusBorder = BorderFactory.createLineBorder(Color.GREEN, 1);
 
 	private Color backColor = Color.decode("#CC2936");
 	private Color confirmColor = Color.decode("#4DA167");
@@ -131,6 +134,14 @@ public class InitialsMenu {
 		initialField.setBorder(fieldBorder);
 		initialField.setHorizontalAlignment(SwingConstants.CENTER);
 		initialField.setFont(promptFont);
+		initialField.setFocusable(false);
+		initialField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				initialField.setBorder(focusBorder);
+			
+			}
+		});
 
 		menu.add(initialField);
 
