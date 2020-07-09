@@ -206,7 +206,7 @@ public class StartUp {
 						}
 
 						// Write session info before looping through timers.
-						String sessionText = cs.getTNOT() + "," + timerCount + "," + 0 + "," + autoSortInt + ",";
+						String sessionText = cs.getTNOT() + "," + timerCount + "," + autoSortInt + ",";
 						for (InventoryFolder temp : CurrentSession.folders) {
 							sessionText += temp.getName() + ",";
 						}
@@ -318,8 +318,8 @@ public class StartUp {
 		}
 
 		// Initialize arrays with hardcoded values for how much session data is needed.
-		String[] sessionStrings = new String[5];
-		int[] sessionDataInt = new int[5];
+		String[] sessionStrings = new String[4];
+		int[] sessionDataInt = new int[4];
 
 		// Convert session data strings to values stored in an int array.
 
@@ -339,11 +339,11 @@ public class StartUp {
 		for (int curStringNum = 0; curStringNum < freqOfSessionComma; curStringNum++) {
 			curSessionIndex = curSessionString.indexOf(',');
 			if (curSessionIndex == -1) {
-				sessionDataInt[4] = Integer.parseInt(curSessionString);
+				sessionDataInt[3] = Integer.parseInt(curSessionString);
 
 			} else {
 				sessionIndex++;
-				if (sessionIndex <= 4) {
+				if (sessionIndex <= 3) {
 					sessionStrings[curStringNum] = curSessionString.substring(0, curSessionIndex);
 					sessionDataInt[curStringNum] = Integer.parseInt(sessionStrings[curStringNum]);
 					curSessionString = curSessionString.substring(curSessionIndex + 1);
@@ -355,7 +355,8 @@ public class StartUp {
 		}
 
 		// Sets base values for session details.
-		cs.setCardLayout(false);
+		//TODO CARD LAYOUT
+		//cs.setCardLayout(false);
 		cs.setCNOT(0);
 
 		for (String name : sessionFolderNames) {
@@ -468,11 +469,11 @@ public class StartUp {
 		// Set the session details.
 		cs.setTNOT(sessionDataInt[0]);
 		cs.setCNOT(sessionDataInt[1]);
-		cs.setAutoSortEnabled(sessionDataInt[3] == 1);
-		cs.setSessionAddress(sessionDataInt[4]);
+		cs.setAutoSortEnabled(sessionDataInt[2] == 1);
+		cs.setSessionAddress(sessionDataInt[3]);
 
 		// 11111111 is used as a holder address.
-		if (sessionDataInt[4] == 11111111) {
+		if (sessionDataInt[3] == 11111111) {
 			cs.setClientConnected(false);
 		} else {
 			cs.setClientConnected(true);
@@ -535,18 +536,21 @@ public class StartUp {
 	 */
 	public static void switchLayoutGaps() {
 		CurrentSession cs = new CurrentSession();
-
+		//TODO Testing card 
+/*
 		if (cs.getCardLayout()) {
 			// Loop through and change gap size for cardLayout
 			for (int i = 0; i < cs.getCAP(); i++) {
 				backgroundHash.get(i).setLayout(cardLayout);
 			}
 		} else {
+		*/
 			// Loop though and change gap size for tabLayout
 			for (int i = 0; i <= cs.getCAP(); i++) {
 				backgroundHash.get(i).setLayout(tabLayout);
 			}
-		}
+			
+		//}
 	}
 
 	// Switches the layout to cardLayout gaps because the adding menu was designed

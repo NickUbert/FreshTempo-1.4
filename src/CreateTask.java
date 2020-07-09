@@ -301,60 +301,7 @@ public class CreateTask {
 		addNewDeadlineButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 
-				userMin = 0;
-				userHour = 0;
-				if (shorterTf.getText().length() != 0) {
-					userMin = Integer.parseInt(shorterTf.getText());
-				}
-
-				if (longerTf.getText().length() != 0) {
-					userHour = Integer.parseInt(longerTf.getText());
-				}
-
-				boolean validMin = true;
-				boolean validHour = true;
-				shorterTf.setBorder(fieldBorder);
-				longerTf.setBorder(fieldBorder);
-
-				// Make sure minutes value isn't over 60.
-				if (userMin >= 60) {
-					validMin = false;
-					shorterTf.setText("");
-					shorterTf.setBorder(errorBorder);
-				}
-
-				// Hour value is capped at 100
-				if (userHour >= 13) {
-					validHour = false;
-					longerTf.setText("");
-					longerTf.setBorder(errorBorder);
-				}
-
-				// Make sure a time value was entered for either minutes or hours.
-				if (userHour == 0 && userMin == 0) {
-					validHour = false;
-					validMin = false;
-					longerTf.setText("");
-					shorterTf.setText("");
-					longerTf.setBorder(errorBorder);
-					shorterTf.setBorder(errorBorder);
-
-				}
-
-				if (validMin && validHour) {
-					if (userHour == 12) {
-						userHour = 0;
-					}
-					if (!AM) {
-						userHour += 12;
-					}
-					Time newTime = new Time(userHour, userMin, 0);
-					if (!deadlines.contains(newTime)) {
-						deadlines.add(newTime);
-					}
-					longerTf.setText("");
-					shorterTf.setText("");
-				}
+				addDeadLine();
 
 			}
 		});
@@ -399,13 +346,68 @@ public class CreateTask {
 		createPanel.setOpaque(false);
 		createPanel.setLayout(null);
 		createPanel.setBackground(Color.WHITE);
-		
-		//Call keyboard
-		titleTf.setBorder(focusBorder);
-		displayKeyboard(titleTf);
 
 		CurrentSession cs = new CurrentSession();
 		cs.addToCurrentPage(createPanel);
+	}
+
+	private void addDeadLine() {
+		if (shorterTf.getText().length() != 0) {
+			userMin = Integer.parseInt(shorterTf.getText());
+		} else {
+			userMin = 0;
+		}
+
+		if (longerTf.getText().length() != 0) {
+			userHour = Integer.parseInt(longerTf.getText());
+		} else {
+			userHour = 0;
+		}
+
+		boolean validMin = true;
+		boolean validHour = true;
+		shorterTf.setBorder(fieldBorder);
+		longerTf.setBorder(fieldBorder);
+
+		// Make sure minutes value isn't over 60.
+		if (userMin >= 60) {
+			validMin = false;
+			shorterTf.setText("");
+			shorterTf.setBorder(errorBorder);
+		}
+
+		// Hour value is capped at 100
+		if (userHour >= 13) {
+			validHour = false;
+			longerTf.setText("");
+			longerTf.setBorder(errorBorder);
+		}
+
+		// Make sure a time value was entered for either minutes or hours.
+		if (userHour == 0 && userMin == 0) {
+			validHour = false;
+			validMin = false;
+			longerTf.setText("");
+			shorterTf.setText("");
+			longerTf.setBorder(errorBorder);
+			shorterTf.setBorder(errorBorder);
+
+		}
+
+		if (validMin && validHour) {
+			if (userHour == 12) {
+				userHour = 0;
+			}
+			if (!AM) {
+				userHour += 12;
+			}
+			Time newTime = new Time(userHour, userMin, 0);
+			if (!deadlines.contains(newTime)) {
+				deadlines.add(newTime);
+			}
+			longerTf.setText("");
+			shorterTf.setText("");
+		}
 	}
 
 	/*
@@ -507,13 +509,14 @@ public class CreateTask {
 				userMin = 0;
 				userHour = 0;
 				userTitle = titleTf.getText();
-				if (shorterTf.getText().length() != 0) {
+				if (shorterTf.getText().length() != 0 && shorterTf.getText().length() >3) {
 					userMin = Integer.parseInt(shorterTf.getText());
 				}
 
-				if (longerTf.getText().length() != 0) {
+				if (longerTf.getText().length() != 0 && longerTf.getText().length() >3) {
 					userHour = Integer.parseInt(longerTf.getText());
 				}
+				addDeadLine();
 				startButtonPressed();
 
 			}
@@ -632,14 +635,14 @@ public class CreateTask {
 				userMin = 0;
 				userHour = 0;
 				userTitle = titleTf.getText();
-				if (shorterTf.getText().length() != 0) {
+				if (shorterTf.getText().length() != 0 && shorterTf.getText().length() >3) {
 					userMin = Integer.parseInt(shorterTf.getText());
 				}
 
-				if (longerTf.getText().length() != 0) {
+				if (longerTf.getText().length() != 0 && longerTf.getText().length() >3) {
 					userHour = Integer.parseInt(longerTf.getText());
 				}
-
+				addDeadLine();
 				userTitle = titleTf.getText();
 				startButtonPressed();
 
@@ -676,7 +679,8 @@ public class CreateTask {
 			titleTf.setText("");
 			titleTf.setBorder(errorBorder);
 		}
-
+		
+		/*
 		// Make sure minutes value isn't over 60.
 		if (userMin >= 60) {
 			validMin = false;
@@ -690,9 +694,9 @@ public class CreateTask {
 			longerTf.setText("");
 			longerTf.setBorder(errorBorder);
 		}
-
+	*/
 		// Make sure a time value was entered for either minutes or hours.
-		if (deadlines.size() == 0 && userHour == 0 && userMin == 0) {
+		if (deadlines.size() == 0) {
 			validHour = false;
 			validMin = false;
 			longerTf.setText("");
@@ -701,6 +705,7 @@ public class CreateTask {
 			shorterTf.setBorder(errorBorder);
 
 		}
+		
 
 		// Only if all three conditions are met and the title is unique, then the timer
 		// will be created.Graphics are updated and a timer creation is called using the
@@ -709,10 +714,6 @@ public class CreateTask {
 
 			CurrentSession cs = new CurrentSession();
 
-			Time newTime = new Time(userHour, userMin, 0);
-			if (!deadlines.contains(newTime) && (userHour != 0 && userMin != 0)) {
-				deadlines.add(newTime);
-			}
 			Collections.sort(deadlines);
 
 			cs.increaseCNOT();

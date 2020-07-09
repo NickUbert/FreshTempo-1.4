@@ -21,7 +21,7 @@ import javax.swing.Timer;
  * 
  */
 public class CurrentSession {
-	private static boolean cardLayout = false;
+	//private static boolean cardLayout = false;
 	private static boolean autoSortEnabled = false;
 	private static int currentPage = 0;
 	private static int cAP;
@@ -29,7 +29,7 @@ public class CurrentSession {
 	private static int tNOT = 1;
 	private static int aNOT = 0;
 	private static int nOAE = 0;
-	private static int frameLimit;
+	private static int frameLimit=15;
 	private static boolean menuOpen = true;
 	private static boolean refreshing = false;
 	private static boolean typing = false;
@@ -73,11 +73,7 @@ public class CurrentSession {
 	 * hard-coded so they will need to be changed when new designs are added
 	 */
 	public void updateCAP() {
-		if (cardLayout) {
-			frameLimit = 3;
-		} else {
-			frameLimit = 15;
-		}
+		
 
 		cAP = 0;
 		for (int curTimerNum = 0; curTimerNum < aNOT; curTimerNum++) {
@@ -151,6 +147,9 @@ public class CurrentSession {
 
 	}
 
+	
+	//TODO CARD LAYOUT
+	/*
 	public boolean getCardLayout() {
 		return cardLayout;
 	}
@@ -158,6 +157,7 @@ public class CurrentSession {
 	public void setCardLayout(boolean b) {
 		cardLayout = b;
 	}
+	*/
 
 	public boolean getAutoSortEnabled() {
 		return autoSortEnabled;
