@@ -31,7 +31,6 @@ public class CurrentSession {
 	private static int nOAE = 0;
 	private static int frameLimit=15;
 	private static boolean menuOpen = true;
-	private static boolean refreshing = false;
 	private static boolean typing = false;
 	private static boolean activeExpiration = false;
 	private static boolean serverUp = true;

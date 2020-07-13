@@ -44,13 +44,12 @@ public class TimerGraphics {
 
 	private int tabTimerLabelXL = (int) (.69737 * tabX);
 	private int tabTimerLabelX = (int) (.26316 * tabX);
-	
-	private int tabDetailsBtnXL = (int) (.81 * tabX);
-	private int tabDetailsBtnX = (int) (.15 * tabX);
-	private int tabDetailsBtnY = (int) (.5 * tabY);
-	private int tabDetailsIconYL = (int) (.05 * tabY);
-	private int tabDetailsIconXY = (int) (.05 * tabX);
-	
+
+	private int tabDetailsBtnXL = (int) (.7 * tabX);
+	private int tabDetailsBtnX = (int) (.26316 * tabX);
+	private int tabDetailsBtnY = (int) (.325 * tabY);
+	private int tabDetailsIconYL = (int) (.6 * tabY);
+	private int tabDetailsIconXY = (int) (.09 * tabX);
 
 	private int prgTXL = (int) (.17105 * tabX);
 	private int prgTX = (int) (.525 * tabX);
@@ -61,7 +60,6 @@ public class TimerGraphics {
 	// Timer Colors
 	private Color prgRemainder = Color.decode("#4DA167");
 	private Color prgExpired = Color.decode("#CC2936");
-	
 
 	// Progress Bar
 	private JProgressBar prg = new JProgressBar();
@@ -73,12 +71,17 @@ public class TimerGraphics {
 	private JButton refreshBtn = new JButton();
 	private JButton detailsBtn = new JButton();
 
+	boolean open = false;
+
 	// Timer Panel
 	private RoundedPanel timerPanel = new RoundedPanel();
-	
-	Icon resizedDetailsBtn = new ImageIcon(
-			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-details.png")).getImage()
+
+	Icon resizedDetailDown = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-drop-down.png")).getImage()
 					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
+
+	Icon resizedDetailUp = new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("FT-icon-drop-up.png"))
+			.getImage().getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
 
 	// Text Fonts
 	String fontName = "Helvetica";
@@ -97,7 +100,6 @@ public class TimerGraphics {
 	 * frame.
 	 */
 	public void createTimerUI() {
-
 
 		// Creates progress bar but doesn't add specific components
 		prg.setMaximum(timer.getMax());
@@ -153,20 +155,21 @@ public class TimerGraphics {
 		// Sets the style for time display
 		timeLabel.setVisible(true);
 		timeLabel.setForeground(Color.BLACK);
-		
-		
-		
+
 		detailsBtn.setContentAreaFilled(false);
 		detailsBtn.setFocusPainted(false);
 		detailsBtn.setBorder(null);
 		detailsBtn.setForeground(Color.RED);
 		detailsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
+				detailAnimation(!open);
+				open = !open;
 				timer.increaseColorCode();
 				switchColorGroup();
-			}});
-		
+			}
+		});
+
 		// Refresh button
 		refreshBtn = new JButton("");
 		refreshBtn.setContentAreaFilled(false);
@@ -199,6 +202,64 @@ public class TimerGraphics {
 
 	}
 
+	int detailsSpaceToFill;
+	double detailsIncrement;
+
+	private void detailAnimation(boolean opening) {
+		animationTimerDetailDown.stop();
+		animationTimerDetailUp.stop();
+
+		if (opening) {
+			detailsSpaceToFill = (int) (tabY * 2.5) - tabY;
+			detailsIncrement = ((double) detailsSpaceToFill / 20);
+			animationTimerDetailDown.start();
+		} else {
+			detailsSpaceToFill = (int) (tabY * 2.5);
+			detailsIncrement = ((double) detailsSpaceToFill / 20);
+			animationTimerDetailUp.start();
+		}
+	}
+
+	Timer animationTimerDetailDown = new Timer(10, new ActionListener() {
+		public void actionPerformed(ActionEvent ae) {
+			detailsSpaceToFill += detailsIncrement;
+			if (detailsSpaceToFill >= (int) (tabY * 2.5)) {
+				timerPanel.setPreferredSize(new Dimension(tabX, (int) (tabY * 2.5)));
+				timerPanel.repaint();
+				timerPanel.revalidate();
+				detailsBtn.setIcon(resizedDetailUp);
+				detailsBtn.repaint();
+				animationTimerDetailDown.stop();
+
+			} else {
+				timerPanel.setPreferredSize(new Dimension(tabX, detailsSpaceToFill));
+				timerPanel.repaint();
+				timerPanel.revalidate();
+
+			}
+		}
+	});
+
+	Timer animationTimerDetailUp = new Timer(10, new ActionListener() {
+		public void actionPerformed(ActionEvent ae) {
+			detailsSpaceToFill -= detailsIncrement;
+			if (detailsSpaceToFill <= tabY) {
+				timerPanel.setPreferredSize(new Dimension(tabX, tabY));
+				timerPanel.repaint();
+				timerPanel.revalidate();
+				detailsBtn.setIcon(resizedDetailDown);
+				detailsBtn.repaint();
+				animationTimerDetailUp.stop();
+
+			} else {
+				timerPanel.setPreferredSize(new Dimension(tabX, detailsSpaceToFill));
+				timerPanel.repaint();
+				timerPanel.revalidate();
+
+			}
+		}
+	});
+
 	public void refreshTimer() {
 		refreshAnimation();
 		String resetTime = timer.timeValueToString(0, timer.getStartMin(), timer.getStartHour());
@@ -222,15 +283,11 @@ public class TimerGraphics {
 
 		// TODO DEMO DISCONNECT
 		/*
-		Database db = new Database();
-
-		try {
-			db.recordItem(timer.getTimerID(), timerShelfSec);
-		} catch (SQLException e) {
-			System.out.println("Unable to record item...");
-			e.printStackTrace();
-		}
-		*/
+		 * Database db = new Database();
+		 * 
+		 * try { db.recordItem(timer.getTimerID(), timerShelfSec); } catch (SQLException
+		 * e) { System.out.println("Unable to record item..."); e.printStackTrace(); }
+		 */
 		// Update the timer and session values for expirations.
 		if (timer.getCurrentlyExpired()) {
 			timer.setCurrentlyExpired(false);
@@ -239,7 +296,7 @@ public class TimerGraphics {
 				cs.setActiveExpiratons(false);
 			}
 		}
-		
+
 		timer.startCountDown(true);
 	}
 
@@ -267,22 +324,22 @@ public class TimerGraphics {
 
 		prg.setString(timer.getTitle());
 		prg.setStringPainted(true);
-		if(timer.getTitle().length()>9) {
+		if (timer.getTitle().length() > 9) {
 			prg.setFont(tabTitleSmallFont);
 		} else {
-		prg.setFont(tabTitleFont);
+			prg.setFont(tabTitleFont);
 		}
 		// Update bounds and fonts.
 		timeLabel.setBounds(tabTimerLabelXL, 0, tabTimerLabelX, tabY);
 		timeLabel.setFont(tabTimeFont);
-		
+
 		refreshBtn.setBounds(tabRefreshXL, 0, tabRefreshXY, tabY);
 		refreshBtn.setVerticalAlignment(SwingConstants.CENTER);
-		
+
 		detailsBtn.setBounds(tabDetailsBtnXL, tabDetailsIconYL, tabDetailsBtnX, tabDetailsBtnY);
-		detailsBtn.setHorizontalAlignment(SwingConstants.RIGHT);
+		detailsBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		detailsBtn.setVerticalAlignment(SwingConstants.TOP);
-		detailsBtn.setIcon(resizedDetailsBtn);
+		detailsBtn.setIcon(resizedDetailDown);
 
 		// Add components.
 		timerPanel.add(prg);
@@ -310,18 +367,18 @@ public class TimerGraphics {
 		spaceToFill = ((prg.getValue()));
 		increment = ((double) spaceToFill / 40);
 		prg.setBackground(prgRemainder);
-		animationTimer.start();
+		animationTimerPrg.start();
 
 	}
 
-	Timer animationTimer = new Timer(5, new ActionListener() {
+	Timer animationTimerPrg = new Timer(5, new ActionListener() {
 		public void actionPerformed(ActionEvent ae) {
 			spaceToFill -= increment;
 			if (spaceToFill <= 0) {
 				prg.setValue(0);
 				prg.repaint();
 				prg.revalidate();
-				animationTimer.stop();
+				animationTimerPrg.stop();
 
 			} else {
 				prg.setValue(spaceToFill);
