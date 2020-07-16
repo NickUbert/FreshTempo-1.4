@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,8 +20,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 
 /**
  * TimerGraphics class is used to create and paint the components of each timer.
@@ -50,6 +54,28 @@ public class TimerGraphics {
 	private int tabDetailsBtnY = (int) (.325 * tabY);
 	private int tabDetailsIconYL = (int) (.6 * tabY);
 	private int tabDetailsIconXY = (int) (.09 * tabX);
+	
+	private int detailLabelXL = (int)(.3*tabX);
+	private int detailLabelX = (int)(.6*tabX);
+	private int detailLabelY =(int)(.3*tabY);
+	
+	private int detailYL = (int)(1.1*tabY);
+	private int detailBtnXY = (int)(.8*tabY);
+	private int detailBtnLeftXL = (int) (.025 * tabX);
+	
+	private int scrollShelfPanelXL = (int)(.55*tabX);
+	private int scrollShelfPanelX = (int)(.425*tabX);
+	private int scrollShelfItemX = (int)(.15*tabX);
+	private int scrollShelfPanelY =(int)(.45*tabY);
+	
+	private int descriptionLabelYL =detailYL+scrollShelfPanelY;
+	
+	private int descriptionTextX = (int)(.65*tabX);
+	private int descriptionTextY = (int)(.7*tabY);
+	
+	private int scrollPanelY = tabY;
+	private int scrollPanelYL;
+	
 
 	private int prgTXL = (int) (.17105 * tabX);
 	private int prgTX = (int) (.525 * tabX);
@@ -60,6 +86,7 @@ public class TimerGraphics {
 	// Timer Colors
 	private Color prgRemainder = Color.decode("#4DA167");
 	private Color prgExpired = Color.decode("#CC2936");
+	private Color detailBtnColor = Color.decode("#6B818C");
 
 	// Progress Bar
 	private JProgressBar prg = new JProgressBar();
@@ -70,11 +97,22 @@ public class TimerGraphics {
 
 	private JButton refreshBtn = new JButton();
 	private JButton detailsBtn = new JButton();
+	private JButton changeColorBtn = new JButton("Change Color");
 
 	boolean open = false;
 
 	// Timer Panel
 	private RoundedPanel timerPanel = new RoundedPanel();
+	
+	Icon resizedColorIcon = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-color.png")).getImage()
+					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
+	Icon resizedDeactivateIcon = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-deactivate.png")).getImage()
+					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
+	Icon resizedDescription = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-description.png")).getImage()
+					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
 
 	Icon resizedDetailDown = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-drop-down.png")).getImage()
@@ -88,6 +126,11 @@ public class TimerGraphics {
 	private Font tabTitleFont = new Font(fontName, Font.BOLD, (int) (.08 * tabX));
 	private Font tabTitleSmallFont = new Font(fontName, Font.BOLD, (int) (.06 * tabX));
 	private Font tabTimeFont = new Font(fontName, Font.ITALIC, (int) (.07319 * tabX));
+	private Font detailsFont = new Font(fontName, Font.BOLD, (int) (.04 * tabX));
+	private Font detailsBtnFont = new Font(fontName, Font.BOLD, (int) (.025 * tabX));
+	private Font smallDetailsFont = new Font(fontName, Font.BOLD, (int) (.03 * tabX));
+	private Font descriptionFont = new Font(fontName, Font.PLAIN, (int) (.03 * tabX));
+
 
 	public TimerGraphics(ItemTimer it) {
 		timer = it;
@@ -159,14 +202,12 @@ public class TimerGraphics {
 		detailsBtn.setContentAreaFilled(false);
 		detailsBtn.setFocusPainted(false);
 		detailsBtn.setBorder(null);
-		detailsBtn.setForeground(Color.RED);
 		detailsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				detailAnimation(!open);
 				open = !open;
-				timer.increaseColorCode();
-				switchColorGroup();
+			
 			}
 		});
 
@@ -206,59 +247,108 @@ public class TimerGraphics {
 	double detailsIncrement;
 
 	private void detailAnimation(boolean opening) {
-		animationTimerDetailDown.stop();
-		animationTimerDetailUp.stop();
+	
 
 		if (opening) {
-			detailsSpaceToFill = (int) (tabY * 2.5) - tabY;
-			detailsIncrement = ((double) detailsSpaceToFill / 20);
-			animationTimerDetailDown.start();
+			timerPanel.setPreferredSize(new Dimension(tabX, (int) (tabY * 2.5)));
+			timerPanel.repaint();
+			timerPanel.revalidate();
+			detailsBtn.setIcon(resizedDetailUp);
+			detailsBtn.repaint();
+			addDetails();
 		} else {
-			detailsSpaceToFill = (int) (tabY * 2.5);
-			detailsIncrement = ((double) detailsSpaceToFill / 20);
-			animationTimerDetailUp.start();
+			timerPanel.setPreferredSize(new Dimension(tabX, tabY));
+			timerPanel.repaint();
+			timerPanel.revalidate();
+			detailsBtn.setIcon(resizedDetailDown);
+			detailsBtn.repaint();
 		}
 	}
+	
+	private void addDetails() {
+   
+		
+		changeColorBtn.setFocusPainted(false);
+		changeColorBtn.setFont(detailsBtnFont);
+		changeColorBtn.setBackground(Color.WHITE);
+		changeColorBtn.setIcon(resizedColorIcon);
+		changeColorBtn.setVerticalTextPosition(SwingConstants.TOP);
+		changeColorBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		JLabel detailText = new JLabel();
+		
+		String shelfLife = timer.getShelfString();
+	
+		detailText.setBounds(detailLabelXL,detailYL,detailLabelX,detailLabelY);
+		detailText.setVerticalAlignment(SwingConstants.TOP);
+		JLabel descriptionLabel = new JLabel("Description:");
+		if(!timer.getTask()) {
+			detailText.setText("Shelf Life: "+shelfLife);
+			detailText.setFont(detailsFont);
+			descriptionLabel.setFont(detailsFont);
+		} else {
+			//TODO
+			//TODO
+			
+			detailText.setText("Scheduled Times:");
+			detailText.setFont(smallDetailsFont);
+			descriptionLabel.setFont(smallDetailsFont);
+			
+			int numOfDeadlines = timer.getDeadlines().size();
+			
+			JPanel deadlinesPanel = new JPanel();
+			deadlinesPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+			
+			deadlinesPanel.setPreferredSize(new Dimension(numOfDeadlines*(int)(scrollShelfItemX*1.09),scrollShelfPanelY));
+			// Add ScrollPane and Scroll Bar
+			JScrollPane deadlinesScrollPanel = new JScrollPane(deadlinesPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-	Timer animationTimerDetailDown = new Timer(10, new ActionListener() {
-		public void actionPerformed(ActionEvent ae) {
-			detailsSpaceToFill += detailsIncrement;
-			if (detailsSpaceToFill >= (int) (tabY * 2.5)) {
-				timerPanel.setPreferredSize(new Dimension(tabX, (int) (tabY * 2.5)));
-				timerPanel.repaint();
-				timerPanel.revalidate();
-				detailsBtn.setIcon(resizedDetailUp);
-				detailsBtn.repaint();
-				animationTimerDetailDown.stop();
-
-			} else {
-				timerPanel.setPreferredSize(new Dimension(tabX, detailsSpaceToFill));
-				timerPanel.repaint();
-				timerPanel.revalidate();
-
+			deadlinesScrollPanel.getHorizontalScrollBar().setPreferredSize(new Dimension(scrollShelfPanelX,(int)(detailLabelY*.4)));
+			deadlinesPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+			deadlinesScrollPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+			deadlinesScrollPanel.setBounds(scrollShelfPanelXL,(int)(detailYL*.98),scrollShelfPanelX,scrollShelfPanelY);
+			
+			for(int i=0;i<numOfDeadlines;i++) {
+				JLabel deadlineLabel = new JLabel();
+				deadlineLabel.setText(timer.getDeadlines().get(i).toString());
+				deadlineLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				deadlineLabel.setVerticalAlignment(SwingConstants.TOP);
+				deadlineLabel.setFont(smallDetailsFont);
+				deadlineLabel.setPreferredSize(new Dimension(scrollShelfItemX,detailLabelY));
+				deadlinesPanel.add(deadlineLabel);
 			}
+			
+			timerPanel.add(deadlinesScrollPanel);
+			
+			
 		}
-	});
-
-	Timer animationTimerDetailUp = new Timer(10, new ActionListener() {
-		public void actionPerformed(ActionEvent ae) {
-			detailsSpaceToFill -= detailsIncrement;
-			if (detailsSpaceToFill <= tabY) {
-				timerPanel.setPreferredSize(new Dimension(tabX, tabY));
-				timerPanel.repaint();
-				timerPanel.revalidate();
-				detailsBtn.setIcon(resizedDetailDown);
-				detailsBtn.repaint();
-				animationTimerDetailUp.stop();
-
-			} else {
-				timerPanel.setPreferredSize(new Dimension(tabX, detailsSpaceToFill));
-				timerPanel.repaint();
-				timerPanel.revalidate();
-
-			}
+		timerPanel.add(detailText);
+		
+		if(timer.hasDescription()) {
+			descriptionLabel.setBounds(detailLabelXL,descriptionLabelYL,detailLabelX,detailLabelY);
+			descriptionLabel.setVerticalAlignment(SwingConstants.TOP);
+			timerPanel.add(descriptionLabel);
+			
+			JTextArea descriptionText = new JTextArea(timer.getDescription());
+			descriptionText.setFont(descriptionFont);
+			descriptionText.setLineWrap(true);
+			descriptionText.setWrapStyleWord(true);
+			descriptionText.setBounds(detailLabelXL,descriptionLabelYL+(int)(detailLabelY*.5),descriptionTextX,descriptionTextY);
+			timerPanel.add(descriptionText);
 		}
-	});
+	
+		changeColorBtn.setBounds(detailBtnLeftXL,detailYL,detailBtnXY,detailBtnXY);
+		
+		changeColorBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				timer.increaseColorCode();
+				switchColorGroup();
+			}});
+		
+		timerPanel.add(changeColorBtn);			
+	}
+	
 
 	public void refreshTimer() {
 		refreshAnimation();

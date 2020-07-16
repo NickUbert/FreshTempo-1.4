@@ -37,6 +37,7 @@ public class ItemTimer {
 	private boolean toggled;
 	private boolean currentlyExpired;
 	private boolean justRefreshed;
+	private String description="";
 	private boolean taskTimer;
 	private Color backgroundColor = Color.decode("#223843");
 	private Color flashColor = Color.decode("#CC2936");
@@ -500,6 +501,10 @@ public class ItemTimer {
 			colorCodeInt = 0;
 		}
 	}
+	
+	public String getShelfString() {
+		return timeValueToString(0,startMin,startHour);
+	}
 
 	/*
 	 * getCurrentlyExpired returns the boolean for expiration status on this timer
@@ -621,6 +626,10 @@ public class ItemTimer {
 	public void switchToResumedGraphics() {
 		tg.switchToResumedGraphics();
 	}
+	
+	public boolean hasDescription() {
+		return description.length()>0;
+	}
 
 	/*
 	 * updateBackgroundFlash is used to check which timer should be calling the
@@ -684,6 +693,9 @@ public class ItemTimer {
 
 	public boolean getTask() {
 		return taskTimer;
+	}
+	public String getDescription() {
+		return description;
 	}
 
 	/*

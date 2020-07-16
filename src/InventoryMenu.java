@@ -469,7 +469,7 @@ public class InventoryMenu {
 				// updates graphics and session/itemtimer values.
 				if (it.getToggled()) {
 					cs.decreaseANOT();
-					if (it.getPrgPercentage() < .9) {
+					if (it.getPrgPercentage() < .7) {
 						it.getTimerGraphics().recordTimer();
 					}
 					toggleButton.setBorder(unToggledBorder);
