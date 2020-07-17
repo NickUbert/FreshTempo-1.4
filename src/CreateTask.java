@@ -347,7 +347,11 @@ public class CreateTask {
 		createPanel.setLayout(null);
 		createPanel.setBackground(Color.WHITE);
 
+		titleTf.setBorder(focusBorder);
+		displayKeyboard(titleTf);
 		CurrentSession cs = new CurrentSession();
+		cs.setTyping(true);
+		
 		cs.addToCurrentPage(createPanel);
 	}
 
