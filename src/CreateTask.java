@@ -733,7 +733,13 @@ public class CreateTask {
 			cs.setTyping(false);
 			cs.increaseANOT();
 
-			// Suppresses are used because these are contructor calls
+			Database db = new Database();
+			try {
+				db.recordNewTask(cs.getTNOT(), userTitle, deadlines);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			@SuppressWarnings("unused")
 			ItemTimer it = new ItemTimer(userTitle, cs.getTNOT() - 1, false, deadlines);

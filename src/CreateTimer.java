@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -201,14 +202,13 @@ public class CreateTimer {
 				longerTf.setBorder(focusBorder);
 				shorterTf.setBorder(fieldBorder);
 				titleTf.setBorder(fieldBorder);
-				
+
 				displayKeypad(longerTf, true);
 				CurrentSession cs = new CurrentSession();
 				cs.setTyping(false);
 			}
 		});
 		createPanel.add(longerTf);
-		
 
 		// Min input textfield.
 		shorterTf.setFont(createPanelFont);
@@ -347,14 +347,13 @@ public class CreateTimer {
 		createPanel.setOpaque(false);
 		createPanel.setLayout(null);
 		createPanel.setBackground(Color.white);
-		
-		//Call keyboard
+
+		// Call keyboard
 		titleTf.setBorder(focusBorder);
 		displayKeyboard(titleTf);
 		CurrentSession cs = new CurrentSession();
 		cs.setTyping(true);
 
-		
 		cs.addToCurrentPage(createPanel);
 	}
 
@@ -616,19 +615,20 @@ public class CreateTimer {
 
 						// Send initial connection message to server that will establish its data
 						// folders and the time conversion needed for the server.
-						/*
-						Database db = new Database();
+
 						// TODO send in the store data in the database class
+						// TODO DEMO DISCONNECT
+						Database db = new Database();
+
 						try {
 							db.connect();
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						*/
 
-						//paintConnectionMessage(db.isConnected());
-						//TODO swap line below for line above
+						// paintConnectionMessage(db.isConnected());
+						// TODO swap line below for line above
 						paintConnectionMessage(false);
 						TaskBar tb = new TaskBar();
 						tb.updateBar("UNDO");
@@ -713,15 +713,13 @@ public class CreateTimer {
 			int shelfSec = (userHour * 36060) + (userMin * 60);
 
 			// TODO DEMO DISCONNECT
-			/*
+
 			Database db = new Database();
 			try {
-				db.recordNewItem(cs.getTNOT(), userTitle, shelfSec);
+				db.recordNewItem(cs.getTNOT(), userTitle, shelfSec, initialsRequired);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			*/
 
 			cs.increaseCNOT();
 			cs.increaseTNOT();
@@ -841,7 +839,6 @@ public class CreateTimer {
 		addressPanel.setVisible(false);
 		keyPadPanel.setVisible(false);
 		connectedPanel = new RoundedPanel();
-		
 
 		connectedPanel.setPreferredSize(new Dimension(connectionPanelX, connectionPanelY));
 		connectedPanel.setOpaque(false);
@@ -881,7 +878,7 @@ public class CreateTimer {
 
 		JLabel troubleLabelLineA = new JLabel(troubleMessageA);
 		troubleLabelLineA.setFont(connectionPanelFont);
-		troubleLabelLineA.setBounds(0, troubleLabelAYL, connectionPanelX, (int)(troubleLabelY*1.5));
+		troubleLabelLineA.setBounds(0, troubleLabelAYL, connectionPanelX, (int) (troubleLabelY * 1.5));
 		troubleLabelLineA.setHorizontalAlignment(SwingConstants.CENTER);
 		troubleLabelLineA.setPreferredSize(new Dimension(newLabelX, newLabelY));
 		connectedPanel.add(troubleLabelLineA);

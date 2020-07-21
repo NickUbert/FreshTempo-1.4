@@ -282,8 +282,6 @@ public class TimerGraphics {
 			detailText.setFont(detailsFont);
 			descriptionLabel.setFont(detailsFont);
 		} else {
-			// TODO
-			// TODO
 
 			detailText.setText("Scheduled Times:");
 			detailText.setFont(smallDetailsFont);
@@ -370,12 +368,16 @@ public class TimerGraphics {
 		}
 
 		// TODO DEMO DISCONNECT
-		/*
-		 * Database db = new Database();
-		 * 
-		 * try { db.recordItem(timer.getTimerID(), timerShelfSec); } catch (SQLException
-		 * e) { System.out.println("Unable to record item..."); e.printStackTrace(); }
-		 */
+
+		Database db = new Database();
+
+		try {
+			db.recordItem(timer.getTimerID(), timerShelfSec);
+		} catch (SQLException e) {
+			System.out.println("Unable to record item...");
+			e.printStackTrace();
+		}
+
 		// Update the timer and session values for expirations.
 		if (timer.getCurrentlyExpired()) {
 			timer.setCurrentlyExpired(false);

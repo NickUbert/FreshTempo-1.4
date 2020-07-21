@@ -21,8 +21,7 @@ import javax.swing.Timer;
  * 
  */
 public class CurrentSession {
-	//private static boolean cardLayout = false;
-	private static boolean autoSortEnabled = false;
+	private static boolean autoSortEnabled = true;
 	private static int currentPage = 0;
 	private static int cAP;
 	private static int cNOT = 1;

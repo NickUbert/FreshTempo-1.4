@@ -283,7 +283,7 @@ public class InitialsMenu {
 		}
 
 		// TODO DEMO DISCONNECT
-		/*
+		
 		Database db = new Database();
 		int timerShelfSec = timer.getShelfSec();
 
@@ -293,7 +293,7 @@ public class InitialsMenu {
 			System.out.println("Unable to record item...");
 			e.printStackTrace();
 		}
-		*/
+		
 
 		// Update the timer and session values for expirations.
 		if (timer.getCurrentlyExpired()) {
