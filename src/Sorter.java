@@ -55,8 +55,9 @@ public class Sorter {
 		public void actionPerformed(ActionEvent ae) {
 			bufferIndex++;
 			if (!cs.getMenuOpen() && !cs.getTyping()) {
-				if (bufferIndex % 7 == 0) {
+				if (bufferIndex % 4 == 0) {
 					sort(CurrentSession.itHash);
+				
 				}
 			}
 		}
@@ -173,7 +174,7 @@ public class Sorter {
 	 */
 	@SuppressWarnings("static-access")
 	public void displayTimers() {
-
+		
 		StartUp su = new StartUp();
 		int page = cs.getCurrentPage();
 		su.backgroundHash.get(page).removeAll();

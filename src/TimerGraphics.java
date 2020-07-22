@@ -104,20 +104,20 @@ public class TimerGraphics {
 	private RoundedPanel timerPanel = new RoundedPanel();
 
 	Icon resizedColorIcon = new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("FT-icon-color.png"))
-			.getImage().getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
+			.getImage().getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
 	Icon resizedDeactivateIcon = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-deactivate.png")).getImage()
-					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
+					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
 	Icon resizedDescription = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-description.png")).getImage()
-					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
+					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
 
 	Icon resizedDetailDown = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-drop-down.png")).getImage()
-					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
+					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
 
 	Icon resizedDetailUp = new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("FT-icon-drop-up.png"))
-			.getImage().getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_SMOOTH));
+			.getImage().getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
 
 	// Text Fonts
 	String fontName = "Helvetica";
@@ -483,38 +483,38 @@ public class TimerGraphics {
 
 		Icon resizedBlackRefreshIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-black.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 		Icon resizedGreenRefreshIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-green.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 		Icon resizedPinkRefreshIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-pink.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 		Icon resizedOrangeRefreshIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-orange.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 		Icon resizedBlueRefreshIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-blue.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 
 		Icon resizedBlackCheckIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-task-check-black.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 
 		Icon resizedBlueCheckIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-task-check-blue.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 
 		Icon resizedOrangeCheckIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-task-check-orange.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 		Icon resizedPinkCheckIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-task-check-pink.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 
 		Icon resizedGreenCheckIcon = new ImageIcon(
 				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-task-check-green.png")).getImage()
-						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_SMOOTH));
+						.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
 		if (timer.getTask()) {
 			switch (timer.getColorCode()) {
 			case 0:

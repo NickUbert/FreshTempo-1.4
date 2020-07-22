@@ -191,8 +191,8 @@ public class ItemTimer {
 				justRefreshed = false;
 				timerGraphics.recordTimer();
 				timerGraphics.getTimeDisplay().setForeground(Color.BLACK);
-				Sorter so = new Sorter();
-				so.sort(CurrentSession.itHash);
+				//Sorter so = new Sorter();
+				//so.sort(CurrentSession.itHash);
 
 			}
 			decrementSec();
