@@ -111,7 +111,7 @@ public class StartUp {
 		window.setLayout(null);
 		window.setExtendedState(Frame.MAXIMIZED_BOTH);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setTitle("FreshTempo V1.2");
+		window.setTitle("FreshTempo V1.3");
 
 		// Adding the option panel so that it appears on top of other components.
 		optionPanel.setBounds(optionXL, optionYL, optionX, optionY);
@@ -194,8 +194,7 @@ public class StartUp {
 						}
 					}
 
-					// Prevent useless writing.
-					if (timerCount != 0) {
+					
 						// Create ints used to represent the boolean values for the session details,
 						// makes writing and reading easier.
 						int autoSortInt = 0;
@@ -271,7 +270,7 @@ public class StartUp {
 							fbw.flush();
 							fbw.close();
 						}
-					}
+					
 				} catch (IOException e) {
 
 					e.printStackTrace();

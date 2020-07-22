@@ -51,14 +51,10 @@ public class Sorter {
 		}
 	}
 
-	Timer bufferTimer = new Timer(1000, new ActionListener() {
+	Timer bufferTimer = new Timer(4000, new ActionListener() {
 		public void actionPerformed(ActionEvent ae) {
-			bufferIndex++;
-			if (!cs.getMenuOpen() && !cs.getTyping()) {
-				if (bufferIndex % 4 == 0) {
+			if (!cs.getMenuOpen() && !cs.getTyping()) {	
 					sort(CurrentSession.itHash);
-				
-				}
 			}
 		}
 	});
