@@ -37,7 +37,7 @@ public class ItemTimer {
 	private boolean toggled;
 	private boolean currentlyExpired;
 	private boolean justRefreshed;
-	private String description="";
+	private String description = "n/a";
 	private boolean taskTimer;
 	private Color backgroundColor = Color.decode("#223843");
 	private Color flashColor = Color.decode("#CC2936");
@@ -52,7 +52,7 @@ public class ItemTimer {
 	 * Constructor sets itemTimer values to user inputs.
 	 */
 	public ItemTimer(int min, int hour, String title, int id, boolean loaded, boolean isToggled, boolean initials,
-			ArrayList<String> groups) {
+			ArrayList<String> groups, String desc) {
 		// Set all initial values needed when timers are created since the old values
 		// are refrenced later in the session when timers are used.
 		startMin = min;
@@ -63,6 +63,7 @@ public class ItemTimer {
 		timerTitle = title;
 		prior = loaded;
 		paused = loaded;
+		description = desc;
 		startCountDown(false);
 		timerID = id;
 		colorCodeInt = 0;
@@ -87,11 +88,12 @@ public class ItemTimer {
 	}
 
 	// Task Timer Constructor
-	public ItemTimer(String title, int id, boolean loaded, ArrayList<Time> deadline) {
+	public ItemTimer(String title, int id, boolean loaded, ArrayList<Time> deadline, String desc) {
 		// TODO
 		taskTimer = true;
 		timerTitle = title;
 		prior = loaded;
+		description = desc;
 		timerID = id;
 		initialsRequired = true;
 		Collections.sort(deadline);
@@ -156,7 +158,7 @@ public class ItemTimer {
 		}
 		if (resetting) {
 			if (taskTimer) {
-		
+
 				tg.getPrg().setMaximum(getMax());
 			}
 			timerGraphics.getPrg().setValue(prgValue);
@@ -191,8 +193,8 @@ public class ItemTimer {
 				justRefreshed = false;
 				timerGraphics.recordTimer();
 				timerGraphics.getTimeDisplay().setForeground(Color.BLACK);
-				//Sorter so = new Sorter();
-				//so.sort(CurrentSession.itHash);
+				// Sorter so = new Sorter();
+				// so.sort(CurrentSession.itHash);
 
 			}
 			decrementSec();
@@ -501,9 +503,9 @@ public class ItemTimer {
 			colorCodeInt = 0;
 		}
 	}
-	
+
 	public String getShelfString() {
-		return timeValueToString(0,startMin,startHour);
+		return timeValueToString(0, startMin, startHour);
 	}
 
 	/*
@@ -566,7 +568,7 @@ public class ItemTimer {
 		}
 
 		if (smallestIndex == -1) {
-			if(justUsed==0 && times.size()>1) {
+			if (justUsed == 0 && times.size() > 1) {
 				return 1;
 			}
 			smallestIndex = 0;
@@ -626,45 +628,16 @@ public class ItemTimer {
 	public void switchToResumedGraphics() {
 		tg.switchToResumedGraphics();
 	}
-	
+
 	public boolean hasDescription() {
-		return description.length()>0;
-	}
-
-	/*
-	 * updateBackgroundFlash is used to check which timer should be calling the
-	 * flashBackground method since there should only be one, which should be the
-	 * lowest timerID that is expired and running
-	 */
-	private void updateBackgroundFlash() {
-
-		if (!cs.getActiveExpirations() && cs.getNOAE() >= 1) {
-			cs.setActiveExpiratons(true);
-		}
-		// TODO cant get this to stutter flash anymore but I'm sure it will happen again
-		flashBackground(sec);
-
-	}
-
-	/*
-	 * flashBackground is used to switch the background color when the timer calling
-	 * it has an equal number for seconds
-	 */
-	private void flashBackground(int i) {
-
-		if (i % 2 != 0) {
-			StartUp.backgroundHash.get(cs.getCurrentPage()).setBackground(flashColor);
-		} else {
-			StartUp.backgroundHash.get(cs.getCurrentPage()).setBackground(backgroundColor);
-		}
-
+		return (description.length() > 0 && !description.equals("n/a") && description.length() <= 230);
 	}
 
 	public ArrayList<String> getInventoryGroups() {
 		return inventoryGroup;
 	}
-	
-	public ArrayList<Time> getDeadlines(){
+
+	public ArrayList<Time> getDeadlines() {
 		return deadlines;
 	}
 
@@ -694,6 +667,7 @@ public class ItemTimer {
 	public boolean getTask() {
 		return taskTimer;
 	}
+
 	public String getDescription() {
 		return description;
 	}

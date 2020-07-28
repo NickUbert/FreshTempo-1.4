@@ -737,7 +737,7 @@ public class CreateTimer {
 			// Suppresses are used because these are contructor calls
 			@SuppressWarnings("unused")
 			ItemTimer it = new ItemTimer(userMin, userHour, userTitle, cs.getTNOT() - 1, false, true, initialsRequired,
-					new ArrayList<String>());
+					new ArrayList<String>(), "n/a");
 			@SuppressWarnings("unused")
 			InventoryMenu im = new InventoryMenu();
 

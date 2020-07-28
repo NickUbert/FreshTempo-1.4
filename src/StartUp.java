@@ -83,9 +83,8 @@ public class StartUp {
 
 	public static void main(String[] args) throws IOException {
 
-		// Create file paths 
-		
-		
+		// Create file paths
+
 		File crashData = new File("./CRASHLOG.txt");
 		File usageData = new File("./usageData.txt");
 		File timerData = new File("./savedTimerData.txt");
@@ -104,7 +103,6 @@ public class StartUp {
 		if (!flushData.exists()) {
 			flushData.createNewFile();
 		}
-
 
 		// Create the program's fullscren window but not opening it yet.
 		window = new JFrame();
@@ -194,83 +192,83 @@ public class StartUp {
 						}
 					}
 
-					
-						// Create ints used to represent the boolean values for the session details,
-						// makes writing and reading easier.
-						int autoSortInt = 0;
-						int sessionAddress = cs.getSessionAddress();
+					// Create ints used to represent the boolean values for the session details,
+					// makes writing and reading easier.
+					int autoSortInt = 0;
+					int sessionAddress = cs.getSessionAddress();
 
-						if (cs.getAutoSortEnabled()) {
-							autoSortInt = 1;
-						}
+					if (cs.getAutoSortEnabled()) {
+						autoSortInt = 1;
+					}
 
-						// Write session info before looping through timers.
-						String sessionText = cs.getTNOT() + "," + timerCount + "," + autoSortInt + ",";
-						for (InventoryFolder temp : CurrentSession.folders) {
-							sessionText += temp.getName() + ",";
-						}
-						sessionText += sessionAddress;
-						bw.write(sessionText);
-						bw.newLine();
+					// Write session info before looping through timers.
+					String sessionText = cs.getTNOT() + "," + timerCount + "," + autoSortInt + ",";
+					for (InventoryFolder temp : CurrentSession.folders) {
+						sessionText += temp.getName() + ",";
+					}
+					sessionText += sessionAddress;
+					bw.write(sessionText);
+					bw.newLine();
 
-						// This loop writes the indivial timer data.
-						for (int timerID = 0; timerID < cs.getTNOT(); timerID++) {
-							if (cs.itHash.get(timerID) != null) {
-								int toggleInt = 0;
-								int taskInt = 0;
-								if (cs.itHash.get(timerID).getToggled()) {
-									toggleInt = 1;
-								}
-								int initialsReqInt = 0;
-								if (cs.itHash.get(timerID).getInitialsRequired()) {
-									initialsReqInt = 1;
-								}
-
-								if (cs.itHash.get(timerID).getTask()) {
-									taskInt = cs.itHash.get(timerID).getDeadlines().size();
-								}
-								ArrayList<String> inventoryGroups = cs.itHash.get(timerID).getInventoryGroups();
-
-								bw.write(cs.itHash.get(timerID).getTimerID() + ",");
-								bw.write(cs.itHash.get(timerID).getStartMin() + ",");
-								bw.write(cs.itHash.get(timerID).getStartHour() + ",");
-								bw.write(cs.itHash.get(timerID).getCurSec() + ",");
-								bw.write(cs.itHash.get(timerID).getCurMin() + ",");
-								bw.write(cs.itHash.get(timerID).getCurHour() + ",");
-								bw.write(toggleInt + ",");
-								bw.write(initialsReqInt + ",");
-								bw.write(taskInt + ",");
-								for (int i = 0; i < taskInt; i++) {
-									bw.write(cs.itHash.get(timerID).getDeadlines().get(i).toString() + ",");
-								}
-								for (int i = 0; i < inventoryGroups.size(); i++) {
-									bw.write(inventoryGroups.get(i) + ",");
-								}
-								bw.write(cs.itHash.get(timerID).getTitle());
-								bw.newLine();
+					// This loop writes the indivial timer data.
+					for (int timerID = 0; timerID < cs.getTNOT(); timerID++) {
+						if (cs.itHash.get(timerID) != null) {
+							int toggleInt = 0;
+							int taskInt = 0;
+							if (cs.itHash.get(timerID).getToggled()) {
+								toggleInt = 1;
 							}
-						}
-
-						bw.flush();
-						bw.close();
-						// Rewrite crashlog with new info in case the exit was not intentional.
-						Analytics an = new Analytics();
-						an.generateCrashLog();
-
-						// Writes flush file.
-						if (!(cs.getDowntimeQueue().size() == 0)) {
-							FileWriter ffw = new FileWriter("./flushFile.txt");
-							BufferedWriter fbw = new BufferedWriter(ffw);
-							ClientConnection cc = new ClientConnection();
-							// Writes the data in the flush queue starting at the current flush index.
-							for (int i = cc.getFlushIndex(); i < cs.getDowntimeQueue().size(); i++) {
-								fbw.write(cs.getDowntimeQueue().get(i));
-								fbw.newLine();
+							int initialsReqInt = 0;
+							if (cs.itHash.get(timerID).getInitialsRequired()) {
+								initialsReqInt = 1;
 							}
-							fbw.flush();
-							fbw.close();
+
+							if (cs.itHash.get(timerID).getTask()) {
+								taskInt = cs.itHash.get(timerID).getDeadlines().size();
+							}
+							ArrayList<String> inventoryGroups = cs.itHash.get(timerID).getInventoryGroups();
+
+							bw.write(cs.itHash.get(timerID).getTimerID() + ",");
+							bw.write(cs.itHash.get(timerID).getStartMin() + ",");
+							bw.write(cs.itHash.get(timerID).getStartHour() + ",");
+							bw.write(cs.itHash.get(timerID).getCurSec() + ",");
+							bw.write(cs.itHash.get(timerID).getCurMin() + ",");
+							bw.write(cs.itHash.get(timerID).getCurHour() + ",");
+							bw.write(toggleInt + ",");
+							bw.write(initialsReqInt + ",");
+							bw.write(taskInt + ",");
+							for (int i = 0; i < taskInt; i++) {
+								bw.write(cs.itHash.get(timerID).getDeadlines().get(i).toString() + ",");
+							}
+							bw.write(cs.itHash.get(timerID).getDescription() + ",");
+							for (int i = 0; i < inventoryGroups.size(); i++) {
+								bw.write(inventoryGroups.get(i) + ",");
+							}
+							bw.write(cs.itHash.get(timerID).getTitle());
+							bw.newLine();
 						}
-					
+					}
+
+					bw.flush();
+					bw.close();
+					// Rewrite crashlog with new info in case the exit was not intentional.
+					Analytics an = new Analytics();
+					an.generateCrashLog();
+
+					// Writes flush file.
+					if (!(cs.getDowntimeQueue().size() == 0)) {
+						FileWriter ffw = new FileWriter("./flushFile.txt");
+						BufferedWriter fbw = new BufferedWriter(ffw);
+						ClientConnection cc = new ClientConnection();
+						// Writes the data in the flush queue starting at the current flush index.
+						for (int i = cc.getFlushIndex(); i < cs.getDowntimeQueue().size(); i++) {
+							fbw.write(cs.getDowntimeQueue().get(i));
+							fbw.newLine();
+						}
+						fbw.flush();
+						fbw.close();
+					}
+
 				} catch (IOException e) {
 
 					e.printStackTrace();
@@ -354,8 +352,6 @@ public class StartUp {
 		}
 
 		// Sets base values for session details.
-		//TODO CARD LAYOUT
-		//cs.setCardLayout(false);
 		cs.setCNOT(0);
 
 		for (String name : sessionFolderNames) {
@@ -384,6 +380,7 @@ public class StartUp {
 			ArrayList<String> inventoryGroups = new ArrayList<String>();
 			ArrayList<Time> deadlines = new ArrayList<Time>();
 			int[] timerValues = new int[9];
+			String description = "";
 			boolean noDeadlinesYet = true;
 			int index = 0;
 			// Seperates each data value and stores them appropiately.
@@ -415,6 +412,9 @@ public class StartUp {
 							}
 							noDeadlinesYet = false;
 
+							description = curDataString.substring(0, curDataString.indexOf(','));
+							curDataString = curDataString.substring(curDataString.indexOf(',') + 1);
+
 						} else {
 
 							inventoryGroups.add(curDataString.substring(0, curDataIndex));
@@ -442,7 +442,8 @@ public class StartUp {
 
 			ItemTimer it;
 			if (deadlines.size() == 0) {
-				it = new ItemTimer(startMin, startHour, title, id, true, toggled, initials, inventoryGroups);
+				it = new ItemTimer(startMin, startHour, title, id, true, toggled, initials, inventoryGroups,
+						description);
 				it.setCurSec(curSec);
 				it.setCurMin(curMin);
 				it.setCurHour(curHour);
@@ -451,7 +452,7 @@ public class StartUp {
 				int prgValue = (startMin * 60) + (startHour * 3600) - (curSec + (curMin * 60) + (curHour * 3600));
 				it.setPrgValue(prgValue);
 			} else {
-				it = new ItemTimer(title, id, true, deadlines);
+				it = new ItemTimer(title, id, true, deadlines, description);
 			}
 			// Set the timers progress so that timers can save where they were.
 
@@ -535,21 +536,18 @@ public class StartUp {
 	 */
 	public static void switchLayoutGaps() {
 		CurrentSession cs = new CurrentSession();
-		//TODO Testing card 
-/*
-		if (cs.getCardLayout()) {
-			// Loop through and change gap size for cardLayout
-			for (int i = 0; i < cs.getCAP(); i++) {
-				backgroundHash.get(i).setLayout(cardLayout);
-			}
-		} else {
-		*/
-			// Loop though and change gap size for tabLayout
-			for (int i = 0; i <= cs.getCAP(); i++) {
-				backgroundHash.get(i).setLayout(tabLayout);
-			}
-			
-		//}
+		// TODO Testing card
+		/*
+		 * if (cs.getCardLayout()) { // Loop through and change gap size for cardLayout
+		 * for (int i = 0; i < cs.getCAP(); i++) {
+		 * backgroundHash.get(i).setLayout(cardLayout); } } else {
+		 */
+		// Loop though and change gap size for tabLayout
+		for (int i = 0; i <= cs.getCAP(); i++) {
+			backgroundHash.get(i).setLayout(tabLayout);
+		}
+
+		// }
 	}
 
 	// Switches the layout to cardLayout gaps because the adding menu was designed

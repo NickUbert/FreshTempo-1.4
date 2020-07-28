@@ -742,7 +742,7 @@ public class CreateTask {
 			}
 
 			@SuppressWarnings("unused")
-			ItemTimer it = new ItemTimer(userTitle, cs.getTNOT() - 1, false, deadlines);
+			ItemTimer it = new ItemTimer(userTitle, cs.getTNOT() - 1, false, deadlines, "n/a");
 			@SuppressWarnings("unused")
 			InventoryMenu im = new InventoryMenu();
 
