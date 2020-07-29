@@ -212,6 +212,11 @@ public class Sorter {
 			for (int slotNum = 0; slotNum < leftOverTimers; slotNum++) {
 
 				slots[cAP][slotNum] = prgHash.get(ka[(limit * cAP) + slotNum]);
+				if(slotNum>=12) {
+					prgHash.get(ka[(limit * cAP) + slotNum]).setBottomRow(true);
+				} else {
+					prgHash.get(ka[(limit * cAP) + slotNum]).setBottomRow(false);
+				}
 
 			}
 		}

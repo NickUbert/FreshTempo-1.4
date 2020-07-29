@@ -63,15 +63,26 @@ public class TimerGraphics {
 	private int detailBtnXY = (int) (.8 * tabY);
 	private int detailBtnLeftXL = (int) (.025 * tabX);
 
-	private int scrollShelfPanelXL = (int) (.55 * tabX);
+	private int scrollShelfPanelXL = (int) (.545 * tabX);
 	private int scrollShelfPanelX = (int) (.425 * tabX);
 	private int scrollShelfItemX = (int) (.15 * tabX);
 	private int scrollShelfPanelY = (int) (.45 * tabY);
+	private int scrollShelfPanelYL = (int) (detailYL * .98);
 
 	private int descriptionLabelYL = detailYL + scrollShelfPanelY;
 
 	private int descriptionTextX = (int) (.65 * tabX);
 	private int descriptionTextY = (int) (.4 * tabY);
+	private int descriptionTextYL = descriptionLabelYL + (int) (detailLabelY * .5);
+
+	private int detailBotRowYL = (int) (0.1 * tabY);
+
+	private int descriptionTextBotRowYL = (int) (0.5 * tabY);
+	private int descriptionLabelBotRowYL = (int) (0.35 * tabY);
+	private int scrollShelfPanelBotRowYL = (int) (detailBotRowYL * .75);
+
+	private int detailBtnBotRowX = (int) (.25 * tabX);
+	private int detailBtnBotRowY = (int) (.25 * tabY);
 
 	private int scrollPanelY = tabY;
 	private int scrollPanelYL;
@@ -98,6 +109,13 @@ public class TimerGraphics {
 	private JButton detailsBtn = new JButton();
 	private JButton changeColorBtn = new JButton("Change Color");
 
+	private JLabel detailText = new JLabel();
+	private JPanel deadlinesPanel = new JPanel();
+	private JScrollPane deadlinesScrollPanel = new JScrollPane(deadlinesPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	private JLabel descriptionLabel = new JLabel("Description:");
+	private JTextArea descriptionText;
+
 	boolean open = false;
 
 	// Timer Panel
@@ -118,7 +136,6 @@ public class TimerGraphics {
 
 	Icon resizedDetailUp = new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("FT-icon-drop-up.png"))
 			.getImage().getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
-	
 
 	Icon resizedBlackRefreshIcon = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-refresh-black.png")).getImage()
@@ -154,7 +171,6 @@ public class TimerGraphics {
 	Icon resizedGreenCheckIcon = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-task-check-green.png")).getImage()
 					.getScaledInstance(tabRefreshXY, tabRefreshXY, Image.SCALE_DEFAULT));
-	
 
 	// Text Fonts
 	String fontName = "Helvetica";
@@ -260,7 +276,10 @@ public class TimerGraphics {
 				}
 
 				if (!timer.getDoubleTap()) {
-
+					if (open) {
+						detailAnimation(false);
+						open = false;
+					}
 					if (timer.getInitialsRequired()) {
 						InitialsMenu im = new InitialsMenu(timer);
 					} else {
@@ -283,13 +302,26 @@ public class TimerGraphics {
 	private void detailAnimation(boolean opening) {
 
 		if (opening) {
-			timerPanel.setPreferredSize(new Dimension(tabX, (int) (tabY * 2.2)));
-			timerPanel.repaint();
-			timerPanel.revalidate();
+			if (!timer.getBottomRow()) {
+				timerPanel.setPreferredSize(new Dimension(tabX, (int) (tabY * 2.2)));
+				timerPanel.repaint();
+				timerPanel.revalidate();
+			}
 			detailsBtn.setIcon(resizedDetailUp);
 			detailsBtn.repaint();
 			addDetails();
 		} else {
+			prg.setVisible(true);
+			timeLabel.setVisible(true);
+			refreshBtn.setVisible(true);
+
+			detailText.setVisible(false);
+			deadlinesPanel.setVisible(false);
+			deadlinesScrollPanel.setVisible(false);
+			descriptionLabel.setVisible(false);
+			descriptionText.setVisible(false);
+			changeColorBtn.setVisible(false);
+
 			timerPanel.setPreferredSize(new Dimension(tabX, tabY));
 			timerPanel.repaint();
 			timerPanel.revalidate();
@@ -299,48 +331,71 @@ public class TimerGraphics {
 	}
 
 	private void addDetails() {
+		// Declaring all the components to start
+		descriptionText = new JTextArea(timer.getDescription());
+		detailText.setVisible(true);
+		deadlinesPanel.setVisible(true);
+		deadlinesScrollPanel.setVisible(true);
+		descriptionLabel.setVisible(true);
+		descriptionText.setVisible(true);
+		changeColorBtn.setVisible(true);
 
+		if (timer.getBottomRow()) {
+			// Remove components and re-add detailsBtn
+			prg.setVisible(false);
+			refreshBtn.setVisible(false);
+			timeLabel.setVisible(false);
+
+			detailText.setBounds(detailLabelXL, detailBotRowYL, detailLabelX, detailLabelY);
+			descriptionLabel.setBounds(detailBtnLeftXL, descriptionLabelBotRowYL, detailLabelX, detailLabelY);
+			deadlinesScrollPanel.setBounds(scrollShelfPanelXL, scrollShelfPanelBotRowYL, scrollShelfPanelX,
+					scrollShelfPanelY);
+			descriptionText.setBounds(detailBtnLeftXL, descriptionTextBotRowYL, descriptionTextX, descriptionTextY);
+			changeColorBtn.setBounds(detailBtnLeftXL, detailBotRowYL, detailBtnBotRowX, detailBtnBotRowY);
+			changeColorBtn.setIcon(null);
+
+		} else {
+			// Not bottom row details
+			detailText.setBounds(detailLabelXL, detailYL, detailLabelX, detailLabelY);
+			descriptionLabel.setBounds(detailLabelXL, descriptionLabelYL, detailLabelX, detailLabelY);
+			deadlinesScrollPanel.setBounds(scrollShelfPanelXL, scrollShelfPanelYL, scrollShelfPanelX,
+					scrollShelfPanelY);
+			descriptionText.setBounds(detailLabelXL, descriptionTextYL, descriptionTextX, descriptionTextY);
+			changeColorBtn.setBounds(detailBtnLeftXL, detailYL, detailBtnXY, detailBtnXY);
+			changeColorBtn.setIcon(resizedColorIcon);
+		}
+		// Regardless of row the rest is normal
 		changeColorBtn.setFocusPainted(false);
 		changeColorBtn.setFont(detailsBtnFont);
 		changeColorBtn.setBackground(Color.WHITE);
-		changeColorBtn.setIcon(resizedColorIcon);
+		changeColorBtn.setForeground(getColorFromCode(timer.getColorCode()));
 		changeColorBtn.setVerticalTextPosition(SwingConstants.TOP);
 		changeColorBtn.setHorizontalTextPosition(SwingConstants.CENTER);
 
-		JLabel detailText = new JLabel();
-
 		String shelfLife = timer.getShelfString();
 
-		detailText.setBounds(detailLabelXL, detailYL, detailLabelX, detailLabelY);
 		detailText.setVerticalAlignment(SwingConstants.TOP);
-		JLabel descriptionLabel = new JLabel("Description:");
+
 		if (!timer.getTask()) {
 			detailText.setText("Shelf Life: " + shelfLife);
 			detailText.setFont(detailsFont);
 			descriptionLabel.setFont(smallDetailsFont);
 		} else {
-
+			// Scheduled timers format
 			detailText.setText("Scheduled Times:");
 			detailText.setFont(smallDetailsFont);
 			descriptionLabel.setFont(smallDetailsFont);
-
 			int numOfDeadlines = timer.getDeadlines().size();
-
-			JPanel deadlinesPanel = new JPanel();
+			deadlinesPanel.removeAll();
 			deadlinesPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
 			deadlinesPanel.setPreferredSize(
 					new Dimension(numOfDeadlines * (int) (scrollShelfItemX * 1.09), scrollShelfPanelY));
-			// Add ScrollPane and Scroll Bar
-			JScrollPane deadlinesScrollPanel = new JScrollPane(deadlinesPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+			// Add ScrollPane and Scroll Bar
 			deadlinesScrollPanel.getHorizontalScrollBar()
 					.setPreferredSize(new Dimension(scrollShelfPanelX, (int) (detailLabelY * .4)));
 			deadlinesPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 			deadlinesScrollPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-			deadlinesScrollPanel.setBounds(scrollShelfPanelXL, (int) (detailYL * .98), scrollShelfPanelX,
-					scrollShelfPanelY);
 
 			for (int i = 0; i < numOfDeadlines; i++) {
 				JLabel deadlineLabel = new JLabel();
@@ -357,30 +412,49 @@ public class TimerGraphics {
 		}
 		timerPanel.add(detailText);
 
-		if (timer.hasDescription()) {
-			descriptionLabel.setBounds(detailLabelXL, descriptionLabelYL, detailLabelX, detailLabelY);
-			descriptionLabel.setVerticalAlignment(SwingConstants.TOP);
-			timerPanel.add(descriptionLabel);
-
-			JTextArea descriptionText = new JTextArea(timer.getDescription());
-			descriptionText.setFont(descriptionFont);
-			descriptionText.setLineWrap(true);
-			descriptionText.setWrapStyleWord(true);
-			descriptionText.setBounds(detailLabelXL, descriptionLabelYL + (int) (detailLabelY * .5), descriptionTextX,
-					descriptionTextY);
-			timerPanel.add(descriptionText);
-		}
-
-		changeColorBtn.setBounds(detailBtnLeftXL, detailYL, detailBtnXY, detailBtnXY);
-
 		changeColorBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				timer.increaseColorCode();
 				switchColorGroup();
+				changeColorBtn.setForeground(getColorFromCode(timer.getColorCode()));
+				changeColorBtn.repaint();
+				changeColorBtn.revalidate();
 			}
 		});
 
 		timerPanel.add(changeColorBtn);
+
+		// Add description label and text if needed
+		if (timer.hasDescription()) {
+			descriptionLabel.setVerticalAlignment(SwingConstants.TOP);
+			timerPanel.add(descriptionLabel);
+			descriptionText.setFont(descriptionFont);
+			descriptionText.setLineWrap(true);
+			descriptionText.setWrapStyleWord(true);
+			timerPanel.add(descriptionText);
+		}
+	}
+
+	private Color getColorFromCode(int colorCode) {
+		switch (colorCode) {
+		case 0:
+			// Black
+			return Color.decode("#000000");
+		case 1:
+			// Blue
+			return Color.decode("#00A8E8");
+		case 2:
+			// Orange
+			return Color.decode("#FF7D00");
+		case 3:
+			// Pink
+			return Color.decode("#FF00FF");
+		case 4:
+			// Green
+			return Color.decode("#6BD425");
+		}
+
+		return Color.decode("#000000");
 	}
 
 	public void refreshTimer() {
@@ -403,7 +477,7 @@ public class TimerGraphics {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		timerShelfSec = timer.getShelfSec();
 		// TODO DEMO DISCONNECT
 

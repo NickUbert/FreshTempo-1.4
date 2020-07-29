@@ -39,8 +39,7 @@ public class ItemTimer {
 	private boolean justRefreshed;
 	private String description = "n/a";
 	private boolean taskTimer;
-	private Color backgroundColor = Color.decode("#223843");
-	private Color flashColor = Color.decode("#CC2936");
+	private boolean bottomRow=false;
 	private Color yieldColor = Color.decode("#E0CA3C");
 	private Color prgRemainder = Color.decode("#4DA167");
 	CurrentSession cs = new CurrentSession();
@@ -663,7 +662,15 @@ public class ItemTimer {
 	public Timer getTimer() {
 		return countDown;
 	}
+	
+	public boolean getBottomRow() {
+		return bottomRow;
+	}
 
+	public void setBottomRow(boolean b) {
+		bottomRow = b;
+	}
+	
 	public boolean getTask() {
 		return taskTimer;
 	}

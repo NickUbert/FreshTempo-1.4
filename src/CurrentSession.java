@@ -28,7 +28,7 @@ public class CurrentSession {
 	private static int tNOT = 1;
 	private static int aNOT = 0;
 	private static int nOAE = 0;
-	private static int frameLimit=12;
+	private static int frameLimit=15;
 	private static boolean menuOpen = true;
 	private static boolean typing = false;
 	private static boolean activeExpiration = false;
