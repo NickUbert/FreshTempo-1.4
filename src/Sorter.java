@@ -204,6 +204,11 @@ public class Sorter {
 			for (int pageNum = 0; pageNum < cAP; pageNum++) {
 				for (int slotNum = 0; slotNum < limit; slotNum++) {
 					slots[pageNum][slotNum] = prgHash.get(ka[(limit * pageNum) + slotNum]);
+					if(slotNum>=12) {
+						prgHash.get(ka[(limit * pageNum) + slotNum]).setBottomRow(true);
+					} else {
+						prgHash.get(ka[(limit * pageNum) + slotNum]).setBottomRow(false);
+					}
 				}
 			}
 		}

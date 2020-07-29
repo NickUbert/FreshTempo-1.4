@@ -149,6 +149,8 @@ public class CreateTask {
 	private RoundedPanel connectedPanel;
 	private JPanel keyPadPanel = new JPanel();
 	private JPanel keyboardPanel = StartUp.mainKeyboard;
+	
+	JButton addNewDeadlineButton;
 
 	// Borders
 	Border keyBorder = BorderFactory.createLineBorder(Color.WHITE, 1);
@@ -290,8 +292,8 @@ public class CreateTask {
 		initialLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
 		createPanel.add(initialLabel);
 
-		JButton addNewDeadlineButton = new JButton("Add");
-
+		addNewDeadlineButton = new JButton("Add");
+		addNewDeadlineButton.setVisible(true);
 		addNewDeadlineButton.setBounds(titleTextFieldXL + (int) (titleTextFieldXL * .3), initialBoxYL, textFieldX,
 				initialBoxXY);
 		addNewDeadlineButton.setFocusable(false);
@@ -408,6 +410,9 @@ public class CreateTask {
 			Time newTime = new Time(userHour, userMin, 0);
 			if (!deadlines.contains(newTime)) {
 				deadlines.add(newTime);
+				if(deadlines.size()>22) {
+					addNewDeadlineButton.setVisible(false);
+				}
 			}
 			longerTf.setText("");
 			shorterTf.setText("");

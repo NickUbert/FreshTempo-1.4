@@ -248,13 +248,24 @@ public class TimerGraphics {
 		// Sets the style for time display
 		timeLabel.setVisible(true);
 		timeLabel.setForeground(Color.BLACK);
+		
+		changeColorBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				timer.increaseColorCode();
+				switchColorGroup();
+				changeColorBtn.setForeground(getColorFromCode(timer.getColorCode()));
+				changeColorBtn.repaint();
+				changeColorBtn.revalidate();
+			}
+		});
+		
 
 		detailsBtn.setContentAreaFilled(false);
 		detailsBtn.setFocusPainted(false);
 		detailsBtn.setBorder(null);
 		detailsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
 				detailAnimation(!open);
 				open = !open;
 
@@ -309,6 +320,7 @@ public class TimerGraphics {
 			}
 			detailsBtn.setIcon(resizedDetailUp);
 			detailsBtn.repaint();
+			
 			addDetails();
 		} else {
 			prg.setVisible(true);
@@ -339,6 +351,7 @@ public class TimerGraphics {
 		descriptionLabel.setVisible(true);
 		descriptionText.setVisible(true);
 		changeColorBtn.setVisible(true);
+		
 
 		if (timer.getBottomRow()) {
 			// Remove components and re-add detailsBtn
@@ -371,6 +384,10 @@ public class TimerGraphics {
 		changeColorBtn.setForeground(getColorFromCode(timer.getColorCode()));
 		changeColorBtn.setVerticalTextPosition(SwingConstants.TOP);
 		changeColorBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		
+
+		timerPanel.add(changeColorBtn);
 
 		String shelfLife = timer.getShelfString();
 
@@ -411,18 +428,6 @@ public class TimerGraphics {
 
 		}
 		timerPanel.add(detailText);
-
-		changeColorBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				timer.increaseColorCode();
-				switchColorGroup();
-				changeColorBtn.setForeground(getColorFromCode(timer.getColorCode()));
-				changeColorBtn.repaint();
-				changeColorBtn.revalidate();
-			}
-		});
-
-		timerPanel.add(changeColorBtn);
 
 		// Add description label and text if needed
 		if (timer.hasDescription()) {
