@@ -710,7 +710,7 @@ public class CreateTimer {
 				userMin = 0;
 			}
 
-			int shelfSec = (userHour * 36060) + (userMin * 60);
+			int shelfSec = (userHour * 36000) + (userMin * 60);
 
 			// TODO DEMO DISCONNECT
 

@@ -50,8 +50,8 @@ public class StartUp {
 	// Bounds
 	private static final int screenX = ((int) mtk.getWidth());
 	private static final int screenY = ((int) mtk.getHeight());
-	private final static int flowGapTabH = (int) (.02329 * screenX) + 1;
-	private final static int flowGapTabV = (int) (.02 * screenY) + 1;
+	private final static int flowGapTabH = (int) (.024 * screenX) + 1;
+	private final static int flowGapTabV = (int) (.02 * screenY)+1;
 	private final static int flowGapCardH = (int) (.01329 * screenX) + 1;
 	private final static int flowGapCardV = (int) (.00997 * screenY) + 1;
 	private static int keyboardXGap = (int) (.0026 * screenX);

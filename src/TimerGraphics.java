@@ -71,7 +71,7 @@ public class TimerGraphics {
 	private int descriptionLabelYL = detailYL + scrollShelfPanelY;
 
 	private int descriptionTextX = (int) (.65 * tabX);
-	private int descriptionTextY = (int) (.7 * tabY);
+	private int descriptionTextY = (int) (.4 * tabY);
 
 	private int scrollPanelY = tabY;
 	private int scrollPanelYL;
@@ -283,7 +283,7 @@ public class TimerGraphics {
 	private void detailAnimation(boolean opening) {
 
 		if (opening) {
-			timerPanel.setPreferredSize(new Dimension(tabX, (int) (tabY * 2.5)));
+			timerPanel.setPreferredSize(new Dimension(tabX, (int) (tabY * 2.2)));
 			timerPanel.repaint();
 			timerPanel.revalidate();
 			detailsBtn.setIcon(resizedDetailUp);

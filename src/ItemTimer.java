@@ -630,7 +630,7 @@ public class ItemTimer {
 	}
 
 	public boolean hasDescription() {
-		return (description.length() > 0 && !description.equals("n/a") && description.length() <= 230);
+		return (description.length() > 0 && !description.equals("n/a") && description.length() <= 140);
 	}
 
 	public ArrayList<String> getInventoryGroups() {
