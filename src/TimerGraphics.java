@@ -2,10 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +10,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -84,9 +80,6 @@ public class TimerGraphics {
 	private int detailBtnBotRowX = (int) (.25 * tabX);
 	private int detailBtnBotRowY = (int) (.25 * tabY);
 
-	private int scrollPanelY = tabY;
-	private int scrollPanelYL;
-
 	private int prgTXL = (int) (.17105 * tabX);
 	private int prgTX = (int) (.525 * tabX);
 
@@ -96,8 +89,6 @@ public class TimerGraphics {
 	// Timer Colors
 	private Color prgRemainder = Color.decode("#4DA167");
 	private Color prgExpired = Color.decode("#CC2936");
-	private Color detailBtnColor = Color.decode("#6B818C");
-
 	// Progress Bar
 	private JProgressBar prg = new JProgressBar();
 
@@ -292,6 +283,7 @@ public class TimerGraphics {
 						open = false;
 					}
 					if (timer.getInitialsRequired()) {
+						@SuppressWarnings("unused")
 						InitialsMenu im = new InitialsMenu(timer);
 					} else {
 						refreshTimer();
@@ -485,7 +477,6 @@ public class TimerGraphics {
 
 		timerShelfSec = timer.getShelfSec();
 		// TODO DEMO DISCONNECT
-
 		Database db = new Database();
 
 		try {

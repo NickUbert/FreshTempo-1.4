@@ -2,10 +2,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,21 +9,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.awt.*;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 /**
  * StartUp Class contains the main method of the program and is responsible for
@@ -51,7 +39,7 @@ public class StartUp {
 	private static final int screenX = ((int) mtk.getWidth());
 	private static final int screenY = ((int) mtk.getHeight());
 	private final static int flowGapTabH = (int) (.024 * screenX) + 1;
-	private final static int flowGapTabV = (int) (.02 * screenY)+1;
+	private final static int flowGapTabV = (int) (.02 * screenY) + 1;
 	private final static int flowGapCardH = (int) (.01329 * screenX) + 1;
 	private final static int flowGapCardV = (int) (.00997 * screenY) + 1;
 	private static int keyboardXGap = (int) (.0026 * screenX);
@@ -536,18 +524,11 @@ public class StartUp {
 	 */
 	public static void switchLayoutGaps() {
 		CurrentSession cs = new CurrentSession();
-		// TODO Testing card
-		/*
-		 * if (cs.getCardLayout()) { // Loop through and change gap size for cardLayout
-		 * for (int i = 0; i < cs.getCAP(); i++) {
-		 * backgroundHash.get(i).setLayout(cardLayout); } } else {
-		 */
 		// Loop though and change gap size for tabLayout
 		for (int i = 0; i <= cs.getCAP(); i++) {
 			backgroundHash.get(i).setLayout(tabLayout);
 		}
 
-		// }
 	}
 
 	// Switches the layout to cardLayout gaps because the adding menu was designed

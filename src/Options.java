@@ -5,9 +5,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -35,7 +33,6 @@ public class Options {
 	private int optionsX = (int) (.4875 * screenX);
 	private int optionsY = (int) (.75 * screenY);
 	private int autoSortYL = (int) (.57813 * optionsY);
-	private int freshNetYL = (int) (.925 * optionsY);
 	private int exitXY = (int) (.15385 * optionsX);
 	private int exitXYL = (int) (.01282 * optionsX);
 	private int removeScrollXL = (int) (.025 * optionsX);
@@ -242,10 +239,8 @@ public class Options {
 				try {
 					numOfRotations = Integer.parseInt(an.getNumberOfRotations());
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -285,7 +280,6 @@ public class Options {
 					rotationTimes = an.getRotationTimes();
 					rotationInitials = an.getRotationInitilas();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -388,7 +382,7 @@ public class Options {
 						buttonArray[curButtonNum].setBackground(Color.LIGHT_GRAY);
 						buttonArray[curButtonNum].setFocusable(false);
 						buttonArray[curButtonNum].addActionListener(new ActionListener() {
-							@SuppressWarnings("static-access")
+							
 							public void actionPerformed(ActionEvent ae) {
 								// check and update session values.
 								cs.setMenuOpen(true);

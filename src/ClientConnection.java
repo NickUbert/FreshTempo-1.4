@@ -13,7 +13,7 @@ import javax.swing.Timer;
  * 
  */
 public class ClientConnection {
-	//Fucking RIP
+	//TODO Rewrite this for AWS
 
 	// Server IP should be static if it is hard coded here
 	String serverIP = "18.217.139.63";

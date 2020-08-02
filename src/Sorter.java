@@ -3,10 +3,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
 

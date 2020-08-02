@@ -88,7 +88,6 @@ public class ItemTimer {
 
 	// Task Timer Constructor
 	public ItemTimer(String title, int id, boolean loaded, ArrayList<Time> deadline, String desc) {
-		// TODO
 		taskTimer = true;
 		timerTitle = title;
 		prior = loaded;

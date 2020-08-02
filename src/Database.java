@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -42,7 +40,7 @@ public class Database {
 	public void addStore() {
 	}
 
-	@SuppressWarnings("deprecation")
+
 	public void recordItem(int itemID, int shelfSec) throws SQLException {
 		connect();
 		String sql = "INSERT INTO RotationData (Store_ID, Item_ID, Mod_Time, Shelf_Time, Emp_Initials) VALUES (?, ?, ?, ?, ?)";

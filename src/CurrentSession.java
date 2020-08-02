@@ -1,14 +1,7 @@
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.PriorityQueue;
-
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.Timer;
+
 
 /**
  * CurrentSession class is used mainly for the getting and setting of session
@@ -103,7 +96,6 @@ public class CurrentSession {
 		}
 
 		return true;
-
 	}
 
 	/*
@@ -123,11 +115,7 @@ public class CurrentSession {
 			updateCAP();
 		}
 
-		int currentAddingPanel = getCAP();
-
 		addToCurrentPage(c);
-		// StartUp.backgroundHash.get(currentAddingPanel).add(c);
-		// StartUp.backgroundHash.get(currentAddingPanel).revalidate();
 	}
 
 	/*
@@ -144,18 +132,6 @@ public class CurrentSession {
 		StartUp.backgroundHash.get(currentPage).revalidate();
 
 	}
-
-	
-	//TODO CARD LAYOUT
-	/*
-	public boolean getCardLayout() {
-		return cardLayout;
-	}
-
-	public void setCardLayout(boolean b) {
-		cardLayout = b;
-	}
-	*/
 
 	public boolean getAutoSortEnabled() {
 		return autoSortEnabled;

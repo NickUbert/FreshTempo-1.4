@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,9 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
-//TODO
+
 public class InventoryMenu {
 	CurrentSession cs = new CurrentSession();
 	StartUp su = new StartUp();
@@ -232,9 +230,7 @@ public class InventoryMenu {
 			}
 		});
 
-		// TODO add the taskTimer option
 		inventoryPanel.add(newTaskButton);
-
 		addFolderGap();
 
 		InventoryFolder iv = new InventoryFolder();

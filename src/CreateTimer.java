@@ -33,8 +33,6 @@ public class CreateTimer {
 	private Dimension mtk = Toolkit.getDefaultToolkit().getScreenSize();
 
 	// Bounds
-
-	// TODO Update naming for coponents
 	private final int screenX = ((int) mtk.getWidth());
 	private final int screenY = ((int) mtk.getHeight());
 	private int cardX = (int) (.3125 * screenX);
@@ -99,8 +97,6 @@ public class CreateTimer {
 	private int keyPadYL = (int) (.29 * cardY);
 	private int keyPadY = (int) (.75949 * cardY);
 
-	private int curveD = (int) (.03125 * screenX);
-
 	private int addyTextFieldX = (int) (.7 * cardX);
 	private int addyTextFieldY = (int) (.08329 * cardY);
 	private int addyTextFieldXL = (int) (.5 * cardX - (addyTextFieldX / 2));
@@ -158,21 +154,6 @@ public class CreateTimer {
 	Font backspaceFont = new Font("Helvetica", Font.TRUETYPE_FONT, (int) (.03 * screenY));
 	Font numSwitchFont = new Font("Helvetica", Font.ITALIC, (int) (.035 * screenY));
 
-	Icon resizedUncheckedBoxIcon = new ImageIcon(
-			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-unchecked.png")).getImage()
-					.getScaledInstance(initialBoxXY, initialBoxXY, Image.SCALE_SMOOTH));
-
-	Icon resizedCheckedBoxIcon = new ImageIcon(
-			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-checked.png")).getImage()
-					.getScaledInstance(initialBoxXY, initialBoxXY, Image.SCALE_SMOOTH));
-
-	Icon resizedSwitchOn = new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("FT-icon-switch-on.png"))
-			.getImage().getScaledInstance(switchXY, switchXY, Image.SCALE_SMOOTH));
-
-	Icon resizedSwitchOff = new ImageIcon(
-			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-switch-off.png")).getImage()
-					.getScaledInstance(switchXY, switchXY, Image.SCALE_SMOOTH));
-
 	// Default user entered values
 	private int userMin = 0;
 	private int userHour = 0;
@@ -184,6 +165,22 @@ public class CreateTimer {
 	 * paintCreatePanel is used to fill the creation panel with all components
 	 */
 	public void paintCreatePanel() {
+
+		Icon resizedUncheckedBoxIcon = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-unchecked.png")).getImage()
+						.getScaledInstance(initialBoxXY, initialBoxXY, Image.SCALE_SMOOTH));
+
+		Icon resizedCheckedBoxIcon = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-checked.png")).getImage()
+						.getScaledInstance(initialBoxXY, initialBoxXY, Image.SCALE_SMOOTH));
+
+		Icon resizedSwitchOn = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-switch-on.png")).getImage()
+						.getScaledInstance(switchXY, switchXY, Image.SCALE_SMOOTH));
+
+		Icon resizedSwitchOff = new ImageIcon(
+				new ImageIcon(getClass().getClassLoader().getResource("FT-icon-switch-off.png")).getImage()
+						.getScaledInstance(switchXY, switchXY, Image.SCALE_SMOOTH));
 
 		// Create the create panel.
 
@@ -616,14 +613,13 @@ public class CreateTimer {
 						// Send initial connection message to server that will establish its data
 						// folders and the time conversion needed for the server.
 
-						// TODO send in the store data in the database class
 						// TODO DEMO DISCONNECT
 						Database db = new Database();
 
 						try {
 							db.connect();
 						} catch (SQLException e) {
-							// TODO Auto-generated catch block
+
 							e.printStackTrace();
 						}
 
@@ -743,19 +739,6 @@ public class CreateTimer {
 
 		}
 
-	}
-
-	// TODO this isn't used currently but might be useful
-	private boolean existingTitle(String s) {
-		CurrentSession cs = new CurrentSession();
-		for (int curTimerID = 0; curTimerID < cs.getTNOT(); curTimerID++) {
-			if (CurrentSession.itHash.get(curTimerID) != null) {
-				if (CurrentSession.itHash.get(curTimerID).getTitle().equals(s)) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	/*

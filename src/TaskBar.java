@@ -222,12 +222,6 @@ public class TaskBar {
 				su.switchToAddingGraphics();
 				updateBar("UNDO");
 
-				// This loop may not be needed since the addition of the menu used for adding
-				while (cs.getCurrentPage() < cs.getCAP()) {
-					cs.nextPage();
-					Sorter so = new Sorter();
-				}
-
 				PageManager pm = new PageManager();
 				pm.clearPage();
 

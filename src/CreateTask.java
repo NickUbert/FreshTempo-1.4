@@ -2,27 +2,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -41,15 +34,10 @@ public class CreateTask {
 	private Dimension mtk = Toolkit.getDefaultToolkit().getScreenSize();
 
 	// Bounds
-
-	// TODO Update naming for coponents
 	private final int screenX = ((int) mtk.getWidth());
 	private final int screenY = ((int) mtk.getHeight());
 	private int cardX = (int) (.3125 * screenX);
 	private int cardY = (int) (.875 * screenY);
-
-	private int connectionPanelX = (int) (.4 * screenX);
-	private int connectionPanelY = (int) (.275 * screenY);
 
 	private int titleTextFieldXL = (int) (.44 * cardX);
 	private int titleTextFieldYL = (int) (.16456 * cardY);
@@ -76,11 +64,9 @@ public class CreateTask {
 
 	private int initialLabelYL = (int) (.26 * cardY);
 	private int initialLabelXL = (int) (.01 * cardX);
-	private int initialLabelX = (int) (.4 * cardX);
 	private int initialLabelY = (int) (.03 * cardY);
 
 	private int initialBoxYL = (int) (.25 * cardY);
-	private int initialBoxXL = (int) (.45 * cardX);
 	private int initialBoxXY = (int) (.065 * cardX);
 
 	private int switchYL = (int) (.065 * cardY);
@@ -107,8 +93,6 @@ public class CreateTask {
 	private int keyPadYL = (int) (.3 * cardY);
 	private int keyPadY = (int) (.75949 * cardY);
 
-	private int curveD = (int) (.03125 * screenX);
-
 	private int addyTextFieldX = (int) (.7 * cardX);
 	private int addyTextFieldY = (int) (.08329 * cardY);
 	private int addyTextFieldXL = (int) (.5 * cardX - (addyTextFieldX / 2));
@@ -121,15 +105,6 @@ public class CreateTask {
 	private int storeIDLabelYL = (int) (.02 * cardY);
 	private int storeIDLabelX = cardX;
 	private int storeIDLabelY = (int) (.03532 * cardY);
-
-	private int troubleLabelAYL = ((int) (.45 * connectionPanelY));
-	private int troubleLabelBYL = ((int) (.6 * connectionPanelY));
-	private int troubleLabelY = (int) (.03532 * cardY);
-
-	// exitXYL, exitXYL, exitXY, exitXY
-	private int exitXY = (int) (.12 * connectionPanelX);
-	private int exitXL = ((int) (.85 * connectionPanelX));
-	private int exitYL = (int) (.04 * connectionPanelY);
 
 	// Textfields
 	private JTextField titleTf = new JTextField();
@@ -407,7 +382,10 @@ public class CreateTask {
 			if (!AM) {
 				userHour += 12;
 			}
-			Time newTime = new Time(userHour, userMin, 0);
+			
+			//convert to milliseconds to avoid depracated method call
+			int milli = userHour*3600000 + userMin*60000;
+			Time newTime = new Time(milli);
 			if (!deadlines.contains(newTime)) {
 				deadlines.add(newTime);
 				if(deadlines.size()>22) {
@@ -541,7 +519,6 @@ public class CreateTask {
 	 * it should be setting the text for.
 	 */
 	public void displayKeypad(JTextField tf, boolean isCreatePanel) {
-		CurrentSession cs = new CurrentSession();
 		// Creating panels
 		keyPadPanel.setOpaque(false);
 		keyPadPanel.setBounds(0, keyPadYL, cardX, keyPadY);
@@ -742,7 +719,6 @@ public class CreateTask {
 			try {
 				db.recordNewTask(cs.getTNOT(), userTitle, deadlines);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -841,75 +817,6 @@ public class CreateTask {
 			paintCreatePanel();
 		}
 
-	}
-
-	/*
-	 * paintConnectionMessage is used to tell the user whether or not they connected
-	 * to the internet. It opens a small box with a message in it that will depend
-	 * on the state of their connection. The parameter should only even be used with
-	 * a hostAvailabilityCheck.
-	 */
-	private void paintConnectionMessage(boolean connected) {
-		addressPanel.setVisible(false);
-		keyPadPanel.setVisible(false);
-
-		connectedPanel = new RoundedPanel();
-
-		connectedPanel.setPreferredSize(new Dimension(connectionPanelX, connectionPanelY));
-		connectedPanel.setOpaque(false);
-		connectedPanel.setLayout(null);
-		connectedPanel.setBackground(Color.white);
-
-		JButton exitBtn = new JButton("X");
-		exitBtn.setBounds(exitXL, exitYL, exitXY, exitXY);
-		exitBtn.setFont(connectionPanelFont);
-		exitBtn.setForeground(Color.WHITE);
-		exitBtn.setBackground(backColor);
-		exitBtn.setFocusable(false);
-		exitBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				connectedPanel.removeAll();
-				returnToToggleScreen();
-				TaskBar tb = new TaskBar();
-				tb.updateBar("MENU");
-			}
-		});
-		connectedPanel.add(exitBtn);
-
-		String message = "Connection successful!";
-		String troubleMessageA = "Close this message to get started.";
-		if (!connected) {
-			message = "Connection Unsuccessful.";
-			troubleMessageA = "Make sure you are connected to Wifi.";
-		}
-
-		JLabel connectionLabel = new JLabel(message);
-		connectionLabel.setFont(connectionPanelFont);
-		connectionLabel.setBounds(0, storeIDLabelYL, connectionPanelX, storeIDLabelY);
-		connectionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		connectionLabel.setPreferredSize(new Dimension(newLabelX, newLabelY));
-
-		connectedPanel.add(connectionLabel);
-
-		JLabel troubleLabelLineA = new JLabel(troubleMessageA);
-		troubleLabelLineA.setFont(connectionPanelFont);
-		troubleLabelLineA.setBounds(0, troubleLabelAYL, connectionPanelX, troubleLabelY);
-		troubleLabelLineA.setHorizontalAlignment(SwingConstants.CENTER);
-		troubleLabelLineA.setPreferredSize(new Dimension(newLabelX, newLabelY));
-		connectedPanel.add(troubleLabelLineA);
-
-		if (!connected) {
-
-			String troubleMessageB = "Data will still be collected, try again later.";
-			JLabel troubleLabelLineB = new JLabel(troubleMessageB);
-			troubleLabelLineB.setFont(connectionPanelFont);
-			troubleLabelLineB.setBounds(0, troubleLabelBYL, connectionPanelX, troubleLabelY);
-			troubleLabelLineB.setHorizontalAlignment(SwingConstants.CENTER);
-			troubleLabelLineB.setPreferredSize(new Dimension(newLabelX, newLabelY));
-			connectedPanel.add(troubleLabelLineB);
-		}
-		CurrentSession cs = new CurrentSession();
-		cs.addToCurrentPage(connectedPanel);
 	}
 
 	public void hideKeyPanels() {
