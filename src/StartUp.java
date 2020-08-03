@@ -69,6 +69,8 @@ public class StartUp {
 	// Option Panel with rounded corners element
 	static JPanel optionPanel = new RoundedPanel();
 
+	
+	
 	public static void main(String[] args) throws IOException {
 
 		// Create file paths
@@ -285,7 +287,6 @@ public class StartUp {
 	static void loadPriors() throws IOException {
 
 		FileReader fr = new FileReader("./savedTimerData.txt");
-		@SuppressWarnings("resource")
 		BufferedReader br = new BufferedReader(fr);
 		String sessionData = br.readLine();
 		ArrayList<String> stringData = new ArrayList<String>();
@@ -474,6 +475,7 @@ public class StartUp {
 		pm.updatePage();
 
 		window.setVisible(true);
+		br.close();
 
 	}
 

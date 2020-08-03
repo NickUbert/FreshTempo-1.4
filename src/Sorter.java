@@ -18,12 +18,11 @@ public class Sorter {
 	static int cNOT;
 	static int tNOT;
 	static int aNOT;
-	static int bufferIndex = 0;
-	static boolean running = false;
 	static JPanel[] pageArray = new JPanel[cAP];
 	static CurrentSession cs = new CurrentSession();
 	static HashMap<Integer, ItemTimer> prgHash = cs.getItemTimerHash();
 	ItemTimer[][] slots = new ItemTimer[cs.getCAP() + 1][cs.getFrameLimit()];
+	static int[] prevKeys;
 
 	/*
 	 * sort is the method used to choose which sorting method to use based on
@@ -47,10 +46,10 @@ public class Sorter {
 		}
 	}
 
-	Timer bufferTimer = new Timer(4000, new ActionListener() {
+	Timer bufferTimer = new Timer(3000, new ActionListener() {
 		public void actionPerformed(ActionEvent ae) {
-			if (!cs.getMenuOpen() && !cs.getTyping()) {	
-					sort(CurrentSession.itHash);
+			if (!cs.getMenuOpen() && !cs.getTyping()) {
+				sort(CurrentSession.itHash);
 			}
 		}
 	});
@@ -70,8 +69,7 @@ public class Sorter {
 		aNOT = cs.getANOT();
 
 		// create arrays used for storing keys, sizes are set to tNOT so there will be
-		// null
-		// values stored when timers are removed.
+		// null values stored when timers are removed.
 		int[] unsortedKeys = new int[tNOT];
 		int[] sortedKeys = new int[tNOT];
 
@@ -103,12 +101,29 @@ public class Sorter {
 		// also unsortedKeys is set to sorted keys, this may help with performance if a
 		// check is made to see whether the timers need to be updated based on whether
 		// these arrays equal each other
+
 		if (!cs.getMenuOpen()) {
-			pageSort(sortedKeys);
-			unsortedKeys = sortedKeys;
-			displayTimers();
+			if (!compareSameKeys(prevKeys, sortedKeys)) {
+				pageSort(sortedKeys);
+				displayTimers();
+			}
+
+		}
+		prevKeys = sortedKeys;
+
+	}
+
+	private boolean compareSameKeys(int[] prev, int[] cur) {
+		if (prev == null || (prev.length != cur.length)) {
+			return false;
 		}
 
+		for (int i = 0; i < prev.length; i++) {
+			if ((prev[i] != cur[i])) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/*
@@ -130,7 +145,6 @@ public class Sorter {
 		ArrayList<String> timerTitles = new ArrayList<String>();
 		ItemTimer[] activeList = new ItemTimer[tNOT];
 
-		
 		// This loop adds the enabled timer's names to the timerValues Arraylist
 		for (int curTimerID = 0; curTimerID < tNOT; curTimerID++) {
 			if (hm.get(curTimerID) != null) {
@@ -151,11 +165,13 @@ public class Sorter {
 		}
 
 		// This checks to see whether or not timers need to be painted to the screen,
-		// TODO should be adjusted for performance some day
 		if (!cs.getMenuOpen()) {
-			pageSort(sortedKeys);
-			displayTimers();
+			if (!compareSameKeys(prevKeys, sortedKeys)) {
+				pageSort(sortedKeys);
+				displayTimers();
+			}
 		}
+		prevKeys = sortedKeys;
 	}
 
 	/*
@@ -166,7 +182,7 @@ public class Sorter {
 	 */
 	@SuppressWarnings("static-access")
 	public void displayTimers() {
-		
+
 		StartUp su = new StartUp();
 		int page = cs.getCurrentPage();
 		su.backgroundHash.get(page).removeAll();
@@ -200,7 +216,7 @@ public class Sorter {
 			for (int pageNum = 0; pageNum < cAP; pageNum++) {
 				for (int slotNum = 0; slotNum < limit; slotNum++) {
 					slots[pageNum][slotNum] = prgHash.get(ka[(limit * pageNum) + slotNum]);
-					if(slotNum>=12) {
+					if (slotNum >= 12) {
 						prgHash.get(ka[(limit * pageNum) + slotNum]).setBottomRow(true);
 					} else {
 						prgHash.get(ka[(limit * pageNum) + slotNum]).setBottomRow(false);
@@ -213,7 +229,7 @@ public class Sorter {
 			for (int slotNum = 0; slotNum < leftOverTimers; slotNum++) {
 
 				slots[cAP][slotNum] = prgHash.get(ka[(limit * cAP) + slotNum]);
-				if(slotNum>=12) {
+				if (slotNum >= 12) {
 					prgHash.get(ka[(limit * cAP) + slotNum]).setBottomRow(true);
 				} else {
 					prgHash.get(ka[(limit * cAP) + slotNum]).setBottomRow(false);

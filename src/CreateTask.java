@@ -386,6 +386,7 @@ public class CreateTask {
 			//convert to milliseconds to avoid depracated method call
 			int milli = userHour*3600000 + userMin*60000;
 			Time newTime = new Time(milli);
+			
 			if (!deadlines.contains(newTime)) {
 				deadlines.add(newTime);
 				if(deadlines.size()>22) {

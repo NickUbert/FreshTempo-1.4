@@ -114,12 +114,6 @@ public class TimerGraphics {
 
 	Icon resizedColorIcon = new ImageIcon(new ImageIcon(getClass().getClassLoader().getResource("FT-icon-color.png"))
 			.getImage().getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
-	Icon resizedDeactivateIcon = new ImageIcon(
-			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-deactivate.png")).getImage()
-					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
-	Icon resizedDescription = new ImageIcon(
-			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-description.png")).getImage()
-					.getScaledInstance(tabDetailsIconXY, tabDetailsIconXY, Image.SCALE_DEFAULT));
 
 	Icon resizedDetailDown = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-drop-down.png")).getImage()
@@ -184,7 +178,6 @@ public class TimerGraphics {
 	 * frame.
 	 */
 	public void createTimerUI() {
-
 		// Creates progress bar but doesn't add specific components
 		prg.setMaximum(timer.getMax());
 		prg.setValue(0);
@@ -239,7 +232,7 @@ public class TimerGraphics {
 		// Sets the style for time display
 		timeLabel.setVisible(true);
 		timeLabel.setForeground(Color.BLACK);
-		
+
 		changeColorBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				timer.increaseColorCode();
@@ -249,14 +242,13 @@ public class TimerGraphics {
 				changeColorBtn.revalidate();
 			}
 		});
-		
 
 		detailsBtn.setContentAreaFilled(false);
 		detailsBtn.setFocusPainted(false);
 		detailsBtn.setBorder(null);
 		detailsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				detailAnimation(!open);
 				open = !open;
 
@@ -312,7 +304,7 @@ public class TimerGraphics {
 			}
 			detailsBtn.setIcon(resizedDetailUp);
 			detailsBtn.repaint();
-			
+
 			addDetails();
 		} else {
 			prg.setVisible(true);
@@ -343,7 +335,6 @@ public class TimerGraphics {
 		descriptionLabel.setVisible(true);
 		descriptionText.setVisible(true);
 		changeColorBtn.setVisible(true);
-		
 
 		if (timer.getBottomRow()) {
 			// Remove components and re-add detailsBtn
@@ -376,8 +367,6 @@ public class TimerGraphics {
 		changeColorBtn.setForeground(getColorFromCode(timer.getColorCode()));
 		changeColorBtn.setVerticalTextPosition(SwingConstants.TOP);
 		changeColorBtn.setHorizontalTextPosition(SwingConstants.CENTER);
-
-		
 
 		timerPanel.add(changeColorBtn);
 
