@@ -99,7 +99,7 @@ public class StartUp {
 		window.setLayout(null);
 		window.setExtendedState(Frame.MAXIMIZED_BOTH);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setTitle("FreshTempo V1.3");
+		window.setTitle("FreshTempo V1.4");
 
 		// Adding the option panel so that it appears on top of other components.
 		optionPanel.setBounds(optionXL, optionYL, optionX, optionY);

@@ -196,7 +196,7 @@ public class ItemTimer {
 
 			}
 			decrementSec();
-			CurrentSession cs = new CurrentSession();
+			//CurrentSession cs = new CurrentSession();
 
 			// Converstions while timer is running
 			if (sec == -1 && min >= 1) {
@@ -251,9 +251,7 @@ public class ItemTimer {
 			// Call the method responsible for updating the time, but not painting it
 			if (day == 0 && week == 0) {
 				timeDisplayString = timeValueToString(sec, min, hour);
-
 			} else if (day > 0 && week == 0) {
-
 				timeDisplayString = day + " d";
 			} else if (week > 0) {
 				timeDisplayString = week + "w";

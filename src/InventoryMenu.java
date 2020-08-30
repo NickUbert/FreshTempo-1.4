@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -41,6 +42,8 @@ public class InventoryMenu {
 
 	private int newTimerIconXY = (int) (screenX * .045);
 	private int newTaskIconXY = (int) (screenX * .047);
+	
+	private int toggleBoxXY = (int) (.1 * toggleX);
 
 	private int scrollRowsNum = 4 + ((cs.getCNOT() + 1) / 5) + (CurrentSession.folders.size() / 5);
 	private int toggleScrollValue = (((scrollRowsNum) * (toggleY + flowGap)));
@@ -70,6 +73,14 @@ public class InventoryMenu {
 	Icon resizedNewTaskIcon = new ImageIcon(
 			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-new-task.png")).getImage()
 					.getScaledInstance(newTaskIconXY, newTaskIconXY, Image.SCALE_SMOOTH));
+	
+	Icon resizedUncheckedBoxIcon = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-unchecked.png")).getImage()
+					.getScaledInstance(toggleBoxXY, toggleBoxXY, Image.SCALE_DEFAULT));
+
+	Icon resizedCheckedBoxIcon = new ImageIcon(
+			new ImageIcon(getClass().getClassLoader().getResource("FT-icon-box-checked.png")).getImage()
+					.getScaledInstance(toggleBoxXY, toggleBoxXY, Image.SCALE_DEFAULT));
 
 	// Create togglePanel and scrollPanel
 	JPanel inventoryPanel = new JPanel();
@@ -445,15 +456,18 @@ public class InventoryMenu {
 		// Create the toggle button for this itemTimer
 		JButton toggleButton = new JButton(name);
 		toggleButton.setPreferredSize(new Dimension(toggleX, toggleY));
+		
 
 		// Toggle graphics updated depending on whether it is toggled or not.
 		if (it.getToggled()) {
 			toggleButton.setBorder(toggleBorder);
 			toggleButton.setBackground(Color.decode("#4DA167"));
+			toggleButton.setIcon(resizedCheckedBoxIcon);
 			toggleButton.setForeground(Color.WHITE);
 		} else {
 			toggleButton.setBorder(unToggledBorder);
 			toggleButton.setBackground(Color.WHITE);
+			toggleButton.setIcon(resizedUncheckedBoxIcon);
 			toggleButton.setForeground(backgroundColor);
 		}
 		toggleButton.setFocusable(false);
@@ -471,6 +485,7 @@ public class InventoryMenu {
 					toggleButton.setBorder(unToggledBorder);
 					toggleButton.setBackground(Color.WHITE);
 					toggleButton.setForeground(backgroundColor);
+					toggleButton.setIcon(resizedUncheckedBoxIcon);
 					CurrentSession.itHash.get(id).getTimer().stop();
 
 					// update graphics and session/itemtimer values.
@@ -479,6 +494,7 @@ public class InventoryMenu {
 					toggleButton.setBorder(toggleBorder);
 					toggleButton.setBackground(toggledColor);
 					toggleButton.setForeground(Color.WHITE);
+					toggleButton.setIcon(resizedCheckedBoxIcon);
 					CurrentSession.itHash.get(id).startCountDown(false);
 					CurrentSession.itHash.get(id).switchToResumedGraphics();
 					CurrentSession.itHash.get(id).setPause(false);

@@ -186,7 +186,9 @@ public class TaskBar {
 		menuBtn.setBorder(null);
 		menuBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				Sorter so = new Sorter();
+				so.clearPrevKeys();
+				
 				@SuppressWarnings("unused")
 				InventoryMenu im = new InventoryMenu();
 				// This loop updates the background for pages that may have had their color

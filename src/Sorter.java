@@ -14,15 +14,14 @@ import javax.swing.Timer;
  */
 
 public class Sorter {
-	static int cAP;
-	static int cNOT;
-	static int tNOT;
-	static int aNOT;
-	static JPanel[] pageArray = new JPanel[cAP];
-	static CurrentSession cs = new CurrentSession();
-	static HashMap<Integer, ItemTimer> prgHash = cs.getItemTimerHash();
-	ItemTimer[][] slots = new ItemTimer[cs.getCAP() + 1][cs.getFrameLimit()];
-	static int[] prevKeys;
+	private static int cAP;
+	private static int cNOT;
+	private static int tNOT;
+	private static int aNOT;
+	private static CurrentSession cs = new CurrentSession();
+	private static HashMap<Integer, ItemTimer> prgHash = cs.getItemTimerHash();
+	private	ItemTimer[][] slots = new ItemTimer[cs.getCAP() + 1][cs.getFrameLimit()];
+	private static int[] prevKeys;
 
 	/*
 	 * sort is the method used to choose which sorting method to use based on
@@ -273,6 +272,10 @@ public class Sorter {
 			}
 		}
 		return null;
+	}
+	
+	public void clearPrevKeys() {
+		prevKeys = null;
 	}
 
 }
